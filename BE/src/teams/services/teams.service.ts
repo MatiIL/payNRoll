@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
-// import { Team } from "../../../../shared/team";
-import { Team } from "../schemas/teams.schema"
+import { Team } from "../schemas/teams.schema";
 import { Model } from "mongoose";
-import { InjectModel } from "@nestjs/mongoose"
+import { InjectModel } from "@nestjs/mongoose";
 
 
 @Injectable()
@@ -13,4 +12,8 @@ export class TeamService {
     async findAllTeams(): Promise<Team[]> {
         return this.teamsModel.find().exec();
     }  
+
+    async teamByName(teamName:String): Promise<Team[]> {
+        return this.teamsModel.find({ name: teamName });
+    }
 }
