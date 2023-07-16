@@ -1,5 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger'
 
 @Schema({ collection: 'teams' })
 export class Team extends Document {
@@ -13,9 +14,10 @@ export class Team extends Document {
   nextYearBudget: number;
 
   @Prop({
-    required: true,
+    required: false,
     type: [
       {
+        _id: false,
         player: String,
         purchasePrice: Number,
         keeperStatus: Number,
@@ -30,13 +32,14 @@ export class Team extends Document {
     YOS: number;
   };
 
-  @Prop({ required: true, type: [[]] })
+  @Prop({ required: false, type: [[]] })
   prevRosters: [[]];
 
   @Prop({
-    required: true,
+    required: false,
     type: [
       {
+        _id: false,
         season: Number,
         draftPosition: Number,
         playerDrafted: String,

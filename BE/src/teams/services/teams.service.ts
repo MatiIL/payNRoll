@@ -16,4 +16,8 @@ export class TeamService {
     async teamByName(teamName:String): Promise<Team[]> {
         return this.teamsModel.find({ name: teamName });
     }
+
+    async createTeam(team: Partial<Team>): Promise<Team> {
+        return await this.teamsModel.create(team);
+    }
 }

@@ -1,12 +1,13 @@
 import { Controller, Param } from "@nestjs/common";
 import { TeamService } from "../services/teams.service";
-import { Get } from "@nestjs/common";
+import { Get, Post, Put, Delete, Body } from "@nestjs/common";
 import { Team } from "../schemas/teams.schema";
+import { CreateTeamDto } from "../dtos/team.dto";
 
 
 @Controller("teams")
 export class TeamsController {
-    constructor(private teamService: TeamService) {
+    constructor(private readonly teamService: TeamService) {
 
     }
     @Get("all")
@@ -17,5 +18,10 @@ export class TeamsController {
     @Get(":name")
     async findTeam(@Param("name")name:String): Promise<Team[]> {
         return this.teamService.teamByName(name);
+    }
+
+    @Post("add-team")
+    async addNewTeam(@Body() body: CreateTeamDto): Promise<Team> {
+        return this.teamService.createTeam(body);
     }
 }
