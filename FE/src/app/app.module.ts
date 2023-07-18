@@ -13,12 +13,13 @@ import { HomepageComponent } from './homepage/homepage.component';
     AppComponent,
     GuideComponent,
     GuideModalComponent,
-    HeaderComponent,
+    // HeaderComponent,
     HomepageComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HeaderComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
