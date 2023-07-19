@@ -11,8 +11,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 @NgModule({
   declarations: [
     AppComponent,
-    GuideComponent,
-    GuideModalComponent,
+    // GuideComponent,
     // HeaderComponent,
     HomepageComponent,
   ],
