@@ -14,7 +14,7 @@ export class GuideComponent {
   constructor(private modalService: NgbModal) {}
 
   clickedSection: string = '';
-  sectionContent: Array<string> = [];
+  sectionContent: any;
 
 	open(e: any) {
     this.clickedSection = e.target.childNodes[0].data;
@@ -26,7 +26,7 @@ export class GuideComponent {
       }
     });
 
-		const modalRef = this.modalService.open(GuideModalComponent, { size: 'xl', scrollable: true });
+		const modalRef = this.modalService.open(GuideModalComponent, { size: 'l', scrollable: true });
 		modalRef.componentInstance.title = this.clickedSection;
     modalRef.componentInstance.content = this.sectionContent;
 	}

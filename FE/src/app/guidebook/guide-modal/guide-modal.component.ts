@@ -1,10 +1,11 @@
 // import { NgFor } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GuideAccordionComponent } from '../guide-accordion/guide-accordion.component';
 
 @Component({
   imports: [GuideAccordionComponent],
+  schemas: [NO_ERRORS_SCHEMA],
   selector: 'app-guide-modal',
   standalone: true,
 	templateUrl: './guide-modal.component.html',
@@ -12,16 +13,9 @@ import { GuideAccordionComponent } from '../guide-accordion/guide-accordion.comp
 })
 
 export class GuideModalComponent implements OnInit {
-
-  subSections = [];
-
-	@Input() title: any;
-  @Input() content: any;
+	@Input() title: string = '';
+  @Input() content: { subTitle: string, subText: string }[] = [];
 
 	constructor(public activeModal: NgbActiveModal) {}
-
-  ngOnInit(): void {
-    
-  }
-  
+  ngOnInit(): void {}
 }

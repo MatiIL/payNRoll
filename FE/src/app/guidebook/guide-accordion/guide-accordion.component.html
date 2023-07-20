@@ -1,12 +1,26 @@
-<div ngbAccordion>
-    <div ngbAccordionItem>
-      <h2 ngbAccordionHeader>
-        <button ngbAccordionButton>First</button>
-      </h2>
-      <div ngbAccordionCollapse>
-        <div ngbAccordionBody>
-          <ng-template>Content for the first item</ng-template>
-        </div>
-      </div>
+<cdk-accordion class="example-accordion">
+  <cdk-accordion-item
+    *ngFor="let item of items; let index = index;"
+    #accordionItem="cdkAccordionItem"
+    class="example-accordion-item"
+    role="button"
+    tabindex="0"
+    [attr.id]="'accordion-header-' + index"
+    [attr.aria-expanded]="accordionItem.expanded"
+    [attr.aria-controls]="'accordion-body-' + index">
+    <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
+      {{ item.subTitle }}
+      <span class="example-accordion-item-description">
+        לחץ כאן כדי {{ accordionItem.expanded ? 'לסגור' : 'לפתוח' }}
+      </span>
     </div>
-  </div>
+    <div
+      class="example-accordion-item-body"
+      role="region"
+      [style.display]="accordionItem.expanded ? '' : 'none'"
+      [attr.id]="'accordion-body-' + index"
+      [attr.aria-labelledby]="'accordion-header-' + index">
+      {{ item.subText }}
+    </div>
+  </cdk-accordion-item>
+</cdk-accordion>
