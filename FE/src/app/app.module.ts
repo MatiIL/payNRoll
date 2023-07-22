@@ -6,12 +6,11 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    // GuideComponent,
-    // HeaderComponent,
     HomepageComponent,
   ],
   imports: [
@@ -19,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     HeaderComponent,
     BrowserAnimationsModule,
+    TableComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
