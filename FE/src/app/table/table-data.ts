@@ -8,7 +8,7 @@ export interface payRollData {
 
 export const TABLE_DATA: payRollData[] = [ 
     {
-        onFinalRoster: "דמיאן לילארד 49$",
+        onFinalRoster: "דמיאן לילארד 49$ (קיפר מקס גאי)",
         nextSeasonSalary: 49,
         season25Salary: 49,
         season26Salary: 0,
@@ -22,7 +22,7 @@ export const TABLE_DATA: payRollData[] = [
         season27Salary: 0,
     },
     {
-        onFinalRoster: "דזמונד ביין 23$",
+        onFinalRoster: "דזמונד ביין 23$ (קיפר maxpiring)",
         nextSeasonSalary: 23,
         season25Salary: 0,
         season26Salary: 0,
@@ -36,7 +36,7 @@ export const TABLE_DATA: payRollData[] = [
         season27Salary: 0,
     },
     {
-        onFinalRoster: "או. ג'י. אנאנובי 19$",
+        onFinalRoster: "או. ג'י. אנאנובי 19$ (קיפר סולידי)",
         nextSeasonSalary: 19,
         season25Salary: 19,
         season26Salary: 19,
@@ -50,7 +50,7 @@ export const TABLE_DATA: payRollData[] = [
         season27Salary: 0,
     },
     {
-        onFinalRoster: "רוברט וויליאמס 10",
+        onFinalRoster: "רוברט וויליאמס 10$",
         nextSeasonSalary: 0,
         season25Salary: 0,
         season26Salary: 0,
@@ -64,7 +64,7 @@ export const TABLE_DATA: payRollData[] = [
         season27Salary: 0,
     },
     {
-        onFinalRoster: "יונאס ולנצ'יונאס 6$",
+        onFinalRoster: "יונאס ולנצ'יונאס 6$ (קיפר וטרן זול)",
         nextSeasonSalary: 6,
         season25Salary: 0,
         season26Salary: 0,
@@ -92,14 +92,14 @@ export const TABLE_DATA: payRollData[] = [
         season27Salary: 0,
     },
     {
-        onFinalRoster: "טיילור הנדריקס (בחירה 7)",
+        onFinalRoster: "טיילור הנדריקס (קיפר רוקי, בחירה 7)",
         nextSeasonSalary: 1,
         season25Salary: 3,
         season26Salary: 5,
         season27Salary: 7,
     },
     {
-    onFinalRoster: "ג'וליוס רנדל (שכיר חרב) 12$",
+    onFinalRoster: "ג'וליוס רנדל (שכיר חרב, הנחה בסך 1$) 12$",
         nextSeasonSalary: 11,
         season25Salary: 0,
         season26Salary: 0,
