@@ -7,12 +7,11 @@
 
     <ng-container matColumnDef="עונה קרובה">
       <th mat-header-cell *matHeaderCellDef>פיי רול לעונה הקרובה (23/24)</th>
-      
       <td 
       mat-cell 
       *matCellDef="let element"
-      [ngStyle]="{'background-color': getClass(element.nextSeasonSalary)}"
-      
+      [ngStyle]="{'background-color': getClass(element.nextSeasonSalary, element.tooltipContent)}"
+      matTooltip="{{ element.tooltipContent }}"
       > {{element.nextSeasonSalary}} </td>
     </ng-container>
   
@@ -22,7 +21,11 @@
       mat-cell 
       *matCellDef="let element"
       [ngStyle]="{'background-color': getClass(element.season25Salary)}"
-      > {{element.season25Salary}} </td>
+      [ngClass]="{'rookie-cell': element.season25Salary === 3}"
+      [matTooltip]="getRookieTooltips(element.season25Salary)"
+      >
+        {{element.season25Salary}} 
+       </td>
     </ng-container>
   
     <ng-container matColumnDef="עונת 25/26">
@@ -31,6 +34,8 @@
       mat-cell 
       *matCellDef="let element"
       [ngStyle]="{'background-color': getClass(element.season26Salary)}"
+      [ngClass]="{'rookie-cell': element.season26Salary === 5}"
+      [matTooltip]="getRookieTooltips(element.season26Salary)"
       > {{element.season26Salary}} </td>
     </ng-container>
 
@@ -40,6 +45,8 @@
         mat-cell 
         *matCellDef="let element"
         [ngStyle]="{'background-color': getClass(element.season27Salary)}"
+        [ngClass]="{'rookie-cell': element.season27Salary === 7}"
+        [matTooltip]="getRookieTooltips(element.season27Salary)"
         > {{element.season27Salary}} </td>
       </ng-container>
   
