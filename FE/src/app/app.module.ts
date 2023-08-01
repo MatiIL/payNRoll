@@ -7,6 +7,8 @@ import { HeaderComponent } from './header/header.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableComponent } from './table/table.component';
+import { AuthComponent } from './auth/auth-modal.component';
+import { AuthFormComponent } from './auth/auth-form/auth-form/auth-form.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { TableComponent } from './table/table.component';
     HeaderComponent,
     BrowserAnimationsModule,
     TableComponent,
+    AuthComponent,
+    AuthFormComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

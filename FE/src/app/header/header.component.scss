@@ -1,4 +1,13 @@
 table {
     width: 100%;
   }
-  
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    width: 95vw;
+  }
+
+  #auth-link {
+    cursor: pointer;
+  }
