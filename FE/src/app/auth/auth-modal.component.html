@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h1 class="modal-title mt-3">התחברות</h1>
+  <h1 class="modal-title mt-3">{{ noAccount? 'הרשמה' : 'התחברות'}}</h1>
   <button 
   type="button" 
   class="btn btn-outline-dark" 
@@ -14,11 +14,5 @@
   <span (click)="toggleLoginSignup()" class="text-decoration-underline">
     {{ noAccount? 'משתמש קיים? להתחברות' : 'לחץ כאן להרשמה'}}
   </span>
-  <button
-  type="button"
-  class="btn btn-outline-dark"
-  >
-  {{ noAccount? 'הרשמה' : 'התחברות'}}
-  </button>
 </div>
 

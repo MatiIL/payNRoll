@@ -1,63 +1,109 @@
 <div *ngIf="noAccount; else hasAccount">
-    <div class="form-container d-flex flex-column">
-                    <div class="w-75">
-                        <mat-form-field>
-                            <mat-label> כתובת מייל</mat-label>
-                            <input matInput placeholder="name@example.com" [formControl]="email" required>
-                            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-                          </mat-form-field>
-                    </div>
-                    <div class="w-75">
-                        <mat-form-field>
-                            <mat-label>סיסמה</mat-label>
-                            <input matInput placeholder="הסיסמה שלך כאן" [formControl]="password" required>
-                          </mat-form-field>
-                  </div>
+  <div class="form-container d-flex flex-column">
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)">
+      <div class="w-75">
+        <mat-form-field>
+          <mat-label> כתובת מייל</mat-label>
+          <input
+            matInput
+            placeholder="name@example.com"
+            formControlName="email"
+            required
+          />
+          <mat-error *ngIf="signupForm.get('email')?.invalid">{{
+            getErrorMessage(signupForm.get("email"))
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="w-75">
+        <mat-form-field>
+          <mat-label>סיסמה</mat-label>
+          <input
+            matInput
+            placeholder="הסיסמה שלך כאן"
+            formControlName="password"
+            required
+            minlength="6"
+          />
+        </mat-form-field>
+      </div>
 
- 
-            
-          <div class="w-75">
-            <mat-form-field>
-                <mat-label>שם פרטי</mat-label>
-                <input matInput placeholder="שם פרטי" [formControl]="firstName" required>
-              </mat-form-field>
-        </div>
+      <div class="w-75">
+        <mat-form-field>
+          <mat-label>שם פרטי</mat-label>
+          <input
+            matInput
+            placeholder="שם פרטי"
+            formControlName="firstName"
+            autocomplete="first-name"
+            required
+          />
+        </mat-form-field>
+      </div>
 
-        <div class="w-75">
-            <mat-form-field>
-                <mat-label>שם משפחה</mat-label>
-                <input matInput placeholder="שם משפחה" [formControl]="lastName" required>
-              </mat-form-field>
-        </div>
-        <div id="team-name" class="d-flex justify-content-between">
-            <div>
-                <mat-form-field>
-                    <mat-label>שם קבוצה</mat-label>
-                    <input matInput placeholder="אפשר להוסיף מאוחר יותר" [formControl]="teamName">
-                  </mat-form-field>
-            </div>
-            <div>
-                <button class="btn btn-sm btn-outline-dark mt-3">מצא לי שם קבוצה!</button>
-            </div>
-        </div>
-    </div>
-</div>
-    
-
-    <ng-template #hasAccount>
-        <div class="form-container d-flex flex-column justify-content-between">
+      <div class="w-75">
+        <mat-form-field>
+          <mat-label>שם משפחה</mat-label>
+          <input
+            matInput
+            placeholder="שם משפחה"
+            formControlName="lastName"
+            autocomplete="family-name"
+            required
+          />
+        </mat-form-field>
+      </div>
+      <div id="team-name" class="d-flex justify-content-between">
         <div>
-        <mat-form-field>
-            <mat-label> כתובת מייל</mat-label>
-            <input matInput placeholder="name@example.com" [formControl]="email" required>
-            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+          <mat-form-field>
+            <mat-label>שם קבוצה</mat-label>
+            <input
+              matInput
+              placeholder="אפשר להוסיף מאוחר יותר"
+              formControlName="teamName"
+            />
           </mat-form-field>
-    </div>
-    <div>
-        <mat-form-field>
-            <mat-label>סיסמה</mat-label>
-            <input matInput placeholder="הסיסמה שלך כאן" [formControl]="password" required>
-          </mat-form-field>
+        </div>
+        <div>
+          <button class="btn btn-sm btn-outline-dark mt-3">
+            מצא לי שם קבוצה!
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-outline-dark mt-4">הרשמה</button>
+    </form>
   </div>
+</div>
+
+<ng-template #hasAccount>
+  <div class="form-container d-flex flex-column justify-content-between">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+      <div>
+        <mat-form-field>
+          <mat-label> כתובת מייל</mat-label>
+          <input
+            matInput
+            placeholder="name@example.com"
+            formControlName="email"
+            required
+          />
+          <mat-error *ngIf="loginForm.get('email')?.invalid">{{
+            getErrorMessage(loginForm.get("email"))
+          }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>סיסמה</mat-label>
+          <input
+            matInput
+            placeholder="הסיסמה שלך כאן"
+            formControlName="password"
+            required
+          />
+        </mat-form-field>
+      </div>
+      <button type="submit" class="btn btn-outline-dark mt-4">התחברות</button>
+    </form>
   </div>
 </ng-template>
