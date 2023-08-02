@@ -10,3 +10,9 @@
 .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
     color: rgba(97, 96, 96, 0.87);
 }
+
+@media only screen and (max-width: 600px) {
+    #team-name {
+      flex-direction: column;
+    }
+  }

@@ -22,7 +22,7 @@ import { AuthFormComponent } from './auth/auth-form/auth-form/auth-form.componen
     BrowserAnimationsModule,
     TableComponent,
     AuthComponent,
-    AuthFormComponent
+    AuthFormComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

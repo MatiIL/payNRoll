@@ -1,5 +1,52 @@
-<div class="form-container d-flex flex-column justify-content-between">
-    <div class="">
+<div *ngIf="noAccount; else hasAccount">
+    <div class="form-container d-flex flex-column">
+                    <div class="w-75">
+                        <mat-form-field>
+                            <mat-label> כתובת מייל</mat-label>
+                            <input matInput placeholder="name@example.com" [formControl]="email" required>
+                            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                          </mat-form-field>
+                    </div>
+                    <div class="w-75">
+                        <mat-form-field>
+                            <mat-label>סיסמה</mat-label>
+                            <input matInput placeholder="הסיסמה שלך כאן" [formControl]="password" required>
+                          </mat-form-field>
+                  </div>
+
+ 
+            
+          <div class="w-75">
+            <mat-form-field>
+                <mat-label>שם פרטי</mat-label>
+                <input matInput placeholder="שם פרטי" [formControl]="firstName" required>
+              </mat-form-field>
+        </div>
+
+        <div class="w-75">
+            <mat-form-field>
+                <mat-label>שם משפחה</mat-label>
+                <input matInput placeholder="שם משפחה" [formControl]="lastName" required>
+              </mat-form-field>
+        </div>
+        <div id="team-name" class="d-flex justify-content-between">
+            <div>
+                <mat-form-field>
+                    <mat-label>שם קבוצה</mat-label>
+                    <input matInput placeholder="אפשר להוסיף מאוחר יותר" [formControl]="teamName">
+                  </mat-form-field>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-outline-dark mt-3">מצא לי שם קבוצה!</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+    <ng-template #hasAccount>
+        <div class="form-container d-flex flex-column justify-content-between">
+        <div>
         <mat-form-field>
             <mat-label> כתובת מייל</mat-label>
             <input matInput placeholder="name@example.com" [formControl]="email" required>
@@ -11,5 +58,6 @@
             <mat-label>סיסמה</mat-label>
             <input matInput placeholder="הסיסמה שלך כאן" [formControl]="password" required>
           </mat-form-field>
-    </div>
   </div>
+  </div>
+</ng-template>

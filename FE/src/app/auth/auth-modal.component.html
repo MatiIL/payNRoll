@@ -7,16 +7,18 @@
   >סגירה</button>
 </div>
 <div class="modal-body ">
-  <app-auth-form></app-auth-form>
+  <app-auth-form [noAccount]="noAccount"></app-auth-form>
 </div>
 <div></div>
 <div class="modal-footer">
+  <span (click)="toggleLoginSignup()" class="text-decoration-underline">
+    {{ noAccount? 'משתמש קיים? להתחברות' : 'לחץ כאן להרשמה'}}
+  </span>
   <button
   type="button"
   class="btn btn-outline-dark"
   >
-    התחבר
+  {{ noAccount? 'הרשמה' : 'התחברות'}}
   </button>
-  
 </div>
 
