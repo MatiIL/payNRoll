@@ -2,15 +2,14 @@ import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
-import { TeamSchema } from "./schemas/teams.schema";
-import { TeamService } from "./services/teams.service";
-import { TeamResolver } from "./resolvers/teams.resolver";
-
+import { UserSchema } from "./schemas/users.schema";
+import { UserResolver } from "./resolvers/users.resolver";
+import { UserService } from "./services/users.service";
 
 @Module({
     imports: [
         MongooseModule.forFeature([
-            { name: "teams", schema: TeamSchema }
+            { name: "users", schema: UserSchema }
         ]),
         GraphQLModule.forRoot<ApolloDriverConfig>({
             driver: ApolloDriver,
@@ -18,9 +17,11 @@ import { TeamResolver } from "./resolvers/teams.resolver";
           }),
     ],
     providers: [
-        TeamService,
-        TeamResolver
+        UserService,
+        UserResolver
     ]
 })
 
-export class TeamsModule {}
+export class UserModule {
+
+}
