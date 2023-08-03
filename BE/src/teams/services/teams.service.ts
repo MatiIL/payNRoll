@@ -2,6 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { Team } from "../schemas/teams.schema";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
+import { CreateTeamInput } from '../inputs/create-team.input';
+
 
 
 @Injectable()
@@ -13,11 +15,11 @@ export class TeamService {
         return this.teamsModel.find().exec();
     }  
 
-    async teamByName(teamName:String): Promise<Team[]> {
-        return this.teamsModel.find({ name: teamName });
+    async teamByName(teamName:String): Promise<Team | null> {
+        return this.teamsModel.findOne({ name: teamName });
     }
 
-    async createTeam(team: Partial<Team>): Promise<Team> {
+    async createTeam(team: CreateTeamInput): Promise<Team> {
         return await this.teamsModel.create(team);
     }
 }

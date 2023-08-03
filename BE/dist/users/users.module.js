@@ -6,21 +6,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TeamsModule = void 0;
+exports.UserModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const graphql_1 = require("@nestjs/graphql");
 const apollo_1 = require("@nestjs/apollo");
-const teams_schema_1 = require("./schemas/teams.schema");
-const teams_service_1 = require("./services/teams.service");
-const teams_resolver_1 = require("./resolvers/teams.resolver");
-let TeamsModule = class TeamsModule {
+const users_schema_1 = require("./schemas/users.schema");
+const users_resolver_1 = require("./resolvers/users.resolver");
+const users_service_1 = require("./services/users.service");
+let UserModule = class UserModule {
 };
-TeamsModule = __decorate([
+UserModule = __decorate([
     (0, common_1.Module)({
         imports: [
             mongoose_1.MongooseModule.forFeature([
-                { name: "teams", schema: teams_schema_1.TeamSchema }
+                { name: "users", schema: users_schema_1.UserSchema }
             ]),
             graphql_1.GraphQLModule.forRoot({
                 driver: apollo_1.ApolloDriver,
@@ -28,10 +28,10 @@ TeamsModule = __decorate([
             }),
         ],
         providers: [
-            teams_service_1.TeamService,
-            teams_resolver_1.TeamResolver
+            users_service_1.UserService,
+            users_resolver_1.UserResolver
         ]
     })
-], TeamsModule);
-exports.TeamsModule = TeamsModule;
-//# sourceMappingURL=teams.module.js.map
+], UserModule);
+exports.UserModule = UserModule;
+//# sourceMappingURL=users.module.js.map

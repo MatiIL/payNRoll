@@ -1,0 +1,20 @@
+input CreateUserInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  teamName: String!
+}
+
+type Mutation {
+  addNewUser(user: CreateUserInput!): User
+}
+
+type User {
+  _id: ID!
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  teamName: String!
+}

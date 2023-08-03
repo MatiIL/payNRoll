@@ -9,16 +9,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
+const graphql_1 = require("@nestjs/graphql");
+const apollo_1 = require("@nestjs/apollo");
 const mongoose_1 = require("@nestjs/mongoose");
 const teams_module_1 = require("./teams/teams.module");
+const users_module_1 = require("./users/users.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot(),
+            graphql_1.GraphQLModule.forRoot({
+                driver: apollo_1.ApolloDriver,
+                autoSchemaFile: true,
+            }),
             mongoose_1.MongooseModule.forRoot(process.env.DB_URL, { dbName: 'payNroll' }),
             teams_module_1.TeamsModule,
+            users_module_1.UserModule,
         ],
     })
 ], AppModule);

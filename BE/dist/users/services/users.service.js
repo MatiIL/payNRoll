@@ -12,28 +12,22 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TeamService = void 0;
+exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
-let TeamService = class TeamService {
-    constructor(teamsModel) {
-        this.teamsModel = teamsModel;
+let UserService = class UserService {
+    constructor(usersModel) {
+        this.usersModel = usersModel;
     }
-    async findAllTeams() {
-        return this.teamsModel.find().exec();
-    }
-    async teamByName(teamName) {
-        return this.teamsModel.findOne({ name: teamName });
-    }
-    async createTeam(team) {
-        return await this.teamsModel.create(team);
+    async createUser(user) {
+        return await this.usersModel.create(user);
     }
 };
-TeamService = __decorate([
+UserService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_2.InjectModel)('teams')),
+    __param(0, (0, mongoose_2.InjectModel)('users')),
     __metadata("design:paramtypes", [mongoose_1.Model])
-], TeamService);
-exports.TeamService = TeamService;
-//# sourceMappingURL=teams.service.js.map
+], UserService);
+exports.UserService = UserService;
+//# sourceMappingURL=users.service.js.map

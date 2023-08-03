@@ -22,26 +22,29 @@
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
 /// <reference types="mongoose/types/inferschematype" />
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 export declare class Team extends Document {
+    _id: string;
     name: string;
     manager_id: string;
     nextYearBudget: number;
-    currentRoster: {
-        player: string;
-        purchasePrice: number;
-        keeperStatus: number;
-        YOS: number;
-    };
-    prevRosters: [[]];
-    draftRecord: {
-        season: number;
-        draftPosition: number;
-        playerDrafted: string;
-    };
+    currentRoster: PlayerInfo[];
+    prevRosters: string[][];
+    draftRecord: DraftRecord[];
 }
-export declare const TeamSchema: import("mongoose").Schema<Team, import("mongoose").Model<Team, any, any, any, Document<unknown, any, Team> & Omit<Team & {
-    _id: import("mongoose").Types.ObjectId;
-}, never>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Team, Document<unknown, {}, import("mongoose").FlatRecord<Team>> & Omit<import("mongoose").FlatRecord<Team> & {
-    _id: import("mongoose").Types.ObjectId;
-}, never>>;
+export declare class PlayerInfo {
+    player: string;
+    purchasePrice: number;
+    keeperStatus: number;
+    YOS: number;
+}
+export declare class DraftRecord {
+    season: number;
+    draftPosition: number;
+    playerDrafted: string;
+}
+export declare const TeamSchema: MongooseSchema<Team, import("mongoose").Model<Team, any, any, any, Document<unknown, any, Team> & Omit<Team & Required<{
+    _id: string;
+}>, never>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, Team, Document<unknown, {}, import("mongoose").FlatRecord<Team>> & Omit<import("mongoose").FlatRecord<Team> & Required<{
+    _id: string;
+}>, never>>;

@@ -1,0 +1,58 @@
+type Query {
+  findAllTeams: [Team]
+}
+
+type Query {
+  findTeam(name: String!): Team
+}
+
+input CreateTeamInput {
+  name: String!
+  manager_id: String!
+  nextYearBudget: Int!
+  currentRoster: [PlayerInput!]
+  prevRosters: [[PlayerInput!]]
+  draftRecord: [DraftRecordInput!]
+}
+
+input PlayerInput {
+  player: String!
+  purchasePrice: Int!
+  keeperStatus: Int!
+  YOS: Int!
+}
+
+input DraftRecordInput {
+  season: Int!
+  draftPosition: Int!
+  playerDrafted: String!
+}
+
+
+type Mutation {
+  addNewTeam(team: CreateTeamInput!): Team
+}
+
+
+type Team {
+  _id: ID!
+  name: String!
+  manager_id: String!
+  nextYearBudget: Float!
+  currentRoster: [Player]
+  prevRosters: [[Player]]
+  draftRecord: [DraftEntry]
+}
+
+type Player {
+  player: String!
+  purchasePrice: Float!
+  keeperStatus: Float!
+  YOS: Float!
+}
+
+type DraftEntry {
+  season: Float!
+  draftPosition: Float!
+  playerDrafted: String!
+}
