@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TeamsModule } from './teams/teams.module';
+import { UserModule } from './users/users.module';
 
 
 @Module({
@@ -15,6 +16,7 @@ import { TeamsModule } from './teams/teams.module';
     }),
     MongooseModule.forRoot(process.env.DB_URL, { dbName: 'payNroll'}),
     TeamsModule,
+    UserModule,
   ],
 })
 

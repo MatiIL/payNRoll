@@ -11,30 +11,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserSchema = exports.User = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const graphql_1 = require("@nestjs/graphql");
 const mongoose_2 = require("mongoose");
 let User = class User extends mongoose_2.Document {
 };
 __decorate([
+    (0, mongoose_1.Prop)({ type: mongoose_2.Schema.Types.ObjectId, auto: true }),
+    (0, graphql_1.Field)(() => String),
+    __metadata("design:type", String)
+], User.prototype, "_id", void 0);
+__decorate([
+    (0, graphql_1.Field)(),
     (0, mongoose_1.Prop)({ type: String, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
+    (0, graphql_1.Field)(),
     (0, mongoose_1.Prop)({ type: String, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
+    (0, graphql_1.Field)(),
     (0, mongoose_1.Prop)({ type: String, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "firstName", void 0);
 __decorate([
+    (0, graphql_1.Field)(),
     (0, mongoose_1.Prop)({ type: String, required: true }),
     __metadata("design:type", String)
 ], User.prototype, "lastName", void 0);
 __decorate([
+    (0, graphql_1.Field)(),
     (0, mongoose_1.Prop)({ type: String, required: false }),
     __metadata("design:type", String)
 ], User.prototype, "teamName", void 0);
 User = __decorate([
+    (0, graphql_1.ObjectType)(),
     (0, mongoose_1.Schema)({ collection: 'users' })
 ], User);
 exports.User = User;

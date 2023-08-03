@@ -1,5 +1,5 @@
-import { Team } from "../schemas/teams.schema";
-import { TeamService } from "../services/teams.service";
+import { Team } from '../schemas/teams.schema';
+import { TeamService } from '../services/teams.service';
 import { CreateTeamInput } from '../inputs/create-team.input';
 export declare class TeamResolver {
     private readonly teamService;

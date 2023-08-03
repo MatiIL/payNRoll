@@ -27,7 +27,7 @@ let UserResolver = class UserResolver {
 };
 __decorate([
     (0, graphql_1.Mutation)(() => users_schema_1.User),
-    __param(0, (0, graphql_1.Args)("user")),
+    __param(0, (0, graphql_1.Args)('user')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_input_1.CreateUserInput]),
     __metadata("design:returntype", Promise)

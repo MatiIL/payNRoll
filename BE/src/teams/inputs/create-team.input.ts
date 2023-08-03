@@ -11,7 +11,6 @@ export class CreateTeamInput {
   @Field(() => Int)
   nextYearBudget: number;
 
-  // Add the following fields based on your schema structure
   @Field(() => [PlayerInput])
   currentRoster: PlayerInput[];
 

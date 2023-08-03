@@ -39,14 +39,14 @@ __decorate([
 ], TeamResolver.prototype, "findAllTeams", null);
 __decorate([
     (0, graphql_1.Query)(() => teams_schema_1.Team, { nullable: true }),
-    __param(0, (0, graphql_1.Args)("name")),
+    __param(0, (0, graphql_1.Args)('name')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], TeamResolver.prototype, "findTeam", null);
 __decorate([
     (0, graphql_1.Mutation)(() => teams_schema_1.Team),
-    __param(0, (0, graphql_1.Args)("team")),
+    __param(0, (0, graphql_1.Args)('team')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_team_input_1.CreateTeamInput]),
     __metadata("design:returntype", Promise)
