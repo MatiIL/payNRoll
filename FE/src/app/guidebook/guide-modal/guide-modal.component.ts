@@ -1,4 +1,3 @@
-// import { NgFor } from '@angular/common';
 import { Component, Input, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GuideAccordionComponent } from '../guide-accordion/guide-accordion.component';
