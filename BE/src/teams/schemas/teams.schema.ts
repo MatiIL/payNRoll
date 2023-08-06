@@ -1,6 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { ApiProperty } from '@nestjs/swagger'
 
 @Schema({ collection: 'teams' })
 export class Team extends Document {
