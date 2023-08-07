@@ -1,0 +1,8 @@
+{
+    "json.schemas": [
+        {
+            "fileMatch": ["FE/package.json"],
+            "url": "file:///C:/DEV/payNRoll/package-schema.json"  
+                }
+            ]
+        }
