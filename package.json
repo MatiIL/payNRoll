@@ -10,5 +10,6 @@
     "start:be": "cd BE && npm run start",
     "install:fe": "cd FE && npm install",
     "install:be": "cd BE && npm install"
-  }
+  },
+  "dependencies": {}
 }

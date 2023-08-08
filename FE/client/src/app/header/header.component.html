@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">&#9776;</button>
+        <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse"
+        >
+        <ul 
+        class="navbar-nav mb-2 mb-lg-0"
+        >
+          <li class="navbar-item">
+            <a class="nav-link" href="#" routerLink="/home" (click)="isMenuCollapsed = true">
+            עמוד הבית
+          </a>
+          </li>
+          <li class="navbar-item" id="auth-link">
+            <a 
+            class="nav-link" 
+            (click)="open($event)"
+            >
+             התחברות
+          </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  href="#" routerLink="/guide" (click)="isMenuCollapsed = true">מדריך</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" routerLink="/table" (click)="isMenuCollapsed = true">רוסטר ופיי רול לדוגמה</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
