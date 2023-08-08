@@ -7,7 +7,7 @@ import { Document, Schema as MongooseSchema } from 'mongoose';
 export class User extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, auto: true })
   @Field(() => String)
-  _id: string;
+  userId: string;
 
   @Field()
   @Prop({ type: String, required: true })

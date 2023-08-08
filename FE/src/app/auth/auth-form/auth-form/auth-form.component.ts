@@ -10,6 +10,8 @@ import {
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Apollo } from 'apollo-angular';
+import { gql } from 'graphql-tag';
 
 @Component({
   selector: 'app-auth-form',
@@ -44,6 +46,8 @@ export class AuthFormComponent {
     password: new FormControl('', [Validators.required]),
   });
 
+  constructor(private apollo: Apollo) {}
+
   getErrorMessage(control: AbstractControl | null) {
     if (control && control.hasError('required')) {
       return 'נא להכניס כתובת מייל תקינה!';
@@ -56,11 +60,42 @@ export class AuthFormComponent {
 
   onSubmit(form: FormGroup) {
     if (this.noAccount) {
-      //code for signup
-      console.log(form.value);
+      const signupInput = {
+        email: form.get('email')?.value || '',
+        password: form.get('password')?.value || '',
+        firstName: form.get('firstName')?.value || '',
+        lastName: form.get('lastName')?.value || '',
+        teamName: form.get('teamName')?.value || null, // Default to null if teamName is not provided
+      };
+  
+      const SIGNUP_MUTATION = gql`
+        mutation Signup($input: SignupInput!) {
+          signup(input: $input) {
+            userId
+            firstName
+            teamName
+          }
+        }
+      `;
+  
+      this.apollo.mutate({
+        mutation: SIGNUP_MUTATION,
+        variables: { input: signupInput },
+      }).subscribe({
+        next: ({ data }) => {
+          // Handle success, possibly redirect the user or show a success message
+          console.log('Signup successful:', data);
+          form.reset(); // Clear the form after successful signup
+        },
+        error: (error) => {
+          // Handle error, display error message to user
+          console.error('Signup error:', error);
+        },
+      });
     } else {
       console.log(form.value);
       form.reset();
     }
   }
+  
 }
