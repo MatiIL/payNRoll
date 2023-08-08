@@ -9,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableComponent } from './table/table.component';
 import { AuthComponent } from './auth/auth-modal.component';
 import { AuthFormComponent } from './auth/auth-form/auth-form/auth-form.component';
+import { GraphQLModule } from './graphql.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { AuthFormComponent } from './auth/auth-form/auth-form/auth-form.componen
     TableComponent,
     AuthComponent,
     AuthFormComponent,
+    GraphQLModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
