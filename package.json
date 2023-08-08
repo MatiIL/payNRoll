@@ -1,5 +1,14 @@
 {
-  "dependencies": {
-    "@nestjs/config": "^3.0.0"
+  "name": "pay-n-roll",
+  "version": "1.0.0",
+  "description": "web platform for added features of Yahoo Fantasy Basketball dynasty league",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "start": "npm run start:fe && npm run start:be",
+    "start:fe": "cd FE && ng serve",
+    "start:be": "cd BE && npm run start",
+    "install:fe": "cd FE && npm install",
+    "install:be": "cd BE && npm install"
   }
 }
