@@ -11,6 +11,6 @@ export class SignupResponse {
   @Field()
   firstName: string;
 
-  @Field({ nullable: true }) // Make teamName optional
+  @Field({ nullable: true })
   teamName?: string;
 }

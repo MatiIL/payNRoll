@@ -1,7 +1,7 @@
 import { Module,  NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver } from '@nestjs/apollo';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as cors from 'cors'; 
 import { TeamsModule } from './teams/teams.module';
@@ -10,7 +10,7 @@ import { UserModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    GraphQLModule.forRoot({
+    GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
     }),

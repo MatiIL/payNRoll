@@ -65,37 +65,43 @@ export class AuthFormComponent {
         password: form.get('password')?.value || '',
         firstName: form.get('firstName')?.value || '',
         lastName: form.get('lastName')?.value || '',
-        teamName: form.get('teamName')?.value || null, // Default to null if teamName is not provided
+        teamName: form.get('teamName')?.value || null,
       };
-  
+
       const SIGNUP_MUTATION = gql`
-        mutation Signup($input: SignupInput!) {
-          signup(input: $input) {
+        mutation AddNewUser($user: CreateUserInput!) {
+          addNewUser(user: $user) {
             userId
             firstName
             teamName
           }
         }
       `;
-  
-      this.apollo.mutate({
-        mutation: SIGNUP_MUTATION,
-        variables: { input: signupInput },
-      }).subscribe({
-        next: ({ data }) => {
-          // Handle success, possibly redirect the user or show a success message
-          console.log('Signup successful:', data);
-          form.reset(); // Clear the form after successful signup
-        },
-        error: (error) => {
-          // Handle error, display error message to user
-          console.error('Signup error:', error);
-        },
-      });
+
+      this.apollo
+        .mutate({
+          mutation: SIGNUP_MUTATION,
+          variables: { user: signupInput },
+        })
+        .subscribe({
+          next: ({ data }) => {
+            // Handle success, possibly redirect the user or show a success message
+            console.log('Signup successful:', data);
+            form.reset(); // Clear the form after successful signup
+          },
+          error: (error) => {
+            console.error('Signup error:', error);
+            if (error.networkError) {
+              console.error('Network error:', error.networkError);
+            }
+            if (error.graphQLErrors) {
+              console.error('GraphQL errors:', error.graphQLErrors);
+            }
+          },
+        });
     } else {
       console.log(form.value);
       form.reset();
     }
   }
-  
 }
