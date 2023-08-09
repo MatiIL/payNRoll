@@ -1,4 +1,7 @@
 import { Resolver, Query, Args, Mutation } from "@nestjs/graphql";
+import { UseGuards } from "@nestjs/common";
+import { GqlAuthGuard } from "src/auth/guards/gql-auth.guard";
+import { GetUserArgs } from "../dtos/args/get-user-args.dto"
 import { User } from "../schemas/users.schema";
 import { UserService } from "../services/users.service";
 import { CreateUserInput } from "../inputs/create-user.input";
@@ -28,5 +31,10 @@ async addNewUser(@Args('user') user: CreateUserInput): Promise<SignupResponse> {
   }
 }
 
+@UseGuards(GqlAuthGuard)
+  @Query(() => User, { name: 'user' })
+  async getUser(@Args() getUserArgs: GetUserArgs) {
+    return this.userService.getUser(getUserArgs);
+  }
 
 }

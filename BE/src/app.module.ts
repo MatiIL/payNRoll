@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import * as cors from 'cors'; 
 import { TeamsModule } from './teams/teams.module';
 import { UserModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UserModule } from './users/users.module';
     MongooseModule.forRoot(process.env.DB_URL),
     TeamsModule,
     UserModule,
+    AuthModule,
   ],
 })
 
