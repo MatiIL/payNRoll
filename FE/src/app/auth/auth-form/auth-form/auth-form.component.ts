@@ -10,9 +10,8 @@ import {
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import { Apollo } from 'apollo-angular';
-import { gql } from 'graphql-tag';
+import { MatIconModule } from '@angular/material/icon';
+import { AddNewUserGQL } from '../../../../generated-types';
 
 @Component({
   selector: 'app-auth-form',
@@ -49,7 +48,7 @@ export class AuthFormComponent {
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private apollo: Apollo) {}
+  constructor(private addNewUserGQL: AddNewUserGQL) {}
 
   getErrorMessage(control: AbstractControl | null) {
     if (control && control.hasError('required')) {
@@ -71,37 +70,19 @@ export class AuthFormComponent {
         teamName: form.get('teamName')?.value || null,
       };
 
-      const SIGNUP_MUTATION = gql`
-        mutation AddNewUser($user: CreateUserInput!) {
-          addNewUser(user: $user) {
-            userId
-            firstName
-            teamName
+      this.addNewUserGQL.mutate({ user: signupInput }).subscribe({
+        next: ({ data }) => {
+          if (data?.addNewUser) {
+            console.log('Signup successful:', data.addNewUser);
+            form.reset();
+          } else {
+            console.error(
+              'Signup error: No data returned or addNewUser is null/undefined'
+            );
           }
-        }
-      `;
+        },
+      });
 
-      this.apollo
-        .mutate({
-          mutation: SIGNUP_MUTATION,
-          variables: { user: signupInput },
-        })
-        .subscribe({
-          next: ({ data }) => {
-            // Handle success, possibly redirect the user or show a success message
-            console.log('Signup successful:', data);
-            form.reset(); // Clear the form after successful signup
-          },
-          error: (error) => {
-            console.error('Signup error:', error);
-            if (error.networkError) {
-              console.error('Network error:', error.networkError);
-            }
-            if (error.graphQLErrors) {
-              console.error('GraphQL errors:', error.graphQLErrors);
-            }
-          },
-        });
     } else {
       console.log(form.value);
       form.reset();
