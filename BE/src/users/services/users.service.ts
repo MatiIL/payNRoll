@@ -40,7 +40,8 @@ export class UserService {
     if (!isPassValid) {
         throw new UnauthorizedException('Credentials are not valid.');
       }
-    return userDoc;
+      const { userId, firstName, teamName } = userDoc;
+      return { userId, firstName, teamName };
   }
 
 }

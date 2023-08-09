@@ -12,13 +12,15 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(
-    @CurrentUser() user: User,
-    @Res({ passthrough: true }) response: Response,
-  ) {
-    await this.authService.login(user, response);
-    response.send(user);
-  }
+async login(
+  @CurrentUser() user: User,
+  @Res({ passthrough: true }) response: Response,
+) {
+  await this.authService.login(user, response);
+  // Instead of sending user, you may want to send a success response
+  response.json({ success: true });
+}
+
 
   @UseGuards(JwtAuthGuard)
   @Get()

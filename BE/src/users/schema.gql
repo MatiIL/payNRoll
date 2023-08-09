@@ -10,6 +10,14 @@ type Mutation {
   addNewUser(user: CreateUserInput!): User
 }
 
+type Query {
+  getUser(getUserArgs: GetUserArgs!): User
+}
+
+type Mutation {
+  validateLogin(email: String!, password: String!): Boolean
+}
+
 type User {
   _id: ID!
   email: String!

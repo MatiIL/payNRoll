@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthFormComponent } from './auth-form/auth-form/auth-form.component';
+import { AuthFormComponent } from '../auth-form/auth-form/auth-form.component';
 
 @Component({
   selector: 'app-auth-modal',

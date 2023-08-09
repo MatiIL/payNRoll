@@ -13,11 +13,9 @@ export class UserResolver {
 
   @Mutation(() => User)
 async addNewUser(@Args('user') user: CreateUserInput): Promise<SignupResponse> {
-  console.log('Received user input:', user);
 
   try {
     const newUser = await this.userService.createUser(user);
-    console.log('New user created:', newUser);
 
     return {
       success: true,

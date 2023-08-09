@@ -11,7 +11,8 @@ import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { AddNewUserGQL } from '../../../../generated-types';
+import { AddNewUserGQL, ValidateLoginGQL  } from '../../../../generated-types';
+import { LoginService } from '../../login.service'
 
 @Component({
   selector: 'app-auth-form',
@@ -48,26 +49,37 @@ export class AuthFormComponent {
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private addNewUserGQL: AddNewUserGQL) {}
+  constructor(
+    private addNewUserGQL: AddNewUserGQL,
+    private loginService: LoginService,
+  ) {}
 
   getErrorMessage(control: AbstractControl | null) {
     if (control && control.hasError('required')) {
       return 'נא להכניס כתובת מייל תקינה!';
     }
-
-    return control && control.hasError('email')
-      ? 'נא להכניס כתובת מייל תקינה!'
-      : '';
+    return control && control.hasError('email') ? 'נא להכניס כתובת מייל תקינה!' : '';
   }
 
   onSubmit(form: FormGroup) {
-    if (this.noAccount) {
+    if (!this.noAccount) {
+      const loginInput = {
+        email: form.get('email')?.value || '',
+        password: form.get('password')?.value || '',
+      };
+      
+        this.loginService.login(loginInput).subscribe(() => {
+          console.log('succesful login!')
+        });
+      
+    } else {
+      // Handle signup form
       const signupInput = {
         email: form.get('email')?.value || '',
         password: form.get('password')?.value || '',
         firstName: form.get('firstName')?.value || '',
         lastName: form.get('lastName')?.value || '',
-        teamName: form.get('teamName')?.value || null,
+        teamName: form.get('teamName')?.value || '',
       };
 
       this.addNewUserGQL.mutate({ user: signupInput }).subscribe({
@@ -81,11 +93,10 @@ export class AuthFormComponent {
             );
           }
         },
+        error: (error) => {
+          console.error('Signup error:', error);
+        },
       });
-
-    } else {
-      console.log(form.value);
-      form.reset();
     }
   }
 }
