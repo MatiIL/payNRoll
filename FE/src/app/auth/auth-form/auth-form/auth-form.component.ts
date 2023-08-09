@@ -10,6 +10,7 @@ import {
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
 import { Apollo } from 'apollo-angular';
 import { gql } from 'graphql-tag';
 
@@ -22,6 +23,7 @@ import { gql } from 'graphql-tag';
   imports: [
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
     NgIf,
@@ -29,6 +31,7 @@ import { gql } from 'graphql-tag';
 })
 export class AuthFormComponent {
   @Input() noAccount: boolean = false;
+  hide = true;
 
   signupForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
