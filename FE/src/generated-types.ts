@@ -148,42 +148,10 @@ export const AddNewUserDocument = gql`
     }
   }
 `;
-
-// Modify CreateUserInput type to be used for login
 export type LoginInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
-
-export type ValidateLoginMutationVariables = Exact<{
-  email: Scalars['String'];
-  password: Scalars['String'];
-}>;
-
-export type ValidateLoginMutation = {
-  __typename?: 'Mutation';
-  validateLogin?: Maybe<User>;
-};
-
-export const ValidateLoginDocument = gql`
-  mutation ValidateLogin($email: String!, $password: String!) {
-    validateLogin(email: $email, password: $password)
-  }
-`;
-
-@Injectable({
-  providedIn: 'root',
-})
-export class ValidateLoginGQL extends Apollo.Mutation<
-  ValidateLoginMutation,
-  ValidateLoginMutationVariables
-> {
-  override document = ValidateLoginDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
-  }
-}
 
 @Injectable({
   providedIn: 'root',

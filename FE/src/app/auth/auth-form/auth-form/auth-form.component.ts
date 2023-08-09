@@ -11,7 +11,7 @@ import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { AddNewUserGQL, ValidateLoginGQL  } from '../../../../generated-types';
+import { AddNewUserGQL  } from '../../../../generated-types';
 import { LoginService } from '../../login.service'
 
 @Component({
