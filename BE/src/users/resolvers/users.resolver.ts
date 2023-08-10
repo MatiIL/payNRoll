@@ -25,7 +25,7 @@ async addNewUser(@Args('user') user: CreateUserInput): Promise<SignupResponse> {
     };
   } catch (error) {
     console.error('Error creating new user:', error);
-    throw error; // Rethrow the error to propagate it to the client
+    throw error;
   }
 }
 

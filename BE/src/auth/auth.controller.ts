@@ -17,8 +17,7 @@ async login(
   @Res({ passthrough: true }) response: Response,
 ) {
   await this.authService.login(user, response);
-  // Instead of sending user, you may want to send a success response
-  response.json({ success: true });
+  response.json({ success: true, user });
 }
 
 

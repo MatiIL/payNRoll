@@ -6,6 +6,7 @@
           <mat-label> כתובת מייל</mat-label>
           <input
             matInput
+            autocomplete="email"
             placeholder="name@example.com"
             formControlName="email"
             required
@@ -20,6 +21,7 @@
           <mat-label>סיסמה</mat-label>
           <input
             type="password"
+            autocomplete="new-password"
             matInput
             placeholder="מינימום 6 תווים"
             formControlName="password"
@@ -27,7 +29,9 @@
             minlength="6"
             matInput [type]="hide ? 'password' : 'text'"
           />
-          
+          <mat-error *ngIf="signupForm.get('password')?.invalid">{{
+            getErrorMessage(signupForm.get("password"))
+          }}</mat-error>
         </mat-form-field>
         <button 
           mat-icon-button matSuffix 
@@ -50,6 +54,9 @@
             autocomplete="first-name"
             required
           />
+          <mat-error *ngIf="signupForm.get('firstName')?.invalid">{{
+            getErrorMessage(signupForm.get("firstName"))
+          }}</mat-error>
         </mat-form-field>
       </div>
 
@@ -63,6 +70,9 @@
             autocomplete="family-name"
             required
           />
+          <mat-error *ngIf="signupForm.get('lastName')?.invalid">{{
+            getErrorMessage(signupForm.get("lastName"))
+          }}</mat-error>
         </mat-form-field>
       </div>
       <div id="team-name" class="d-flex justify-content-between">
@@ -95,12 +105,13 @@
           <mat-label> כתובת מייל</mat-label>
           <input
             matInput
+            autocomplete="username"
             placeholder="name@example.com"
             formControlName="email"
             required
           />
           <mat-error *ngIf="loginForm.get('email')?.invalid">{{
-            getErrorMessage(loginForm.get("email"))
+            getErrorMessage(loginForm.get('email'))
           }}</mat-error>
         </mat-form-field>
       </div>
@@ -109,12 +120,16 @@
           <mat-label>סיסמה</mat-label>
           <input
             type="password"
+            autocomplete="current-password"
             matInput
             placeholder="הסיסמה שלך כאן"
             formControlName="password"
             required
             matInput [type]="hide ? 'password' : 'text'"
           />
+          <mat-error *ngIf="loginForm.get('password')?.invalid">{{
+            getErrorMessage(loginForm.get('password'))
+          }}</mat-error>
         </mat-form-field>
         <button 
           mat-icon-button matSuffix 

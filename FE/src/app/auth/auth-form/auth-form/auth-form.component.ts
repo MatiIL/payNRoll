@@ -35,7 +35,6 @@ import { LoginService } from '../../login.service';
     NgIf,
   ],
 })
-
 export class AuthFormComponent {
   @Input() noAccount: boolean = false;
   @Output() authSuccess = new EventEmitter<void>();
@@ -62,13 +61,29 @@ export class AuthFormComponent {
     private loginService: LoginService
   ) {}
 
+  // getErrorMessage(control: AbstractControl | null) {
+  //   if (control && control.hasError('required')) {
+  //     return 'נא להכניס כתובת מייל תקינה!';
+  //   }
+  //   return control && control.hasError('email')
+  //     ? 'נא להכניס כתובת מייל תקינה!'
+  //     : '';
+  // }
+
   getErrorMessage(control: AbstractControl | null) {
-    if (control && control.hasError('required')) {
-      return 'נא להכניס כתובת מייל תקינה!';
+    if (control?.hasError('required')) {
+      return 'שדה חובה';
     }
-    return control && control.hasError('email')
-      ? 'נא להכניס כתובת מייל תקינה!'
-      : '';
+  
+    if (control?.hasError('email')) {
+      return 'נא להכניס כתובת מייל תקינה';
+    }
+  
+    if (control?.hasError('minlength')) {
+      return 'הסיסמה צריכה להכיל לפחות 6 תווים';
+    }
+  
+    return '';
   }
 
   onSubmit(form: FormGroup) {
@@ -77,9 +92,11 @@ export class AuthFormComponent {
         email: form.get('email')?.value || '',
         password: form.get('password')?.value || '',
       };
-      this.loginService.login(loginInput).subscribe(() => {
-        this.authSuccess.emit();
+      this.loginService.login(loginInput).subscribe((response) => {
+        const userProperties = response.body.user; 
+        console.log('User Properties:', userProperties);
         form.reset();
+        this.authSuccess.emit();
       });
     } else {
       const signupInput = {
@@ -103,5 +120,4 @@ export class AuthFormComponent {
       });
     }
   }
-
 }

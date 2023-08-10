@@ -16,8 +16,8 @@ export class AuthService {
   ) {}
 
   async login(user: User, response: Response) {
-    const tokenPayload: TokenPayload = {
-      userId: user._id,
+    const tokenPayload = {
+      userId: user.userId,
     };
 
     const expires = new Date();
@@ -33,7 +33,7 @@ export class AuthService {
     });
   }
 
-  logout(response: Response) {
+  async logout(response: Response) {
     response.cookie('Authentication', '', {
       httpOnly: true,
       expires: new Date(),
