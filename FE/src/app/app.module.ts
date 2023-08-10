@@ -10,9 +10,10 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableComponent } from './table/table.component';
 import { AuthModalComponent } from './auth/auth-modal/auth-modal.component';
-import { AuthFormComponent } from './auth/auth-form/auth-form/auth-form.component';
+import { AuthFormComponent } from './auth/auth-form/auth-form.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { TeamNameModule } from './auth/team-name/team-name.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
     TableComponent,
     AuthModalComponent,
     AuthFormComponent,
+    TeamNameModule,
     GraphQLModule,
     HttpClientModule,
   ],

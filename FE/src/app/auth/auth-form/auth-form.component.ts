@@ -17,10 +17,12 @@ import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { AddNewUserGQL } from '../../../../generated-types';
-import { AuthService } from '../../auth.service';
+import { AddNewUserGQL } from '../../../generated-types';
+import { AuthService } from '../auth.service';
 import { UserService } from 'src/app/services/user-service/user.service';
-import { User } from '../../../../../../shared/user';
+import { User } from '../../../../../shared/user';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NameModalComponent } from '../team-name/name-modal/name-modal.component';
 
 @Component({
   selector: 'app-auth-form',
@@ -61,7 +63,8 @@ export class AuthFormComponent {
   constructor(
     private addNewUserGQL: AddNewUserGQL,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private modalService: NgbModal
   ) {}
 
   getErrorMessage(control: AbstractControl | null) {
@@ -69,6 +72,11 @@ export class AuthFormComponent {
     if (control?.hasError('email')) return 'נא להכניס כתובת מייל תקינה';
     if (control?.hasError('minlength')) return 'הסיסמה צריכה להכיל לפחות 6 תווים';
     return '';
+  }
+
+  openTeamNameModal(e: any) {
+    e.preventDefault();
+    this.modalService.open(NameModalComponent);
   }
 
   onSubmit(form: FormGroup) {
