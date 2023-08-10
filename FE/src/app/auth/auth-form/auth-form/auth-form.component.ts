@@ -1,4 +1,10 @@
-import { Component, ViewEncapsulation, Input } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import {
   FormControl,
   Validators,
@@ -11,8 +17,8 @@ import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { AddNewUserGQL  } from '../../../../generated-types';
-import { LoginService } from '../../login.service'
+import { AddNewUserGQL } from '../../../../generated-types';
+import { LoginService } from '../../login.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -29,8 +35,10 @@ import { LoginService } from '../../login.service'
     NgIf,
   ],
 })
+
 export class AuthFormComponent {
   @Input() noAccount: boolean = false;
+  @Output() authSuccess = new EventEmitter<void>();
   hide = true;
 
   signupForm = new FormGroup({
@@ -51,14 +59,16 @@ export class AuthFormComponent {
 
   constructor(
     private addNewUserGQL: AddNewUserGQL,
-    private loginService: LoginService,
+    private loginService: LoginService
   ) {}
 
   getErrorMessage(control: AbstractControl | null) {
     if (control && control.hasError('required')) {
       return 'נא להכניס כתובת מייל תקינה!';
     }
-    return control && control.hasError('email') ? 'נא להכניס כתובת מייל תקינה!' : '';
+    return control && control.hasError('email')
+      ? 'נא להכניס כתובת מייל תקינה!'
+      : '';
   }
 
   onSubmit(form: FormGroup) {
@@ -67,13 +77,11 @@ export class AuthFormComponent {
         email: form.get('email')?.value || '',
         password: form.get('password')?.value || '',
       };
-      
-        this.loginService.login(loginInput).subscribe(() => {
-          console.log('succesful login!')
-        });
-      
+      this.loginService.login(loginInput).subscribe(() => {
+        this.authSuccess.emit();
+        form.reset();
+      });
     } else {
-      // Handle signup form
       const signupInput = {
         email: form.get('email')?.value || '',
         password: form.get('password')?.value || '',
@@ -81,22 +89,19 @@ export class AuthFormComponent {
         lastName: form.get('lastName')?.value || '',
         teamName: form.get('teamName')?.value || '',
       };
-
       this.addNewUserGQL.mutate({ user: signupInput }).subscribe({
         next: ({ data }) => {
           if (data?.addNewUser) {
-            console.log('Signup successful:', data.addNewUser);
+            this.authSuccess.emit();
             form.reset();
-          } else {
+          } else
             console.error(
               'Signup error: No data returned or addNewUser is null/undefined'
             );
-          }
         },
-        error: (error) => {
-          console.error('Signup error:', error);
-        },
+        error: (error) => console.error('Signup error:', error),
       });
     }
   }
+
 }

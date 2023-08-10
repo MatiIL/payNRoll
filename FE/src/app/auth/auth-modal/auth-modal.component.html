@@ -7,7 +7,7 @@
   >סגירה</button>
 </div>
 <div class="modal-body ">
-  <app-auth-form [noAccount]="noAccount"></app-auth-form>
+  <app-auth-form [noAccount]="noAccount" (authSuccess)="activeModal.close()"></app-auth-form>
 </div>
 <div></div>
 <div class="modal-footer">

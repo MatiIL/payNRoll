@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthFormComponent } from '../auth-form/auth-form/auth-form.component';
 
@@ -9,7 +9,7 @@ import { AuthFormComponent } from '../auth-form/auth-form/auth-form.component';
   standalone: true,
   imports: [AuthFormComponent],
 })
-export class AuthComponent implements OnInit {
+export class AuthModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) {}
   noAccount = false;
 

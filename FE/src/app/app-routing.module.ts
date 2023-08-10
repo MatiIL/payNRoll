@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomepageComponent } from './homepage/homepage.component';
 import { GuideComponent } from './guidebook/guide-page/guide-page.component';
 import { TableComponent } from './table/table.component';
-import { AuthComponent } from './auth/auth-modal/auth-modal.component';
+import { AuthModalComponent } from './auth/auth-modal/auth-modal.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
