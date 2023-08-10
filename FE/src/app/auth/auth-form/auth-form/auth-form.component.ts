@@ -18,7 +18,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { AddNewUserGQL } from '../../../../generated-types';
-import { LoginService } from '../../login.service';
+import { AuthService } from '../../auth.service';
+import { UserService } from 'src/app/services/user-service/user.service';
+import { User } from '../../../../../../shared/user';
 
 @Component({
   selector: 'app-auth-form',
@@ -58,31 +60,14 @@ export class AuthFormComponent {
 
   constructor(
     private addNewUserGQL: AddNewUserGQL,
-    private loginService: LoginService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
-  // getErrorMessage(control: AbstractControl | null) {
-  //   if (control && control.hasError('required')) {
-  //     return 'נא להכניס כתובת מייל תקינה!';
-  //   }
-  //   return control && control.hasError('email')
-  //     ? 'נא להכניס כתובת מייל תקינה!'
-  //     : '';
-  // }
-
   getErrorMessage(control: AbstractControl | null) {
-    if (control?.hasError('required')) {
-      return 'שדה חובה';
-    }
-  
-    if (control?.hasError('email')) {
-      return 'נא להכניס כתובת מייל תקינה';
-    }
-  
-    if (control?.hasError('minlength')) {
-      return 'הסיסמה צריכה להכיל לפחות 6 תווים';
-    }
-  
+    if (control?.hasError('required')) return 'שדה חובה';
+    if (control?.hasError('email')) return 'נא להכניס כתובת מייל תקינה';
+    if (control?.hasError('minlength')) return 'הסיסמה צריכה להכיל לפחות 6 תווים';
     return '';
   }
 
@@ -92,9 +77,9 @@ export class AuthFormComponent {
         email: form.get('email')?.value || '',
         password: form.get('password')?.value || '',
       };
-      this.loginService.login(loginInput).subscribe((response) => {
-        const userProperties = response.body.user; 
-        console.log('User Properties:', userProperties);
+      this.authService.login(loginInput).subscribe((response) => {
+        const userProperties = response.body.user;
+        this.userService.updateUser(userProperties);
         form.reset();
         this.authSuccess.emit();
       });
@@ -109,8 +94,18 @@ export class AuthFormComponent {
       this.addNewUserGQL.mutate({ user: signupInput }).subscribe({
         next: ({ data }) => {
           if (data?.addNewUser) {
-            this.authSuccess.emit();
+            const newUserData = data.addNewUser;
+            const newUser: User = {
+              _id: newUserData.userId,
+              email: '', 
+              password: '', 
+              firstName: newUserData.firstName,
+              lastName: '', 
+              teamName: newUserData.teamName,
+            };
+            this.userService.updateUser(newUser);
             form.reset();
+            this.authSuccess.emit();
           } else
             console.error(
               'Signup error: No data returned or addNewUser is null/undefined'
@@ -120,4 +115,5 @@ export class AuthFormComponent {
       });
     }
   }
+
 }

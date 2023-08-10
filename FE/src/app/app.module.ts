@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,9 +25,11 @@ import { HttpClientModule } from '@angular/common/http';
         tokenGetter: () => {
           return localStorage.getItem('Authentication'); 
         },
-        allowedDomains: ['http://localhost:9000/'], // Add your API domain(s)
+        allowedDomains: ['http://localhost:9000/'], 
       },
     }),
+    CommonModule,
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     HeaderComponent,

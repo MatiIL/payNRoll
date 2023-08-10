@@ -28,7 +28,6 @@ async login(
   }
 
   @Post('logout')
-  @UseGuards(JwtAuthGuard)
   logout(@Res({ passthrough: true }) response: Response) {
     this.authService.logout(response);
     response.json({});

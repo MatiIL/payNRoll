@@ -12,12 +12,12 @@
           </a>
           </li>
           <li class="navbar-item" id="auth-link">
-            <a 
-            class="nav-link" 
-            (click)="open($event)"
-            >
-             התחברות
-          </a>
+            <a *ngIf="user" class="nav-link" (click)="handleLogout($event)">
+              התנתקות
+            </a>
+            <a *ngIf="!user" class="nav-link" (click)="open($event)">
+              התחברות
+            </a>            
           </li>
           <li class="nav-item">
             <a class="nav-link"  href="#" routerLink="/guide" (click)="isMenuCollapsed = true">מדריך</a>
@@ -29,4 +29,3 @@
       </div>
     </div>
   </nav>
-  
