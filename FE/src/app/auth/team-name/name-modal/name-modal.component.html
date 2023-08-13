@@ -1,1 +1,27 @@
-<p>hi</p>
+<div class="modal-dialog modal-fullscreen">
+  <div class="modal-content">
+    <div class="modal-header ">
+      <h2 class="modal-title">
+        ליצירת שם קבוצה, יש למלא באנגלית 1 עד 3 מהשדות הבאים ולהקליק על כפתור 'שים בג'בטה'
+      </h2>
+      <button
+        type="button"
+        class="btn btn-outline-dark position-absolute top-0 start-0 mt-2 ms-4"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Close click')"
+      >X</button>
+    </div>
+    <div class="modal-body">
+      <app-name-form></app-name-form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark ms-2"
+        (click)="activeModal.close('Close click')"
+      >
+        סגירה
+      </button>
+    </div>
+  </div>
+</div>

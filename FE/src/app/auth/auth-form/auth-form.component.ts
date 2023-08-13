@@ -76,7 +76,7 @@ export class AuthFormComponent {
 
   openTeamNameModal(e: any) {
     e.preventDefault();
-    this.modalService.open(NameModalComponent);
+    this.modalService.open(NameModalComponent, { size: 'xl', fullscreen: true });
   }
 
   onSubmit(form: FormGroup) {
