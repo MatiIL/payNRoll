@@ -1,5 +1,5 @@
 <div class="container">
-  <form [formGroup]="teamNameForm">
+  <form [formGroup]="teamNameForm" (ngSubmit)="onSubmit(teamNameForm)">
     <div class="row">
         <div class="names d-flex justify-content-between">
       <div class="col-sm">
@@ -109,21 +109,21 @@
               <option value="two">סאם פרסטי</option>
               <option value="three">דריל מוריי</option>
               <option value="four">בוב מאיירס</option>
-              <option value="">גרג פופוביץ'</option>
-              <option value="">סם הינקי</option>
-              <option value="">מארק קיובן</option>
-              <option value="">וורן באפט</option>
-              <option value="">סטיב ג'ובס</option>
-              <option value="">אילון מאסק</option>
-              <option value="">מייקל בלומברג</option>
-              <option value="">ג'ורג' סורוס</option>
-              <option value="">לוגאן רוי</option>
+              <option value="five">גרג פופוביץ'</option>
+              <option value="six">סם הינקי</option>
+              <option value="seven">מארק קיובן</option>
+              <option value="eight">וורן באפט</option>
+              <option value="nine">סטיב ג'ובס</option>
+              <option value="ten">אילון מאסק</option>
+              <option value="eleven">מייקל בלומברג</option>
+              <option value="twelve">ג'ורג' סורוס</option>
+              <option value="thirteen">לוגאן רוי</option>
             </select>
           </div>
         </div>
       </div>
     </div>
-    <button class="mt-5">שים בג'בטה</button>
+    <button type="submit" class="mt-5">שים בג'בטה</button>
   </form>
-  <p class="mt-3">השם שנמצא לקבוצה שלך הוא:</p>
+  <p class="mt-3">השם שנמצא לקבוצה שלך הוא: {{ generatedName }}</p>
 </div>
