@@ -45,7 +45,6 @@ export class PromptEngineerService {
     
     const userContent: string = `Name description: ${nameDescription}\n
     Seed words: ${seedWords}`;
-    console.log(userContent);
     return userContent;
   }
 }
