@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { ModalControlService } from '../name-modal/modal-control.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../name-modal/name-modal.component';
@@ -12,14 +15,11 @@ import { PromptEngineerService } from 'src/app/services/prompt-engineer.service'
   templateUrl: './name-form.component.html',
   styleUrls: ['./name-form.component.scss'],
 })
+
 export class NameFormComponent implements OnInit {
   teamNameForm!: FormGroup;
-  generatedName: string = '';
-
-  //   configuration = new Configuration({
-  //     apiKey: environment.apiKey,
-  //   });
-  //   openai = new OpenAIApi(this.configuration);
+  generatedText$: Observable<string> = new Observable<string>();
+  formSubmitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,7 +45,7 @@ export class NameFormComponent implements OnInit {
     this.teamNameForm.get('managerStyle')?.setValue(selectedValue);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.teamNameForm = this.formBuilder.group({
       myName: [''],
       nickname: [''],
@@ -84,20 +84,38 @@ export class NameFormComponent implements OnInit {
       mappedValues[controlName] = strValue;
     }
 
-    const prompt = this.promptEngineerService.buildPrompt(form, mappedValues);
+    const userContent = this.promptEngineerService.buildPrompt(
+      form,
+      mappedValues
+    );
 
-    try {
-        this.openAiService.generateCompletion(prompt, 0.6).subscribe({
-          next: (completionResponse) => {
-            const generatedText = completionResponse.choices[0].text;
-            this.generatedName = generatedText;
-          },
-          error: (error) => {
-            console.error('Error generating completion:', error);
-          },
-        });
-      } catch (error) {
-        console.error('Error generating completion:', error);
-      }
-    }
+    const systemMessage = {
+      role: 'system',
+      content:
+        'You will be provided with name description and seed words to generate creative NBA fantasy team names.',
+    };
+    const userMessage = {
+      role: 'user',
+      content: userContent,
+    };
+
+    const messages = [systemMessage, userMessage];
+
+    this.generatedText$ = this.openAiService
+      .generateCompletion(messages, 0.9, 30)
+      .pipe(
+        map((response: any) => {
+          const names = response.choices[0].message.content
+            .split('\n')
+            .slice(0, 3);
+          return names.join('\n');
+        }),
+        tap({
+            complete: () => {
+              form.reset(); 
+              this.formSubmitted = true;
+            }
+          })
+      );
   }
+}

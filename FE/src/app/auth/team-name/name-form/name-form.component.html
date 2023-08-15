@@ -43,23 +43,23 @@
     <div class="row w-75 mt-4">
       <div class="col-sm">
         <div class="form-group">
+          <label>תחום עניין</label>
+          <input
+            class="form-control"
+            type="text"
+            placeholder="your interests"
+            formControlName="interests"
+          />
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="form-group">
           <label>כינוי הקבוצה שאוהד</label>
           <input
             class="form-control"
             type="text"
             placeholder="favourite team's nickname"
             formControlName="favTeamNick"
-          />
-        </div>
-      </div>
-      <div class="col-sm">
-        <div class="form-group">
-          <label>תחומי עניין</label>
-          <input
-            class="form-control"
-            type="text"
-            placeholder="your interests"
-            formControlName="interests"
           />
         </div>
       </div>
@@ -108,22 +108,18 @@
               <option value="one">דני איינג'</option>
               <option value="two">סאם פרסטי</option>
               <option value="three">דריל מוריי</option>
-              <option value="four">בוב מאיירס</option>
-              <option value="five">גרג פופוביץ'</option>
-              <option value="six">סם הינקי</option>
-              <option value="seven">מארק קיובן</option>
-              <option value="eight">וורן באפט</option>
-              <option value="nine">סטיב ג'ובס</option>
-              <option value="ten">אילון מאסק</option>
-              <option value="eleven">מייקל בלומברג</option>
-              <option value="twelve">ג'ורג' סורוס</option>
-              <option value="thirteen">לוגאן רוי</option>
+              <option value="four">גרג פופוביץ'</option>
+              <option value="five">סם הינקי</option>
+              <option value="six">וורן באפט</option>
+              <option value="seven">אילון מאסק</option>
+              <option value="eight">לוגאן רוי</option>
             </select>
           </div>
         </div>
       </div>
     </div>
-    <button type="submit" class="mt-5">שים בג'בטה</button>
+    <button type="submit" class="mt-5" [disabled]="formSubmitted">שים בג'בטה</button>
   </form>
-  <p class="mt-3">השם שנמצא לקבוצה שלך הוא: {{ generatedName }}</p>
+  <p dir="ltr" class="mt-3">Potential names for your team are: <br>
+    {{ generatedText$ | async }}</p>
 </div>

@@ -1,39 +1,63 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OpenAiService {
-  private apiUrl = 'https://api.openai.com/v1/engines/davinci/completions';
+  private apiUrl = 'https://api.openai.com/v1/chat/completions';
+  ;
 
   constructor(private http: HttpClient) {}
 
-  generatePrompt(prompt: string): Observable<any> {
+  generatePrompt(messages: any[], temperature: number, maxTokens: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${environment.apiKey}`,
+      Authorization: `Bearer ${environment.apiKey}`,
     });
     const body = {
-      prompt: prompt,
-      max_tokens: 50, // You can adjust this value based on your needs
-    };
-
-    return this.http.post(this.apiUrl, body, { headers });
-  }
-
-  generateCompletion(prompt: string, temperature: number): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${environment.apiKey}`,
-    });
-    const body = {
-      prompt: prompt,
+      model: 'gpt-3.5-turbo',
+      messages: messages,
       temperature: temperature,
+      max_tokens: maxTokens,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
     };
-
-    return this.http.post(this.apiUrl, body, { headers });
+  
+    return this.http.post(this.apiUrl, body, { headers }).pipe(
+      catchError((error) => {
+        console.error('Error generating prompt:', error);
+        throw error;
+      })
+    );
   }
+  
+
+  generateCompletion(messages: any[], temperature: number, maxTokens: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${environment.apiKey}`,
+    });
+    const body = {
+      model: 'gpt-3.5-turbo',
+      messages: messages,
+      temperature: temperature,
+      max_tokens: maxTokens,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    };
+  
+    return this.http.post(this.apiUrl, body, { headers }).pipe(
+      catchError((error) => {
+        console.error('Error generating completion:', error);
+        throw error;
+      })
+    );
+  }
+  
 }

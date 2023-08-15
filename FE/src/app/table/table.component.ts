@@ -33,13 +33,13 @@ export class TableComponent {
     let rookieTooltip;
     switch (value) {
       case 3:
-        rookieTooltip = 'עונת סופמור מובטחת בחוזה הרוקי';
+        rookieTooltip = 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן';
         break;
       case 5:
-        rookieTooltip = 'אופציונלית - החלטה על מימוש לקראת עונת סופמור';
+        rookieTooltip = 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן';
         break;
       case 7:
-        rookieTooltip = 'אופציונלית - החלטה על מימוש לקראת עונה שלישית';
+        rookieTooltip = 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן (לצד החלטה אם להעניק הארכת חוזה, או לתת לצעיר להיכנס לדראפט האוקשן של 2027/28 על תקן RFA)';
         break;
       default:
         rookieTooltip = '';
