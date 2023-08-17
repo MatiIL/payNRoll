@@ -1,3 +1,12 @@
+ul {
+  list-style-type: none;
+}
+
+li {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 600px) {
     .names {
       flex-direction: column;

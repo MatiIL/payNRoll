@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
 import { ModalControlService } from '../name-modal/modal-control.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../name-modal/name-modal.component';
 import { OpenAiService } from 'src/app/services/open-ai-service.service';
 import { SelectValueService } from 'src/app/services/select-value-service.service';
 import { PromptEngineerService } from 'src/app/services/prompt-engineer.service';
+import { GeneratedNamesService } from '../../auth-form/gen-names.service';
 
 @Component({
   selector: 'app-name-form',
@@ -19,20 +20,19 @@ import { PromptEngineerService } from 'src/app/services/prompt-engineer.service'
 export class NameFormComponent implements OnInit {
   teamNameForm!: FormGroup;
   generatedText$: Observable<string> = new Observable<string>();
+  generatedNames: string[] = [];
   formSubmitted: boolean = false;
   loading = false;
-
-  startLoading() {
-    this.loading = true;
-  }
 
   constructor(
     private formBuilder: FormBuilder,
     private modalControlService: ModalControlService,
     private modalService: NgbModal,
+    private activeModal: NgbActiveModal,
     private selectValueService: SelectValueService,
     private promptEngineerService: PromptEngineerService,
-    private openAiService: OpenAiService
+    private openAiService: OpenAiService,
+    private genNamesService: GeneratedNamesService
   ) {}
 
   onStrategySelect(event: any) {
@@ -72,6 +72,7 @@ export class NameFormComponent implements OnInit {
   }
 
   async onSubmit(form: FormGroup) {
+    this.loading = true;
     const valuesToMap = [
       { controlName: 'fantasyStrategy', serviceMethod: 'getFantasyStrategy' },
       { controlName: 'dynastyStrategy', serviceMethod: 'getDynastyStrategy' },
@@ -113,7 +114,7 @@ export class NameFormComponent implements OnInit {
           const names = response.choices[0].message.content
             .split('\n')
             .slice(0, 3);
-          return names.join('\n');
+            return names;
         }),
         tap({
             complete: () => {
@@ -123,5 +124,11 @@ export class NameFormComponent implements OnInit {
             }
           })
       );
+  }
+
+  clickedName(name: string) {
+    const formattedName = name.replace(/^\d+\.\s*/, '');
+    this.genNamesService.updateClickedName(formattedName);
+    this.activeModal.close();
   }
 }

@@ -75,6 +75,22 @@
           }}</mat-error>
         </mat-form-field>
       </div>
+      <div>
+      
+        <mat-form-field>
+          <mat-label>קוד הרשמה</mat-label>
+          <input
+            matInput
+            required
+            placeholder="הכנס קוד הרשמה שקיבלת מהקומישינר"
+            formControlName="signupCode"
+          />
+          <mat-error *ngIf="signupForm.get('signupCode')?.hasError('invalidSignupCode') && signupForm.get('signupCode')?.touched">
+            קוד הרשמה אינו תקין
+          </mat-error>
+        </mat-form-field>
+      </div>
+      
       <div id="team-name" class="d-flex justify-content-between">
         <div>
           <mat-form-field>
@@ -83,16 +99,26 @@
               matInput
               placeholder="אפשר להוסיף מאוחר יותר"
               formControlName="teamName"
+              [ngModel]="teamNameFormControl.value"
             />
           </mat-form-field>
         </div>
+        
         <div>
-          <button class="btn btn-sm btn-outline-dark mt-3" (click)="openTeamNameModal($event)">
+          <button 
+          [disabled]="signupForm.get('signupCode')?.invalid"
+          class="btn btn-sm btn-outline-dark mt-3" 
+          (click)="openTeamNameModal($event)"
+          >
             מצא לי שם קבוצה!
           </button>
         </div>
       </div>
-      <button type="submit" (click)="startLoading" class="btn btn-outline-dark mt-4">הרשמה</button>
+      <button 
+      type="submit" 
+      [disabled]="!signupForm.valid || signupForm.get('signupCode')?.invalid" 
+      class="btn btn-outline-dark mt-4"
+      >הרשמה</button>
       <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2"/>
     </form>
   </div>
@@ -142,7 +168,7 @@
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
       </div>
-      <button type="submit" (click)="startLoading()" class="btn btn-outline-dark mt-4">התחברות</button>
+      <button type="submit" class="btn btn-outline-dark mt-4">התחברות</button>
       <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2"/>
     </form>
   </div>

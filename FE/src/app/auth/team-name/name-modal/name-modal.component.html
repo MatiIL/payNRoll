@@ -17,13 +17,14 @@
     <div class="modal-body">
       <app-name-form></app-name-form>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer d-flex justify-content-between">
+      <p class="mt-2">הקלק על שם בשביל לבחור בו ולחזור לטופס הרישום</p>
       <button
         type="button"
         class="btn btn-outline-dark ms-2"
         (click)="activeModal.close('Close click')"
       >
-        סגירה
+        חזרה לרישום
       </button>
     </div>
   </div>

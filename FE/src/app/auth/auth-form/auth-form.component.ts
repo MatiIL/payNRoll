@@ -13,6 +13,7 @@ import {
   FormGroup,
   AbstractControl,
 } from '@angular/forms';
+import { environment } from 'environments/environment';
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,7 +24,8 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import { User } from '../../../../../shared/user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../team-name/name-modal/name-modal.component';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { GeneratedNamesService } from './gen-names.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -45,12 +47,15 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 export class AuthFormComponent {
   @Input() noAccount: boolean = false;
   @Output() authSuccess = new EventEmitter<void>();
-  hide = true;
-  loading = false;
+  hide: boolean = true;
+  loading: boolean = false;
+  generatedNames: string[] = [];
 
   startLoading() {
     this.loading = true;
   }
+
+  teamNameFormControl: FormControl = new FormControl('');
 
   signupForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -60,8 +65,21 @@ export class AuthFormComponent {
     ]),
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
-    teamName: new FormControl(''),
+    signupCode: new FormControl('', [
+      Validators.required,
+      this.validateSignupCode.bind(this),
+    ]),
+    teamName: this.teamNameFormControl, 
   });
+
+  validateSignupCode(control: AbstractControl): { [key: string]: any } | null {
+    const enteredCode = control.value;
+    const actualCode = environment.signupCode;
+    if (enteredCode !== actualCode) {
+      return { invalidSignupCode: true };
+    }
+    return null;
+  }
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -72,22 +90,35 @@ export class AuthFormComponent {
     private addNewUserGQL: AddNewUserGQL,
     private authService: AuthService,
     private userService: UserService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private genNamesService: GeneratedNamesService
   ) {}
+
+  ngOnInit(): void {
+    this.genNamesService.clickedNameEmitter.subscribe((name: string) => {
+      this.teamNameFormControl.setValue(name);
+    });
+  }
 
   getErrorMessage(control: AbstractControl | null) {
     if (control?.hasError('required')) return 'שדה חובה';
     if (control?.hasError('email')) return 'נא להכניס כתובת מייל תקינה';
-    if (control?.hasError('minlength')) return 'הסיסמה צריכה להכיל לפחות 6 תווים';
+    if (control?.hasError('minlength'))
+      return 'הסיסמה צריכה להכיל לפחות 6 תווים';
+    if (control?.hasError('signupCode')) return 'קוד הרשמה אינו תקין';
     return '';
   }
 
   openTeamNameModal(e: any) {
     e.preventDefault();
-    this.modalService.open(NameModalComponent, { size: 'xl', fullscreen: true });
+    this.modalService.open(NameModalComponent, {
+      size: 'xl',
+      fullscreen: true,
+    });
   }
 
   onSubmit(form: FormGroup) {
+    this.loading = true;
     if (!this.noAccount) {
       const loginInput = {
         email: form.get('email')?.value || '',
@@ -114,10 +145,10 @@ export class AuthFormComponent {
             const newUserData = data.addNewUser;
             const newUser: User = {
               _id: newUserData.userId,
-              email: '', 
-              password: '', 
+              email: '',
+              password: '',
               firstName: newUserData.firstName,
-              lastName: '', 
+              lastName: '',
               teamName: newUserData.teamName,
             };
             this.userService.updateUser(newUser);
@@ -133,5 +164,4 @@ export class AuthFormComponent {
       });
     }
   }
-
 }

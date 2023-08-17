@@ -119,13 +119,20 @@
       </div>
     </div>
     <button 
-    type="submit" 
-    (click)="startLoading" 
+    type="submit"  
     class="mt-5" 
     [disabled]="formSubmitted"
     >שים בג'בטה</button>
     <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2"/>
   </form>
-  <p dir="ltr" class="mt-3">Potential names for your team are: <br>
-    {{ generatedText$ | async }}</p>
+  <p dir="ltr" class="mt-3" *ngIf="generatedNames.length > 0">
+    Potential names for your team are:
+  </p>
+    <ul dir="ltr" class="d-flex justify-content-evenly mt-3">
+      <li 
+      *ngFor="let name of generatedText$ | async"
+      (click)="clickedName(name)"
+      >{{ name }}</li>
+    </ul>
+  
 </div>
