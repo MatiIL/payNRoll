@@ -5,6 +5,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
+    "build": "cd FE && ng build --prod && cd ../BE && npm run build",
     "start": "npm run start:fe && npm run start:be",
     "start:fe": "cd FE && ng serve",
     "start:be": "cd BE && npm run start",
