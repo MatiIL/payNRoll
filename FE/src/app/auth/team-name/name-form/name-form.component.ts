@@ -20,6 +20,11 @@ export class NameFormComponent implements OnInit {
   teamNameForm!: FormGroup;
   generatedText$: Observable<string> = new Observable<string>();
   formSubmitted: boolean = false;
+  loading = false;
+
+  startLoading() {
+    this.loading = true;
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -112,6 +117,7 @@ export class NameFormComponent implements OnInit {
         }),
         tap({
             complete: () => {
+              this.loading = false;
               form.reset(); 
               this.formSubmitted = true;
             }

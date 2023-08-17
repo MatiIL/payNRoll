@@ -1,8 +1,12 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output } from '@angular/core';
+import { UserService } from '../services/user-service/user.service';
 import { MatTableModule } from '@angular/material/table';
 import { TABLE_DATA } from './table-data';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { User } from '../../../../shared/user';
+import { OverlayMsgComponent } from './overlay-message/overlay-msg.component';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-table',
@@ -10,9 +14,40 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrls: ['./table.component.scss'],
   encapsulation: ViewEncapsulation.ShadowDom,
   standalone: true,
-  imports: [MatTableModule, CommonModule, MatTooltipModule],
+  imports: [
+    MatTableModule,
+    CommonModule,
+    MatTooltipModule,
+    OverlayMsgComponent,
+  ],
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
+  @Output() showOverlay: boolean = false;
+  user: User | null = null;
+  isLoggedIn: boolean = false;
+
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.userService.userData$.subscribe((userData) => {
+      this.user = userData;
+      if (this.user) this.showOverlay = true;
+    });
+  }
+
+  toggleOverlay() {
+    this.showOverlay = !this.showOverlay;
+  }
+
+  handleTableClick() {
+    if (this.showOverlay) {
+      this.toggleOverlay();
+    }
+  }
+
   displayedColumns: string[] = [
     'סגל סוף עונה',
     'עונה קרובה',
@@ -39,7 +74,8 @@ export class TableComponent {
         rookieTooltip = 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן';
         break;
       case 7:
-        rookieTooltip = 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן (לצד החלטה אם להעניק הארכת חוזה, או לתת לצעיר להיכנס לדראפט האוקשן של 2027/28 על תקן RFA)';
+        rookieTooltip =
+          'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן (לצד החלטה אם להעניק הארכת חוזה, או לתת לצעיר להיכנס לדראפט האוקשן של 2027/28 על תקן RFA)';
         break;
       default:
         rookieTooltip = '';

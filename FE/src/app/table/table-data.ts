@@ -107,16 +107,16 @@ export const TABLE_DATA: payRollData[] = [
         tooltipContent: "בחירה 7 כנגד סיום עונה במקום הרביעי; פריסת חוזה חלופית - 4 מיליון פר עונה"
     },
     {
-    onFinalRoster: "Julius Randle (Sellsword, 2$ discount) 14$",
-        nextSeasonSalary: 12,
+    onFinalRoster: "Tobias Harris (Sellsword, 2$ discount) 8$",
+        nextSeasonSalary: 6,
         season25Salary: 0,
         season26Salary: 0,
         season27Salary: 0,
-        tooltipContent: "ותק של 8 עונות ומעלה, לא הוחתם מחדש על ידי המנג'ר שסיים אצלו עונה (היה זכאי לחוזה סולידי של 14$ בכל אחת משלוש העונות הבאות)"
+        tooltipContent: "ותק של 10 עונות ומעלה, לא הוחתם מחדש על ידי המנג'ר שסיים אצלו עונה (היה זכאי לחוזה וטרן זול בסך 8$)"
     },
     {
         onFinalRoster: "Auction Draft Budget",
-            nextSeasonSalary: 135,
+            nextSeasonSalary: 141,
             season25Salary: 0,
             season26Salary: 0,
             season27Salary: 0,

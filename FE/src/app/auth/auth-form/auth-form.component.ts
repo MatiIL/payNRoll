@@ -23,6 +23,7 @@ import { UserService } from 'src/app/services/user-service/user.service';
 import { User } from '../../../../../shared/user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../team-name/name-modal/name-modal.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-auth-form',
@@ -36,13 +37,20 @@ import { NameModalComponent } from '../team-name/name-modal/name-modal.component
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
+    MatProgressBarModule,
     NgIf,
   ],
 })
+
 export class AuthFormComponent {
   @Input() noAccount: boolean = false;
   @Output() authSuccess = new EventEmitter<void>();
   hide = true;
+  loading = false;
+
+  startLoading() {
+    this.loading = true;
+  }
 
   signupForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -88,6 +96,7 @@ export class AuthFormComponent {
       this.authService.login(loginInput).subscribe((response) => {
         const userProperties = response.body.user;
         this.userService.updateUser(userProperties);
+        this.loading = false;
         form.reset();
         this.authSuccess.emit();
       });
@@ -112,6 +121,7 @@ export class AuthFormComponent {
               teamName: newUserData.teamName,
             };
             this.userService.updateUser(newUser);
+            this.loading = false;
             form.reset();
             this.authSuccess.emit();
           } else

@@ -1,16 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginInput, User } from '../../generated-types';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = 'http://localhost:9000/auth';
+  private loggedInSubject = new BehaviorSubject<boolean>(false);
 
   constructor(
     private readonly httpClient: HttpClient) {}
+
+    get isLoggedIn$(): Observable<boolean> {
+      return this.loggedInSubject.asObservable();
+    }
 
   login(loginRequest: LoginInput): Observable<any> {
     const url = `${this.apiUrl}/login`; 

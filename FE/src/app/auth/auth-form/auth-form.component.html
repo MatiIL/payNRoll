@@ -92,7 +92,8 @@
           </button>
         </div>
       </div>
-      <button type="submit" class="btn btn-outline-dark mt-4">הרשמה</button>
+      <button type="submit" (click)="startLoading" class="btn btn-outline-dark mt-4">הרשמה</button>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2"/>
     </form>
   </div>
 </div>
@@ -141,7 +142,8 @@
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
       </div>
-      <button type="submit" class="btn btn-outline-dark mt-4">התחברות</button>
+      <button type="submit" (click)="startLoading()" class="btn btn-outline-dark mt-4">התחברות</button>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2"/>
     </form>
   </div>
 </ng-template>

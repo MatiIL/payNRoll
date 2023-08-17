@@ -7,6 +7,7 @@ import { NameFormComponent } from './name-form/name-form.component';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
       MatInputModule,
       MatFormFieldModule,
       MatSelectModule,
+      MatProgressBarModule
     ],
     exports: [
       NameModalComponent,
