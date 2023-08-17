@@ -5,14 +5,13 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "install": "npm run install:fe && npm run install:be",
     "start": "npm run start:be",
     "start:be": "cd BE && npm run start",
-    "build": "npm run build:be",
-    "build:be": "cd BE && npx nest build",
+    "build": "cd BE && node_modules/.bin/nest build",
     "start:fe": "cd FE && ng serve",
     "install:fe": "cd FE && npm install",
     "install:be": "cd BE && npm install"
   },
+  
   "dependencies": {}
 }
