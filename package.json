@@ -5,10 +5,12 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "cd FE && ng build --prod && cd ../BE && npm run build",
-    "start": "npm run start:fe && npm run start:be",
-    "start:fe": "cd FE && ng serve",
+    "install": "npm run install:fe && npm run install:be",
+    "start": "npm run start:be",
     "start:be": "cd BE && npm run start",
+    "build": "npm run build:be",
+    "build:be": "cd BE && npm run build",
+    "start:fe": "cd FE && ng serve",
     "install:fe": "cd FE && npm install",
     "install:be": "cd BE && npm install"
   },
