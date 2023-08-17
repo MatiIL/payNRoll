@@ -2,12 +2,21 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginInput, User } from '../../generated-types';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from 'environments/environment';
+
+const getServerUrl = () => {
+  if (environment.production) {
+    return 'https://paynroll-server.onrender.com/'
+  } 
+  return "http://localhost:9000";
+}
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
-  private apiUrl = 'http://localhost:9000/auth';
+  private apiUrl = `${getServerUrl()}+/auth`;
   private loggedInSubject = new BehaviorSubject<boolean>(false);
 
   constructor(
