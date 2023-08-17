@@ -7,7 +7,7 @@
   "scripts": {
     "start": "npm run start:be",
     "start:be": "cd BE && npm run start",
-    "build": "cd BE && node_modules/.bin/nest build",
+    "build": "cd BE && yarn run nest build",
     "start:fe": "cd FE && ng serve",
     "install:fe": "cd FE && npm install",
     "install:be": "cd BE && npm install"
