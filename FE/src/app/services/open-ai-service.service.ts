@@ -9,14 +9,14 @@ import { environment } from 'environments/environment.prod'
 })
 export class OpenAiService {
   private apiUrl = 'https://api.openai.com/v1/chat/completions';
-  ;
-
+  apiKey = environment.apiKey;
+ 
   constructor(private http: HttpClient) {}
 
   generatePrompt(messages: any[], temperature: number, maxTokens: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${environment.apiKey}`,
+      Authorization: `Bearer ${this.apiKey}`,
     });
     const body = {
       model: 'gpt-3.5-turbo',

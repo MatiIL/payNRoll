@@ -50,6 +50,7 @@ export class AuthFormComponent {
   hide: boolean = true;
   loading: boolean = false;
   generatedNames: string[] = [];
+  signupCode = environment.signupCode;
 
   startLoading() {
     this.loading = true;
@@ -74,7 +75,7 @@ export class AuthFormComponent {
 
   validateSignupCode(control: AbstractControl): { [key: string]: any } | null {
     const enteredCode = control.value;
-    const actualCode = environment.signupCode;
+    const actualCode = this.signupCode;
     if (enteredCode !== actualCode) {
       return { invalidSignupCode: true };
     }
