@@ -13,7 +13,7 @@ import {
   FormGroup,
   AbstractControl,
 } from '@angular/forms';
-import { environment } from 'environments/environment';
+// import { environment } from 'environments/environment';
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -50,7 +50,7 @@ export class AuthFormComponent {
   hide: boolean = true;
   loading: boolean = false;
   generatedNames: string[] = [];
-  signupCode = environment.signupCode;
+  signupCode = process.env.SIGNUP_CODE;
 
   startLoading() {
     this.loading = true;
