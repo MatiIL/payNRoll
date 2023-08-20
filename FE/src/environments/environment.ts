@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
-    signupCode: 'payNroll2023/24',
-    openAiKey: 'http://my-prod-url'
+    production: true,
+    signupCode: import.meta.env['NG_APP_SIGNUP_CODE'],
+    openAiKey: import.meta.env['NG_APP_OPENAI_KEY'],
   };
