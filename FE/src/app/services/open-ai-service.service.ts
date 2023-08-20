@@ -42,7 +42,7 @@ export class OpenAiService {
   generateCompletion(messages: any[], temperature: number, maxTokens: number): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${environment.apiKey}`,
+      Authorization: `Bearer ${this.apiKey}`,
     });
     const body = {
       model: 'gpt-3.5-turbo',

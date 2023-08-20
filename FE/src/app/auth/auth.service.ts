@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginInput, User } from '../../generated-types';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { environment } from 'environments/environment';
+import { environment } from '../../environment/environment.prod';
 
 const getServerUrl = () => {
   if (environment.production) {
