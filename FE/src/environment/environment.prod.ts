@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    signupCode: 'payNroll2023/24',
-    openAiKey: 'http://my-prod-url'
+    signupCode: process.env['SIGNUP_CODE'] || 'default-signup-code',
+    openAiKey: process.env['OPENAI_KEY'] || 'default-openai-key',
   };
   
