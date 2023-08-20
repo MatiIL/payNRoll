@@ -6,6 +6,12 @@ import * as cookieParser from 'cookie-parser'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
+
+  app.enableCors({
+    origin: 'https://pay-n-roll.vercel.app', 
+    credentials: true,
+  });
+
   const configService = app.get(ConfigService);
   const port = configService.get<string>('PORT');
   await app.listen(port);
