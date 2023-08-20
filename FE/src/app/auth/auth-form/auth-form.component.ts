@@ -50,7 +50,8 @@ export class AuthFormComponent {
   hide: boolean = true;
   loading: boolean = false;
   generatedNames: string[] = [];
-  signupCode = environment.signupCode;
+  signupCode = import.meta.env['SIGNUP_CODE'];
+
 
   startLoading() {
     this.loading = true;
