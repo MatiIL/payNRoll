@@ -8,39 +8,35 @@ require('dotenv').config();
 const environment = argv.environment;
 
 function setEnv() {
-  fs = require("fs");
+  fs = require('fs');
   writeFile = fs.writeFile;
-  // Configure Angular `environment.prod.json` file path
-  targetPath = "/vercel/path1/src/environment/environment.prod.json";
-  targetPath2 = "/vercel/path2/src/environment/environment.prod.json";
+
+  const environment = process.argv[2];
 
   // `environment.prod.json` file structure
-  envConfigFile = process.env.FIREBASE;
+  const envConfig = {
+    production: environment === 'production', // Set production flag based on environment
+    signupCode: process.env.SIGNUP_CODE || 'default-signup-code', // Use default if not provided
+    openAiKey: process.env.OPENAI_KEY || 'default-openai-key', // Use default if not provided
+  };
+
+  const targetPath = '/vercel/path1/src/environments/environment.prod.json'; // Adjust the path as needed
 
   console.log(
-    "The file `environment.prod.json` will be written with the following content: \n"
+    `The file 'environment.prod.json' will be written with the following content:\n${JSON.stringify(
+      envConfig,
+      null,
+      2
+    )}`
   );
-  writeFile(targetPath, envConfigFile, function (err) {
+
+  writeFile(targetPath, JSON.stringify(envConfig, null, 2), function (err) {
     if (err) {
       console.error(err);
       throw err;
     } else {
       console.log(
-        "Angular environment.prod.json file generated correctly at" +
-          targetPath +
-          "\n"
-      );
-    }
-  });
-  writeFile(targetPath2, envConfigFile, function (err) {
-    if (err) {
-      console.error(err);
-      throw err;
-    } else {
-      console.log(
-        "Angular environment.prod.json file generated correctly at" +
-          targetPath +
-          "\n"
+        `Angular environment.prod.json file generated correctly at ${targetPath}`
       );
     }
   });
@@ -48,6 +44,5 @@ function setEnv() {
 
 setEnv();
 /* tslint:enable */
-
 
 /* tslint: enabled */
