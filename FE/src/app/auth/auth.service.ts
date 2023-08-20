@@ -2,14 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginInput, User } from '../../generated-types';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { environment } from '../../environments/environment';
-
-const getServerUrl = () => {
-  if (environment.production) {
-    return 'https://paynroll-server.onrender.com'
-  } 
-  return "http://localhost:9000";
-}
+import { getServerUrl } from '../utils';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +21,7 @@ export class AuthService {
 
   login(loginRequest: LoginInput): Observable<any> {
     const url = `${this.apiUrl}/login`; 
+    console.log(url)
     return this.httpClient.post<User>(url, loginRequest, { observe: 'response' });
   }
 

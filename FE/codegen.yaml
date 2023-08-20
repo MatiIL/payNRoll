@@ -1,5 +1,5 @@
-schema: http://localhost:9000/graphql
-documents: 
+schema: ${GRAPHQL_SCHEMA_URL}
+documents:
   - './src/**/*.graphql'
   - './src/**/*.ts'
 generates:
@@ -8,3 +8,5 @@ generates:
       - typescript
       - typescript-operations
       - typescript-apollo-angular
+config:
+  graphql_schema_url: ${GRAPHQL_SCHEMA_URL}

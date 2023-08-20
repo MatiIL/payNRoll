@@ -26,7 +26,7 @@ import { TeamNameModule } from './auth/team-name/team-name.module';
         tokenGetter: () => {
           return localStorage.getItem('Authentication'); 
         },
-        allowedDomains: ['http://localhost:9000/'], 
+        allowedDomains: ['http://localhost:9000/', 'https://paynroll-server.onrender.com/'], 
       },
     }),
     CommonModule,

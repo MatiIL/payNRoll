@@ -77,7 +77,6 @@ export class AuthFormComponent {
   validateSignupCode(control: AbstractControl): { [key: string]: any } | null {
     const enteredCode = control.value;
     const actualCode = this.signupCode;
-    console.log('entered code: ', enteredCode, 'actual code: ', actualCode)
     if (enteredCode !== actualCode) {
       return { invalidSignupCode: true };
     }
