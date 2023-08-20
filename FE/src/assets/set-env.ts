@@ -16,8 +16,8 @@ function setEnv() {
   // `environment.prod.json` file structure
   const envConfig = {
     production: environment === 'production', // Set production flag based on environment
-    signupCode: process.env.SIGNUP_CODE || 'default-signup-code', // Use default if not provided
-    openAiKey: process.env.OPENAI_KEY || 'default-openai-key', // Use default if not provided
+    signupCode: import.meta.env.SIGNUP_CODE || 'default-signup-code', // Use default if not provided
+    openAiKey: import.meta.env.OPENAI_KEY || 'default-openai-key', // Use default if not provided
   };
 
   const targetPath = '/vercel/path1/src/environment/environment.prod.json'; // Adjust the path as needed
