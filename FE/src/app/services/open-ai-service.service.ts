@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-// import { environment } from 'environments/environment.prod'
+import { environment } from '../../environment/environment.prod'
 
 @Injectable({
   providedIn: 'root',
 })
 export class OpenAiService {
   private apiUrl = 'https://api.openai.com/v1/chat/completions';
-  apiKey = process.env.API_KEY;
+  apiKey = environment.openAiKey;
  
   constructor(private http: HttpClient) {}
 
