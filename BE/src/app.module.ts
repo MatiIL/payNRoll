@@ -35,7 +35,7 @@ import { AuthModule } from './auth/auth.module';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(cors({ origin: 'http://localhost:4200', credentials: true })) 
+      .apply(cors({ origin: 'https://pay-n-roll.vercel.app/', credentials: true })) 
       .forRoutes('*'); 
   } 
 }
