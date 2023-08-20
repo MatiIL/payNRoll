@@ -1,14 +1,14 @@
-/* tslint: disabled */
+/* tslint: disable */
 // @ts-nocheck
 
 const { writeFile, existsSync, mkdirSync } = require('fs');
 const { argv } = require('yargs');
+const fs = require('fs');
+
 
 require('dotenv').config();
-const environment = argv.environment;
 
 function setEnv() {
-  fs = require('fs');
   writeFile = fs.writeFile;
 
   const environment = process.argv[2];
@@ -20,7 +20,7 @@ function setEnv() {
     openAiKey: process.env.OPENAI_KEY || 'default-openai-key', // Use default if not provided
   };
 
-  const targetPath = '/vercel/path1/src/environments/environment.prod.json'; // Adjust the path as needed
+  const targetPath = '/vercel/path1/src/environment/environment.prod.json'; // Adjust the path as needed
 
   console.log(
     `The file 'environment.prod.json' will be written with the following content:\n${JSON.stringify(
@@ -43,6 +43,7 @@ function setEnv() {
 }
 
 setEnv();
+
 /* tslint:enable */
 
-/* tslint: enabled */
+/* tslint: enable */
