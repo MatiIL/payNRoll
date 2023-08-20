@@ -1,16 +1,24 @@
 jobs:
   deploy:
     runs-on: ubuntu-latest
-   
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-       
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
       - name: Navigate to FE folder
         run: cd FE
+
+      - name: Install FE dependencies
+        run: npm install
 
       - name: Build and Deploy
         run: npm run build
         env:
-          OPENAI_KEY: ${{ secrets.OPENAI_KEY }},
           SIGNUP_CODE: ${{ secrets.SIGNUP_CODE }}
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
