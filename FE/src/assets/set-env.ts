@@ -11,8 +11,8 @@ function setEnv() {
   fs = require("fs");
   writeFile = fs.writeFile;
   // Configure Angular `environment.prod.json` file path
-  targetPath = "/vercel/path1/src/environments/environment.prod.json";
-  targetPath2 = "/vercel/path2/src/environments/environment.prod.json";
+  targetPath = "/vercel/path1/src/environment/environment.prod.json";
+  targetPath2 = "/vercel/path2/src/environment/environment.prod.json";
 
   // `environment.prod.json` file structure
   envConfigFile = process.env.FIREBASE;
