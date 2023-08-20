@@ -13,7 +13,7 @@ import {
   FormGroup,
   AbstractControl,
 } from '@angular/forms';
-import { environment } from '../../../environment/environment.prod';
+import { environment } from '../../../environments/environment.prod'
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -76,6 +76,7 @@ export class AuthFormComponent {
   validateSignupCode(control: AbstractControl): { [key: string]: any } | null {
     const enteredCode = control.value;
     const actualCode = this.signupCode;
+    console.log('entered code: ', enteredCode, 'actual code: ', actualCode)
     if (enteredCode !== actualCode) {
       return { invalidSignupCode: true };
     }
