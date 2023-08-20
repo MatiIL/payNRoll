@@ -36,5 +36,3 @@ lerna-debug.log*
 
 # Environment variables
 .env
-..//FE/src/environments/environment.ts
-..//FE/src/environments/environment.prod.ts
