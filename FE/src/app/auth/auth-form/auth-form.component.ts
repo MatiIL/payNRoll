@@ -13,7 +13,7 @@ import {
   FormGroup,
   AbstractControl,
 } from '@angular/forms';
-import { environment } from '../../../environment/environment.prod';
+import { environment } from '../../../environment/environment';
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
