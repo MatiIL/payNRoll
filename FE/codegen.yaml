@@ -1,4 +1,4 @@
-schema: ${GRAPHQL_SCHEMA_URL}
+schema: https://paynroll-server.onrender.com/graphql
 documents:
   - './src/**/*.graphql'
   - './src/**/*.ts'
@@ -8,5 +8,3 @@ generates:
       - typescript
       - typescript-operations
       - typescript-apollo-angular
-config:
-  graphql_schema_url: ${GRAPHQL_SCHEMA_URL}
