@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  signupCode: '{{SIGNUP_CODE}}',
-  openAiKey: '{{OPENAI_KEY}}',
+  signupCode: import.meta.env['SIGNUP_CODE'],
+  openAiKey: import.meta.env['OPENAI_KEY'],
 };
