@@ -9,6 +9,7 @@
     "start:be": "cd BE && npm run start",
     "build": "cd BE && yarn install && yarn run nest build",
     "start:fe": "cd FE && ng serve",
+    "build:fe": "cd FE && ng build",
     "install:fe": "cd FE && npm install",
     "install:be": "cd BE && npm install"
   },
