@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    signupCode: 'default-signup-code',
-    openAiKey: 'default-openai-key',
+    signupCode: 'payNroll2023/24!',
+    openAiKey: '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',
   };
   
