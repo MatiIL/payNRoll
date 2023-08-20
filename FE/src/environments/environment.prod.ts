@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  signupCode: import.meta.env['SIGNUP_CODE'],
-  openAiKey: import.meta.env['OPENAI_KEY'],
+  signupCode: 'payNroll2023/24!',
+  openAiKey: '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',
 };
