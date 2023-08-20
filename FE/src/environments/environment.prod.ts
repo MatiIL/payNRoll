@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   signupCode: 'payNroll2023/24!',
-  openAiKey: 'shame_key',
+  openAiKey: '4374983rhfoewf98w5y985y2r9f3',
 };
