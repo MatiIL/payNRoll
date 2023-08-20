@@ -9,7 +9,7 @@ import { getServerUrl } from '../utils';
 })
 
 export class AuthService {
-  private apiUrl = `${getServerUrl()}+/auth`;
+  private apiUrl = `${getServerUrl()}/auth`;
   private loggedInSubject = new BehaviorSubject<boolean>(false);
 
   constructor(
