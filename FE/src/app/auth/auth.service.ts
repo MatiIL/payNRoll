@@ -21,7 +21,6 @@ export class AuthService {
 
   login(loginRequest: LoginInput): Observable<any> {
     const url = `${this.apiUrl}/login`; 
-    console.log("here is the url for loginRequest: ", url)
     return this.httpClient.post<User>(url, loginRequest, { withCredentials: true, observe: 'response' });
   }
 
