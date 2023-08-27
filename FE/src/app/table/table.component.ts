@@ -49,7 +49,6 @@ export class TableComponent implements OnInit, OnDestroy  {
       if (this.user) this.showOverlay = true;
     });
 
-
     this.selectPayrollService.selectedValue$
     .pipe(takeUntil(this.componentDestroyed))
     .subscribe(value => {
