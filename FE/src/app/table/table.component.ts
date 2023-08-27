@@ -78,31 +78,41 @@ export class TableComponent implements OnInit, OnDestroy  {
       { amount: 185, tooltip: "Tooltip for payroll option three" }
     ];
     
-    getDisplayedNextSeasonSalary(element: payRollData): string | number {
+    getDisplayedNextSeasonSalary(element: payRollData): { value: string | number; style: string } {
       if (element.onFinalRoster === 'Auction Draft Budget') {
-        return this.auctionBudget[this.selectedIndex].amount;
+        const budgetAmount = this.auctionBudget[this.selectedIndex].amount;
+        return {
+          value: budgetAmount,
+          style: budgetAmount === 0 ? 'background-color: #d0d4d7d7;' : 'background-color: #bcc1c4d7;'
+        };
       } else {
         return this.showSelectedSalary(element);
       }
     }
 
-    isString(value: any): boolean {
-      return typeof value === 'string';
-    }
+    showSelectedSalary(element: payRollData): { value: string | number; style: string } {
+      let value: string | number;
+      let style: string;
     
-
-    showSelectedSalary(element: payRollData): string | number {
       switch (this.selectedPayroll) {
         case 'one':
-          return this.showColumnsForValueOne(element) ? element.nextSeasonSalary[0] : element.nextSeasonSalary[1];
+          value = this.showColumnsForValueOne(element) ? element.nextSeasonSalary[0] : element.nextSeasonSalary[1];
+          break;
         case 'two':
-          return this.showColumnsForValueTwo(element) ? element.nextSeasonSalary[0] : element.nextSeasonSalary[1];
+          value = this.showColumnsForValueTwo(element) ? element.nextSeasonSalary[0] : element.nextSeasonSalary[1];
+          break;
         case 'three':
-          return this.showColumnsForValueThree(element) ? element.nextSeasonSalary[0] : element.nextSeasonSalary[1];
+          value = this.showColumnsForValueThree(element) ? element.nextSeasonSalary[0] : element.nextSeasonSalary[1];
+          break;
         default:
-          return ''; // Handle default case
+          return { value: '', style: '' };
       }
-    }
+    
+      if (Array.isArray(value))  value = value[0];
+    
+      style = value !== 0 ? 'background-color: #bcc1c4d7;' : 'background-color: #d0d4d7d7;';
+      return { value, style };
+    }    
 
   showColumnsForValueOne(item: payRollData): boolean {
     return (
@@ -137,6 +147,11 @@ export class TableComponent implements OnInit, OnDestroy  {
     );
   }
 
+  isString(value: any): boolean {
+    return typeof value === 'string';
+  }
+
+
   toggleOverlay() {
     this.showOverlay = !this.showOverlay;
   }
@@ -155,44 +170,31 @@ export class TableComponent implements OnInit, OnDestroy  {
     'season28Salary',
   ];
   dataSource = this.selectedData;
-
-  getClass(firstParam: number, secondParam?: string): string {
-    if (firstParam !== 0 && secondParam) return '#bcc1c4d7';
-    if (firstParam === 0 && secondParam) return 'rgb(224, 178, 178)';
-    if (firstParam !== 0) return '#d0d4d7d7';
-    return '';
-  }
-
-  // getTooltip(element: payRollData): string {
-  //   if (element.onFinalRoster === 'Auction Draft Budget') {
-  //     if (element.nextSeasonSalary[0] === 117) {
-  //       return element.tooltipContent && element.tooltipContent[0] ? element.tooltipContent[0] : '';
-  //     } else {
-  //       return element.tooltipContent && element.tooltipContent[1] ? element.tooltipContent[1] : '';
-  //     }
-  //   } else {
-  //     return '';
-  //   }
-  // }
   
-  getRookieTooltips(value: number): string {
-    let rookieTooltip;
-    switch (value) {
+  getRookieTooltip(value: number[]): { tooltip: string, style: string} {
+    if (this.selectedPayroll === 'two') return { tooltip: '', style: ''};
+    let tooltipContent = '';
+    let tooltipStyle = '';
+    switch (value[0]) {
       case 3:
-        rookieTooltip = 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן';
+        tooltipContent = 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן';
+        tooltipStyle = '3px dashed rgb(191, 136, 136)';
         break;
       case 5:
-        rookieTooltip = 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן';
+        tooltipContent = 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן';
+        tooltipStyle = '3px dashed rgb(191, 136, 136)';
         break;
       case 7:
-        rookieTooltip =
-          'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן (לצד החלטה אם להעניק הארכת חוזה, או לתת לצעיר להיכנס לדראפט האוקשן של 2027/28 על תקן RFA)';
+        tooltipContent =
+          'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן (לצד החלטה אם להעניק הארכת חוזה, או לתת לצעיר להיכנס לדראפט האוקשן של 2027/28 על תקן שחקן חופשי מוגבל)';
+          tooltipStyle = '3px dashed rgb(191, 136, 136)';
         break;
       default:
-        rookieTooltip = '';
+        break;
     }
-    return rookieTooltip;
-  }
+    return { tooltip: tooltipContent, style: tooltipStyle };
+  };
+
 
   ngOnDestroy(): void {
     this.selectPayrollService.setSelectedValue('');

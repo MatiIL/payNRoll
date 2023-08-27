@@ -13,26 +13,16 @@
       <td
         mat-cell
         *matCellDef="let element"
-        [ngStyle]="{
-          'background-color': getClass(
-            element.nextSeasonSalary,
-            element.tooltipContent
-          )
-        }"
+        [style]="getDisplayedNextSeasonSalary(element).style"
       >
         <span
-          *ngIf="getDisplayedNextSeasonSalary(element) !== 0" 
+        *ngIf="getDisplayedNextSeasonSalary(element).value !== 0" 
           matTooltip="{{ 
-            isString(getDisplayedNextSeasonSalary(element)) ? 
+            isString(getDisplayedNextSeasonSalary(element).value) ? 
             element.tooltipContent[1] : element.tooltipContent[0]
           }}"
         >
-          {{ getDisplayedNextSeasonSalary(element) }}
-        </span>
-        <span
-          *ngIf="getDisplayedNextSeasonSalary(element) === 0"
-        >
-          {{ getDisplayedNextSeasonSalary(element) }}
+          {{ getDisplayedNextSeasonSalary(element).value }}
         </span>
       </td>
     </ng-container>
@@ -42,19 +32,22 @@
       <td
         mat-cell
         *matCellDef="let element"
-        [ngStyle]="{ 'background-color': getClass(element.season26Salary) }"
-        [ngClass]="{ 'rookie-cell': element.season26Salary === 3 }"
-        [matTooltip]="getRookieTooltips(element.season26Salary)"
+        [style]="getDisplayedNextSeasonSalary(element).style"
+        [ngStyle]="{ border: getRookieTooltip(element.season27Salary).style}"
+        [matTooltip]="getRookieTooltip(element.season26Salary).tooltip"
       >
         <ng-container *ngIf="selectedPayroll === 'one'; else otherCases">
-          {{ showColumnsForValueOne(element) ? element.season26Salary?.[0] : element.season26Salary?.[1] }}
+          {{ showColumnsForValueOne(element) && element.season26Salary[0] !== 0 ? 
+            element.season26Salary?.[0] : '' }}
         </ng-container>
         <ng-template #otherCases>
           <ng-container *ngIf="selectedPayroll === 'two'; else thirdCase">
-            {{ showColumnsForValueTwo(element) ? element.season26Salary?.[0] : element.season26Salary?.[1] }}
+            {{ showColumnsForValueTwo(element) && element.season26Salary[0] !== 0 ? 
+              element.season26Salary?.[0] : '' }}
           </ng-container>
           <ng-template #thirdCase>
-            {{ showColumnsForValueThree(element) ? element.season26Salary?.[0] : element.season26Salary?.[1] }}
+            {{ showColumnsForValueThree(element) && element.season26Salary[0] !== 0 ? 
+              element.season26Salary?.[0] : '' }}
           </ng-template>
         </ng-template>
       </td>
@@ -65,30 +58,30 @@
       <td
         mat-cell
         *matCellDef="let element"
-        [ngStyle]="{ 'background-color': getClass(element.season27Salary) }"
-        [ngClass]="{ 'rookie-cell': element.season27Salary === 5 }"
-        [matTooltip]="getRookieTooltips(element.season27Salary)"
+        [style]="getDisplayedNextSeasonSalary(element).style"
+        [ngStyle]="{ border: getRookieTooltip(element.season27Salary).style}"
+        [matTooltip]="getRookieTooltip(element.season27Salary).tooltip"
       >
         <ng-container *ngIf="selectedPayroll === 'one'; else otherCases">
           {{
-            showColumnsForValueOne(element)
+            showColumnsForValueOne(element) && element.season27Salary[0] !== 0
               ? element.season27Salary[0]
-              : element.season27Salary[1]
+              : ''
           }}
         </ng-container>
         <ng-template #otherCases>
           <ng-container *ngIf="selectedPayroll === 'two'; else thirdCase">
             {{
-              showColumnsForValueTwo(element)
+              showColumnsForValueTwo(element) && element.season27Salary[0] !== 0
                 ? element.season27Salary[0]
-                : element.season27Salary[1]
+                : ''
             }}
           </ng-container>
           <ng-template #thirdCase>
             {{
-              showColumnsForValueThree(element)
+              showColumnsForValueThree(element) && element.season27Salary[0] !== 0
                 ? element.season27Salary[0]
-                : element.season27Salary[1]
+                : ''
             }}
           </ng-template>
         </ng-template>
@@ -100,28 +93,28 @@
       <td
         mat-cell
         *matCellDef="let element"
-        [ngStyle]="{ 'background-color': getClass(element.season28Salary) }"
-        [ngClass]="{ 'rookie-cell': element.season28Salary === 7 }"
-        [matTooltip]="getRookieTooltips(element.season28Salary)"
+        [style]="getDisplayedNextSeasonSalary(element).style"
+        [ngStyle]="{ border: getRookieTooltip(element.season28Salary).style}"
+        [matTooltip]="getRookieTooltip(element.season28Salary).tooltip"
       >
         <ng-container *ngIf="selectedPayroll === 'one'; else otherCases">
           {{
-            showColumnsForValueOne(element)
+            showColumnsForValueOne(element) && element.season28Salary[0] !== 0
               ? element.season28Salary[0]
-              : element.season28Salary[1]
+              : ''
           }}
         </ng-container>
         <ng-template #otherCases>
           <ng-container *ngIf="selectedPayroll === 'two'; else thirdCase">
             {{
-              showColumnsForValueTwo(element)
+              showColumnsForValueTwo(element) && element.season28Salary[0] !== 0
                 ? element.season28Salary[0]
-                : element.season28Salary[1]
+                : ''
             }}
           </ng-container>
           <ng-template #thirdCase>
             {{
-              showColumnsForValueThree(element)
+              showColumnsForValueThree(element) && element.season28Salary[0] !== 0
                 ? element.season28Salary.length >= 2
                   ? element.season28Salary[1]
                   : ""

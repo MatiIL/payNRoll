@@ -110,7 +110,7 @@ export const TABLE_DATA: payRollData[] = [
         nextSeasonSalary: [1, "הועברה תמורת בחירה עתידית"],
         season26Salary: [3, 0],
         season27Salary: [5, 0],
-        season28Salary: [7, 0],
+        season28Salary: [7, 7],
         tooltipContent: ["בחירה 7 כנגד סיום עונה במקום הרביעי; פריסת חוזה חלופית - 4 מיליון פר עונה", ""]
     },
     {
