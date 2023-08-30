@@ -5,10 +5,10 @@ import {
   style,
   animate,
   keyframes,
-  AnimationEvent,
 } from '@angular/animations';
 import { UserService } from '../services/user-service/user.service';
 import { User } from '../../../../shared/user';
+import { CollapsedMenuService } from '../services/collapsed-menu-service';
 
 @Component({
   selector: 'app-homepage',
@@ -52,23 +52,31 @@ import { User } from '../../../../shared/user';
 })
 export class HomepageComponent implements OnInit {
   user: User | null = null;
-  h1AnimationState = '';
-  h2AnimationState = '';
-  listItem1Visible = false;
-  listItem2Visible = false;
-  listItem3Visible = false;
-  containerVisible = false;
+  h1AnimationState: string = '';
+  listItem1Visible: boolean = false;
+  listItem2Visible: boolean = false;
+  listItem3Visible: boolean = false;
+  containerVisible: boolean = false;
+  isMenuCollapsed: boolean = true;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private collapsedMenuService: CollapsedMenuService
+    ) {}
 
   ngOnInit(): void {
     this.userService.userData$.subscribe((userData) => {
       this.user = userData;
-      this.startBump();
+    });
+
+    this.animateNextElements();
+
+    this.collapsedMenuService.getIsMenuCollapsed().subscribe(value => {
+      this.isMenuCollapsed = value;
     });
   }
 
-  startBump() {
+  animateNextElements() {
     this.h1AnimationState = 'bounce';
 
     setTimeout(() => {
@@ -77,14 +85,15 @@ export class HomepageComponent implements OnInit {
 
     setTimeout(() => {
       this.listItem2Visible = true;
-    }, 2000);
+    }, 2200);
 
     setTimeout(() => {
       this.listItem3Visible = true;
-    }, 2500);
+    }, 2900);
 
     setTimeout(() => {
       this.containerVisible = true;
-    }, 3500);
+    }, 3600);
   }
+
 }

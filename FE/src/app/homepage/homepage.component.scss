@@ -1,3 +1,4 @@
+
 p {
     text-justify:newspaper;
 }
@@ -6,6 +7,63 @@ span {
     margin-left: 10px;
 }
 
+.frame {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    position: absolute;
+    top: 60%;   
+    left: 50%;  
+    width: 400px;
+    height: 400px;
+    margin-top: -200px;
+    margin-left: -200px;
+    border-radius: 2px;
+	  box-shadow: 4px 8px 16px 0 rgba(0,0,0,0.1);
+	  overflow: hidden;
+    background: transparent;
+    color: #333;
+	  font-family: 'Open Sans', Helvetica, sans-serif;
+	 -webkit-font-smoothing: antialiased;
+	 -moz-osx-font-smoothing: grayscale;
+}
+
+.circle {
+	position: absolute;
+	height: 40px;
+	width: 40px;
+	border-radius: 100%;
+	background: linear-gradient(45deg, #da7e38, #e58134, #de7728, #dd711e, #c65f10,);
+    transform-origin: center center;
+	animation: spin_ball 2s ease-in-out;
+}
+
+.dollar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 20px; 
+    color:gold;
+}
+  
+@for $i from 0 through 5 {
+    .circle-#{$i} {
+      transform: rotateY((60 * $i)deg); // Rotate around the Y-axis
+      animation: spin_ball_#{$i} 3s ease-in-out infinite;
+    }
+  
+    @keyframes spin_ball_#{$i} {
+      from {
+        transform: rotateY((60 * $i)deg);
+      }
+  
+      to {
+        transform: rotateY((60 * $i) + 360deg);
+      }
+    }
+  }
+
 @media only screen and (max-width: 600px) {
     h1 {
         margin-right: 10px;
@@ -13,5 +71,12 @@ span {
     ul {
         flex-direction: column;
         align-items: center;
+    }
+    .container-sm {
+      margin-right: 30px;
+    }
+    .frame {
+      position: calc(50vh - 200px);
+      left: 48vw; 
     }
   }

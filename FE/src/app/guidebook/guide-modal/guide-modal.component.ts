@@ -8,7 +8,7 @@ import { GuideAccordionComponent } from '../guide-accordion/guide-accordion.comp
   selector: 'app-guide-modal',
   standalone: true,
 	templateUrl: './guide-modal.component.html',
-  styleUrls: ['./guide-modal.component.scss']
+  styleUrls: ['./guide-modal.component.scss'],
 })
 
 export class GuideModalComponent implements OnInit {

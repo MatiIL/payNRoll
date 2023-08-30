@@ -11,6 +11,7 @@ import { AuthService } from '../auth/auth.service';
 import { SelectPayrollService } from '../services/select-payroll-service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-table',
@@ -23,6 +24,14 @@ import { takeUntil } from 'rxjs/internal/operators/takeUntil';
     CommonModule,
     MatTooltipModule,
     OverlayMsgComponent,
+  ],
+  animations: [
+    trigger('slideIn', [
+      transition(':enter', [
+        style({ transform: 'translateX(-100%)' }),
+        animate('500ms ease', style({ transform: 'translateX(0)' })),
+      ]),
+    ]),
   ],
 })
 

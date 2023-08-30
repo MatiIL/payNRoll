@@ -1,6 +1,12 @@
 <div (click)="handleTableClick()">
   <app-overlay-msg *ngIf="user" [showOverlay]="showOverlay"></app-overlay-msg>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" dir="ltr">
+  <table 
+  mat-table 
+  [dataSource]="dataSource" 
+  class="mat-elevation-z8" 
+  dir="ltr"
+  [@slideIn]
+  >
     <ng-container matColumnDef="onFinalRoster">
       <th mat-header-cell *matHeaderCellDef>
         סגל סוף עונה (23/24), בחירות ותקציב

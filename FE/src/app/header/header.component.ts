@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { RouterLink, Router, NavigationEnd } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModalComponent } from '../auth/auth-modal/auth-modal.component';
 import { UserService } from '../services/user-service/user.service';
 import { User } from '../../../../shared/user';
 import { AuthService } from '../auth/auth.service';
 import { SelectPayrollService } from '../services/select-payroll-service';
+import { CollapsedMenuService } from '../services/collapsed-menu-service';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,7 @@ import { SelectPayrollService } from '../services/select-payroll-service';
   styleUrls: ['./header.component.scss'],
 })
 
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isMenuCollapsed = true;
   user: User | null = null;
   selectedValue: string = '';
@@ -27,9 +28,9 @@ export class HeaderComponent {
     private userService: UserService,
     private authService: AuthService,
     private router: Router,
-    private selectPayrollService: SelectPayrollService
-  ) {
-  }
+    private selectPayrollService: SelectPayrollService,
+    private collapsedMenuService: CollapsedMenuService
+  ) {}
 
   ngOnInit(): void {
     this.userService.userData$.subscribe((userData) => {
@@ -39,6 +40,11 @@ export class HeaderComponent {
     this.selectPayrollService.getSelectedValue().subscribe(value => {
       this.selectedValue = value;
     });
+  }
+
+  toggleMenu() {
+    this.isMenuCollapsed = !this.isMenuCollapsed;
+    this.collapsedMenuService.setIsMenuCollapsed(this.isMenuCollapsed);
   }
 
   handleSelectChange(event: any) {

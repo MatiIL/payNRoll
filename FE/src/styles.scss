@@ -1,4 +1,11 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow-x: hidden; }
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    color: gold;
+    
+    overflow-x: hidden;
+    background: url(./assets/background-img.jpg) no-repeat center center fixed; 
+ }
