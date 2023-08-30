@@ -1,10 +1,16 @@
-<h1 class="text-center mt-3">payNroll</h1>
-<h2 class="d-flex justify-content-center mt-4">
-    <span>לנהל הרכבים.</span>
-    <span>לנהל פיי רול.</span>
-    <span>לבנות שושלת.</span>
+<h1 
+class="text-center mt-3" 
+[@slideInFromRight]="h1AnimationState" 
+(@slideInFromRight.done)="startBump()"
+>payNroll</h1>
+<h2 class="text-center mt-4">
+    <ul class="d-flex justify-content-center list-unstyled ms-3">
+        <li *ngIf="listItem1Visible" [@fadeInListItems]>לנהל הרכבים.</li>
+        <li *ngIf="listItem2Visible" [@fadeInListItems]> &nbsp;לנהל פיי רול. </li>
+        <li *ngIf="listItem3Visible" [@fadeInListItems]> &nbsp; לבנות שושלת.</li>
+    </ul>
 </h2>
-<div class="container-md">
+<div class="container-md" *ngIf="containerVisible" [@fadeInContainer]>
     <ng-container *ngIf="user; else noLoggedUser">
         ברוך הבא, {{ ' ' + user.firstName }}! באמצעות החשבון שלך כאן, תוכל לקבל תמונת מצב עדכנית של קבוצתך (ושל שאר הקבוצות בליגה) בכל הנוגע למחירי הרכישה של שחקנים בסגל הנוכחי, מצב הפיי רול העתידי, תקציב מעודכן לדראפט האוקשן הבא ובחירה/בחירות דראפט רוקיז (מיקום מוערך או מוגרל בפועל, חוב בחירות או בחירות אקסטרה). העדכונים יגיעו החל מסיום דראפט האוקשן הקרוב והלאה. בנוסף, בכל טרום-עונה החל מזו שלקראת עונה 2 בליגה, תוכל להשתמש בממשק אינטראקטיבי להרכבת ושליחת הרכב הקיפרים שלך לעונה הקרובה.
     </ng-container>
