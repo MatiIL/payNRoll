@@ -28,11 +28,12 @@ import { trigger, transition, style, animate } from '@angular/animations';
   animations: [
     trigger('slideIn', [
       transition(':enter', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('500ms ease', style({ transform: 'translateX(0)' })),
+        style({ transform: 'translateY(-100%)' }),
+        animate('500ms ease', style({ transform: 'translateY(0)' })),
       ]),
     ]),
   ],
+  
 })
 
 export class TableComponent implements OnInit, OnDestroy  {

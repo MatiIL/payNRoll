@@ -1,3 +1,4 @@
+<div class="d-flex flex-column justify-content-between">
 <h1 
 class="text-center mt-4" 
 [@slideInFromRight]="h1AnimationState" 
@@ -14,7 +15,7 @@ class="text-center mt-4"
     <ng-container *ngIf="user; else noLoggedUser">
         ברוך הבא, {{ ' ' + user.firstName }}! באמצעות החשבון שלך כאן, תוכל לקבל תמונת מצב עדכנית של קבוצתך (ושל שאר הקבוצות בליגה) בכל הנוגע למחירי הרכישה של שחקנים בסגל הנוכחי, מצב הפיי רול העתידי, תקציב מעודכן לדראפט האוקשן הבא ובחירה/בחירות דראפט רוקיז (מיקום מוערך או מוגרל בפועל, חוב בחירות או בחירות אקסטרה). העדכונים יגיעו החל מסיום דראפט האוקשן הקרוב והלאה. בנוסף, בכל טרום-עונה החל מזו שלקראת עונה 2 בליגה, תוכל להשתמש בממשק אינטראקטיבי להרכבת ושליחת הרכב הקיפרים שלך לעונה הקרובה.
     </ng-container>
-<div class="mt-3"> 
+
 </div>
 
 <div *ngIf="isMenuCollapsed" class="frame">
@@ -22,6 +23,7 @@ class="text-center mt-4"
       <div class="dollar">$</div>
     </div>
   </div>
+</div>
 
 <footer class="text-center mt-5 fixed-bottom">
     <small>
