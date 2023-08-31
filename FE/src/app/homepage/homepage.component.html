@@ -1,6 +1,6 @@
 <div class="d-flex flex-column">
 <h1 
-class="text-center mt-2" 
+class="text-center mt-3" 
 [@slideInFromRight]="h1AnimationState" 
 (@slideInFromRight.done)="animateNextElements()"
 >payNroll</h1>
@@ -18,7 +18,7 @@ class="text-center mt-2"
 
 </div>
 
-<div *ngIf="isMenuCollapsed" class="frame">
+<div *ngIf="isMenuCollapsed" class="frame mt-1">
     <div *ngFor="let i of [0, 1, 2, 3, 4, 5]; let index = index" class="circle circle-{{index}}">
       <div class="dollar">$</div>
     </div>
