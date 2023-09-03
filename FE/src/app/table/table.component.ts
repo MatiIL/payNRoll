@@ -198,6 +198,10 @@ export class TableComponent implements OnInit, OnDestroy  {
           'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן (לצד החלטה אם להעניק הארכת חוזה, או לתת לצעיר להיכנס לדראפט האוקשן של 2027/28 על תקן שחקן חופשי מוגבל)';
           tooltipStyle = '3px dashed rgb(191, 136, 136)';
         break;
+      case 12:
+        tooltipContent = this.selectedPayroll === 'one' ? '' : 'אופציונלית - החלטה על מימוש לקראת דראפט האוקשן';
+        tooltipStyle = this.selectedPayroll === 'one' ? '' : '3px dashed rgb(191, 136, 136)';
+        break;
       default:
         break;
     }

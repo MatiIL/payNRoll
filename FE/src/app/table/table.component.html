@@ -39,7 +39,7 @@
         mat-cell
         *matCellDef="let element"
         [style]="getDisplayedNextSeasonSalary(element).style"
-        [ngStyle]="{ border: getRookieTooltip(element.season27Salary).style}"
+        [ngStyle]="{ border: getRookieTooltip(element.season26Salary).style}"
         [matTooltip]="getRookieTooltip(element.season26Salary).tooltip"
       >
         <ng-container *ngIf="selectedPayroll === 'one'; else otherCases">
