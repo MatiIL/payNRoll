@@ -151,7 +151,7 @@ export class TableComponent implements OnInit, OnDestroy  {
       item.onFinalRoster?.includes('Harris') ||
       item.onFinalRoster?.includes('Hendricks') ||
       item.onFinalRoster?.includes('Edwards') ||
-      item.onFinalRoster?.includes('McCollum') ||
+      item.onFinalRoster?.includes('Gordon') ||
       item.onFinalRoster?.includes('Ingram')
     );
   }

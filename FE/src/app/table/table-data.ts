@@ -91,11 +91,11 @@ export const TABLE_DATA: payRollData[] = [
     },
     {
         onFinalRoster: "Aaron Gordon 2$",
-        nextSeasonSalary: [0, 0],
+        nextSeasonSalary: [2, 0],
         season26Salary: [0, 0],
         season27Salary: [0, 0],
         season28Salary: [0, 0],
-        tooltipContent: ["", ""]
+        tooltipContent: ["חוזה וטרן זול (10+ עונות בליגה, עלות של 1$ עד 9$)", ""]
     },
     {
         onFinalRoster: "Taylor Hendricks (Undrafted Rookie) 1$",
@@ -123,7 +123,7 @@ export const TABLE_DATA: payRollData[] = [
     },
     {
         onFinalRoster: "Auction Draft Budget",
-            nextSeasonSalary: [117, 100, 185],
+            nextSeasonSalary: [117, 100, 191],
             season26Salary: [0, 0, 0],
             season27Salary: [0, 0, 0],
             season28Salary: [0, 0, 0],
