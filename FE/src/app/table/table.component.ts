@@ -84,7 +84,7 @@ export class TableComponent implements OnInit, OnDestroy  {
     auctionBudget = [
       { amount: 117, tooltip: "Tooltip for payroll option one" },
       { amount: 100, tooltip: "Tooltip for payroll option two" },
-      { amount: 185, tooltip: "Tooltip for payroll option three" }
+      { amount: 191, tooltip: "Tooltip for payroll option three" }
     ];
     
     getDisplayedNextSeasonSalary(element: payRollData): { value: string | number; style: string } {
