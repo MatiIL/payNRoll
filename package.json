@@ -12,6 +12,7 @@
     "install:fe": "cd FE && npm install",
     "install:be": "cd BE && npm install"
   },
-  
-  "dependencies": {}
+  "dependencies": {
+    "cypress": "^13.1.0"
+  }
 }

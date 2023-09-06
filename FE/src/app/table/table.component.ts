@@ -130,7 +130,7 @@ export class TableComponent implements OnInit, OnDestroy  {
       item.onFinalRoster?.includes('Anunoby') ||
       item.onFinalRoster?.includes('McCollum') ||
       item.onFinalRoster?.includes('Edwards') ||
-      item.onFinalRoster?.includes('Ingram')
+      item.onFinalRoster?.includes('Wiggins')
     );
   }
 
@@ -141,7 +141,7 @@ export class TableComponent implements OnInit, OnDestroy  {
       item.onFinalRoster?.includes('Ayton') ||
       item.onFinalRoster?.includes('Okongwu') ||
       item.onFinalRoster?.includes('McCollum') ||
-      item.onFinalRoster?.includes('Ingram')
+      item.onFinalRoster?.includes('Wiggins')
     );
   }
 
@@ -152,7 +152,7 @@ export class TableComponent implements OnInit, OnDestroy  {
       item.onFinalRoster?.includes('Hendricks') ||
       item.onFinalRoster?.includes('Edwards') ||
       item.onFinalRoster?.includes('Gordon') ||
-      item.onFinalRoster?.includes('Ingram')
+      item.onFinalRoster?.includes('Wiggins')
     );
   }
 

@@ -114,12 +114,12 @@ export const TABLE_DATA: payRollData[] = [
         tooltipContent: ["בחירה 7 כנגד סיום עונה במקום הרביעי; פריסת חוזה חלופית - 4 מיליון פר עונה", ""]
     },
     {
-        onFinalRoster: "Brandon Ingram (Sellsword) 9$",
+        onFinalRoster: "Andrew Wiggins (Sellsword) 9$",
         nextSeasonSalary: [7, 0],
         season26Salary: [0, 0],
         season27Salary: [0, 0],
         season28Salary: [0, 0],
-        tooltipContent: ["לא זכאי לחוזה סטנדרטי ממי שהחזיק בו, הנחה של 2$ כנגד סיום עונה במקום רביעי", ""]
+        tooltipContent: ["לא קיבל חוזה וטרן זול ממי שהחזיק בו, הנחה של 2$ כנגד סיום עונה במקום רביעי", ""]
     },
     {
         onFinalRoster: "Auction Draft Budget",
