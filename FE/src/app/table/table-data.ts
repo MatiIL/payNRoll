@@ -43,7 +43,7 @@ export const TABLE_DATA: payRollData[] = [
     {
         onFinalRoster: "Deandre Ayton 19$",
         nextSeasonSalary: [19, 0],
-        season26Salary: [19, 0],
+        season26Salary: [0, 0],
         season27Salary: [0, 0],
         season28Salary: [0, 0],
         tooltipContent: ["חוזה סולידי שמחולק בינו ובין אוקונגוו (עלות משותפת שלא עולה על 29$)", ""]

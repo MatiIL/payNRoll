@@ -44,4 +44,17 @@ export class UserService {
       return { userId, firstName, teamName };
   }
 
+  async deleteUser(userId: string): Promise<boolean> {
+    try {
+      const user = await this.usersModel.findById(userId);
+      if (!user) return false;
+      await this.usersModel.deleteOne({ userId: userId });
+      return true;
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      return false;
+    }
+  }
+  
+
 }

@@ -8,7 +8,7 @@ export class CorsMiddleware implements NestMiddleware {
     const allowCredentials = !req.path.includes('/auth/signup');
     
     cors({
-      origin: ['https://pay-n-roll.vercel.app', 'https://pay-n-roll.vercel.app/home'], 
+      origin: ['https://pay-n-roll.vercel.app', 'https://pay-n-roll.vercel.app/home', 'http://localhost:4200'], 
       credentials: allowCredentials, 
     })(req, res, next);
   }

@@ -5,19 +5,42 @@ class="text-center mt-3"
 (@slideInFromRight.done)="animateNextElements()"
 >payNroll</h1>
 <h2 class="text-center mt-4">
-    <ul class="d-flex justify-content-center list-unstyled ms-3">
-        <li *ngIf="listItem1Visible" [@fadeInListItems]>לנהל הרכבים.</li>
-        <li *ngIf="listItem2Visible" [@fadeInListItems]> &nbsp;לנהל פיי רול. </li>
-        <li *ngIf="listItem3Visible" [@fadeInListItems]> &nbsp; לבנות שושלת.</li>
+    <ul data-cy="h2-list" class="d-flex justify-content-center list-unstyled ms-3">
+        <li 
+        *ngIf="listItem1Visible" 
+        [@fadeInListItems]
+        data-cy="first-li"
+        >לנהל הרכבים.
+    </li>
+        <li 
+        *ngIf="listItem2Visible" 
+        [@fadeInListItems]
+        data-cy="second-li"
+        > &nbsp;לנהל פיי רול. 
+    </li>
+        <li 
+        *ngIf="listItem3Visible" 
+        [@fadeInListItems]
+        data-cy="third-li"
+        > &nbsp; לבנות שושלת.</li>
     </ul>
 </h2>
 <div class="container-sm" *ngIf="containerVisible" [@fadeInContainer]>
-    <ng-container *ngIf="user; else noLoggedUser">
+    <ng-container *ngIf="user; else noLoggedUser" data-cy="welcome-message">
         ברוך הבא, {{ ' ' + user.firstName }}! באמצעות החשבון שלך כאן, תוכל לקבל תמונת מצב עדכנית של קבוצתך (ושל שאר הקבוצות בליגה) בכל הנוגע למחירי הרכישה של שחקנים בסגל הנוכחי, מצב הפיי רול העתידי, תקציב מעודכן לדראפט האוקשן הבא ובחירה/בחירות דראפט רוקיז (מיקום מוערך או מוגרל בפועל, חוב בחירות או בחירות אקסטרה). העדכונים יגיעו החל מסיום דראפט האוקשן הקרוב והלאה. בנוסף, בכל טרום-עונה החל מזו שלקראת עונה 2 בליגה, תוכל להשתמש בממשק אינטראקטיבי להרכבת ושליחת הרכב הקיפרים שלך לעונה הקרובה.
     </ng-container>
 
 </div>
 
+    <button 
+    *ngIf="buttonVisible"
+    [@fadeInButton]
+    type="button" 
+    class="mx-auto mt-4 btn btn-outline-warning"
+    routerLink="/keepers-form"
+    data-cy="goto-keepers-form"
+    >לבחירת קיפרים (סימולציה)</button>
+  
 <div *ngIf="isMenuCollapsed" class="frame mt-1">
     <div *ngFor="let i of [0, 1, 2, 3, 4, 5]; let index = index" class="circle circle-{{index}}">
       <div class="dollar">$</div>

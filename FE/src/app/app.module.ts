@@ -14,6 +14,8 @@ import { AuthFormComponent } from './auth/auth-form/auth-form.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TeamNameModule } from './auth/team-name/team-name.module';
+import { KeepersFormModule } from './keepers-form/keepers-form.module';
+import { UserService } from './services/user-service/user.service';
 
 @NgModule({
   declarations: [
@@ -41,8 +43,9 @@ import { TeamNameModule } from './auth/team-name/team-name.module';
     TeamNameModule,
     GraphQLModule,
     HttpClientModule,
+    KeepersFormModule,
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

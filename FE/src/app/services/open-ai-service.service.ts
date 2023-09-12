@@ -27,8 +27,6 @@ export class OpenAiService {
       frequency_penalty: 0,
       presence_penalty: 0,
     };
-
-    console.log(body)
   
     return this.http.post(this.apiUrl, body, { headers }).pipe(
       catchError((error) => {

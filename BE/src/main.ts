@@ -8,7 +8,7 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: ['https://pay-n-roll.vercel.app', 'https://pay-n-roll.vercel.app/home'],
+    origin: ['https://pay-n-roll.vercel.app', 'https://pay-n-roll.vercel.app/home', 'http://localhost:4200'],
     credentials: true,
   });
 

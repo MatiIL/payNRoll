@@ -9,6 +9,7 @@ import {
 import { UserService } from '../services/user-service/user.service';
 import { User } from '../../../../shared/user';
 import { CollapsedMenuService } from '../services/collapsed-menu-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -48,6 +49,12 @@ import { CollapsedMenuService } from '../services/collapsed-menu-service';
         animate('500ms ease', style({ opacity: 1 })),
       ]),
     ]),
+    trigger('fadeInButton', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms ease', style({ opacity: 1 })),
+      ]),
+    ]),
   ],
 })
 export class HomepageComponent implements OnInit {
@@ -57,11 +64,13 @@ export class HomepageComponent implements OnInit {
   listItem2Visible: boolean = false;
   listItem3Visible: boolean = false;
   containerVisible: boolean = false;
+  buttonVisible: boolean = false;
   isMenuCollapsed: boolean = true;
 
   constructor(
     private userService: UserService,
-    private collapsedMenuService: CollapsedMenuService
+    private collapsedMenuService: CollapsedMenuService,
+    private router: Router,
     ) {}
 
   ngOnInit(): void {
@@ -94,6 +103,10 @@ export class HomepageComponent implements OnInit {
     setTimeout(() => {
       this.containerVisible = true;
     }, 3600);
+
+    setTimeout(() => {
+      this.buttonVisible = true;
+    }, 4300);
   }
 
 }

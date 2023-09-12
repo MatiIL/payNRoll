@@ -10,9 +10,13 @@
     "build": "cd BE && yarn install && yarn run nest build",
     "start:fe": "cd FE && ng serve",
     "install:fe": "cd FE && npm install",
-    "install:be": "cd BE && npm install"
+    "install:be": "cd BE && npm install",
+    "e2e": "npx cypress open"
   },
   "dependencies": {
     "cypress": "^13.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
   }
 }

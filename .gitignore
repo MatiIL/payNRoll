@@ -1,13 +1,13 @@
 node_modules
 
 # Cypress generated files and directories
-cypress/videos/
-cypress/screenshots/
-cypress/reports/
+cypress/downloads/
+cypress/support/
 cypress/fixtures/
+cypress/e2e
 
 # Configuration file
-/cypress.json
+/cypress.config.js
 
 # Any logs or artifacts you generate
 *.log

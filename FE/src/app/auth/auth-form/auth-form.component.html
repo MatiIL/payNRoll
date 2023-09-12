@@ -2,8 +2,8 @@
   <div class="form-container d-flex flex-column">
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)">
       <div class="w-75">
-        <mat-form-field>
-          <mat-label> כתובת מייל</mat-label>
+        <mat-form-field data-cy="new-email">
+          <mat-label data-cy="new-email"> כתובת מייל</mat-label>
           <input
             matInput
             autocomplete="email"
@@ -17,8 +17,8 @@
         </mat-form-field>
       </div>
       <div class="d-flex w-75">
-        <mat-form-field>
-          <mat-label>סיסמה</mat-label>
+        <mat-form-field data-cy="new-password">
+          <mat-label data-cy="new-password">סיסמה</mat-label>
           <input
             type="password"
             autocomplete="new-password"
@@ -27,26 +27,28 @@
             formControlName="password"
             required
             minlength="6"
-            matInput [type]="hide ? 'password' : 'text'"
+            matInput
+            [type]="hide ? 'password' : 'text'"
           />
           <mat-error *ngIf="signupForm.get('password')?.invalid">{{
             getErrorMessage(signupForm.get("password"))
           }}</mat-error>
         </mat-form-field>
-        <button 
-          mat-icon-button matSuffix 
+        <button
+          mat-icon-button
+          matSuffix
           class="class=h-50 align-self-center mb-3 me-3"
-          (click)="hide = !hide" 
-          [attr.aria-label]="'Hide password'" 
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
-          >
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
       </div>
 
       <div class="w-75">
-        <mat-form-field>
-          <mat-label>שם פרטי</mat-label>
+        <mat-form-field data-cy="first-name">
+          <mat-label data-cy="first-name">שם פרטי</mat-label>
           <input
             matInput
             placeholder="שם פרטי"
@@ -61,8 +63,8 @@
       </div>
 
       <div class="w-75">
-        <mat-form-field>
-          <mat-label>שם משפחה</mat-label>
+        <mat-form-field data-cy="last-name">
+          <mat-label data-cy="last-name">שם משפחה</mat-label>
           <input
             matInput
             placeholder="שם משפחה"
@@ -76,25 +78,29 @@
         </mat-form-field>
       </div>
       <div>
-      
-        <mat-form-field>
-          <mat-label>קוד הרשמה</mat-label>
+        <mat-form-field data-cy="signup-code">
+          <mat-label data-cy="signup-code">קוד הרשמה</mat-label>
           <input
             matInput
             required
             placeholder="הכנס קוד הרשמה שקיבלת מהקומישינר"
             formControlName="signupCode"
           />
-          <mat-error *ngIf="signupForm.get('signupCode')?.hasError('invalidSignupCode') && signupForm.get('signupCode')?.touched">
+          <mat-error
+            *ngIf="
+              signupForm.get('signupCode')?.hasError('invalidSignupCode') &&
+              signupForm.get('signupCode')?.touched
+            "
+          >
             קוד הרשמה אינו תקין
           </mat-error>
         </mat-form-field>
       </div>
-      
+
       <div id="team-name" class="d-flex justify-content-between">
         <div>
-          <mat-form-field>
-            <mat-label>שם קבוצה</mat-label>
+          <mat-form-field data-cy="team-name">
+            <mat-label data-cy="team-name">שם קבוצה</mat-label>
             <input
               matInput
               placeholder="אפשר להוסיף מאוחר יותר"
@@ -103,23 +109,25 @@
             />
           </mat-form-field>
         </div>
-        
+
         <div>
-          <button 
-          [disabled]="signupForm.get('signupCode')?.invalid"
-          class="btn btn-sm btn-outline-dark mt-3" 
-          (click)="openTeamNameModal($event)"
+          <button
+            [disabled]="signupForm.get('signupCode')?.invalid"
+            class="btn btn-sm btn-outline-dark mt-3"
+            (click)="openTeamNameModal($event)"
           >
             מצא לי שם קבוצה!
           </button>
         </div>
       </div>
-      <button 
-      type="submit" 
-      [disabled]="!signupForm.valid || signupForm.get('signupCode')?.invalid" 
-      class="btn btn-outline-dark mt-4"
-      >הרשמה</button>
-      <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2"/>
+      <button
+        type="submit"
+        [disabled]="!signupForm.valid || signupForm.get('signupCode')?.invalid"
+        class="btn btn-outline-dark mt-4"
+      >
+        הרשמה
+      </button>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2" />
     </form>
   </div>
 </div>
@@ -128,8 +136,8 @@
   <div class="form-container d-flex flex-column justify-content-between">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
       <div>
-        <mat-form-field>
-          <mat-label> כתובת מייל</mat-label>
+        <mat-form-field data-cy="email-field">
+          <mat-label data-cy="email-label"> כתובת מייל</mat-label>
           <input
             matInput
             autocomplete="username"
@@ -138,13 +146,13 @@
             required
           />
           <mat-error *ngIf="loginForm.get('email')?.invalid">{{
-            getErrorMessage(loginForm.get('email'))
+            getErrorMessage(loginForm.get("email"))
           }}</mat-error>
         </mat-form-field>
       </div>
       <div class="d-flex w-75">
-        <mat-form-field>
-          <mat-label>סיסמה</mat-label>
+        <mat-form-field data-cy="password-field">
+          <mat-label data-cy="password-label">סיסמה</mat-label>
           <input
             type="password"
             autocomplete="current-password"
@@ -152,24 +160,26 @@
             placeholder="הסיסמה שלך כאן"
             formControlName="password"
             required
-            matInput [type]="hide ? 'password' : 'text'"
+            matInput
+            [type]="hide ? 'password' : 'text'"
           />
           <mat-error *ngIf="loginForm.get('password')?.invalid">{{
-            getErrorMessage(loginForm.get('password'))
+            getErrorMessage(loginForm.get("password"))
           }}</mat-error>
         </mat-form-field>
-        <button 
-          mat-icon-button matSuffix 
+        <button
+          mat-icon-button
+          matSuffix
           class="class=h-50 align-self-center mb-3 me-3"
-          (click)="hide = !hide" 
-          [attr.aria-label]="'Hide password'" 
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
-          >
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
       </div>
       <button type="submit" class="btn btn-outline-dark mt-4">התחברות</button>
-      <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2"/>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2" />
     </form>
   </div>
 </ng-template>

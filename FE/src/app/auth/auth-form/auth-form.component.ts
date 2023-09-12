@@ -106,7 +106,7 @@ export class AuthFormComponent {
     if (control?.hasError('required')) return 'שדה חובה';
     if (control?.hasError('email')) return 'נא להכניס כתובת מייל תקינה';
     if (control?.hasError('minlength'))
-      return 'הסיסמה צריכה להכיל לפחות 6 תווים';
+      return 'סיסמה קצרה מדי!';
     if (control?.hasError('signupCode')) return 'קוד הרשמה אינו תקין';
     return '';
   }
