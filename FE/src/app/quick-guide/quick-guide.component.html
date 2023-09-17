@@ -1,0 +1,31 @@
+<div class="wrapper d-flex flex-column align-items-center">
+  <h1 class="mt-3">מדריך שלב-אחר-שלב לחוקי ונהלי הליגה</h1>
+  <p class="mt-3 fs-6 text-center w-75">המדריך הבא נועד לתמצת ולהנגיש את חוקי הליגה באופן הפשוט ביותר. פירוט מלא ניתן למצוא בדף חוקת הליגה. המדריך מחולק באופן שמבדיל בין עונת הפתיחה של הליגה, שהיא הבסיסית והפשוטה ביותר ליחס לעונות הבאות, וגם בין שלב הטרום-עונה שבו בוחרים קיפרים במגוון דרכים (דראפט הרוקיז, הכרזה על החתמות, שוק שכירי החרב) ובין השלב שבו העונה מתקיימת בפועל דרך הפלטפורמה של יאהו, עם מספר הגבלות - וגם אפשרויות - שנאכפות חיצונית לפלטפורמה (למשל, את מי מותר לשחרר ואת מי לא).</p>
+    <cdk-accordion class="example-accordion w-100">
+        <cdk-accordion-item
+          *ngFor="let item of items; let index = index;"
+          #accordionItem="cdkAccordionItem"
+          class="example-accordion-item"
+          role="button"
+          tabindex="0"
+          [attr.id]="'accordion-header-' + index"
+          [attr.aria-expanded]="accordionItem.expanded"
+          [attr.aria-controls]="'accordion-body-' + index">
+          <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
+            {{ item.title }}
+            <span class="example-accordion-item-description">
+                  קליק {{ accordionItem.expanded ? 'לסגירה' : 'לפתיחה' }}
+            </span>
+          </div>
+          <div
+            class="example-accordion-item-body fs-6 lh-base w-75 me-5"
+            role="region"
+            [style.display]="accordionItem.expanded ? '' : 'none'"
+            [attr.id]="'accordion-body-' + index"
+            [attr.aria-labelledby]="'accordion-header-' + index"
+            >
+            {{ item.content }}
+          </div>
+        </cdk-accordion-item>
+      </cdk-accordion>
+</div>

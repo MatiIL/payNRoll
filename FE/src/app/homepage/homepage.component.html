@@ -32,6 +32,14 @@ class="text-center mt-3"
 
 </div>
 
+<button 
+*ngIf="buttonVisible"
+[@fadeInButton]
+type="button" 
+class="mx-auto mt-4 btn btn-outline-warning"
+routerLink="/quick-guide"
+>איך משחקים - מדריך מזורז</button>
+
     <button 
     *ngIf="buttonVisible"
     [@fadeInButton]
