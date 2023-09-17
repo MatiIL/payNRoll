@@ -15,6 +15,7 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TeamNameModule } from './auth/team-name/team-name.module';
 import { KeepersFormModule } from './keepers-form/keepers-form.module';
+import { QuickGuideModule } from './quick-guide/quick-guide.module'
 import { UserService } from './services/user-service/user.service';
 
 @NgModule({
@@ -44,6 +45,7 @@ import { UserService } from './services/user-service/user.service';
     GraphQLModule,
     HttpClientModule,
     KeepersFormModule,
+    QuickGuideModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
