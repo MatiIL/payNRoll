@@ -1,17 +1,27 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+# Exclude build artifacts
+/dist/
+/tmp/
+/out-tsc/
+/bazel-out/
 
-# Node
-/node_modules
+# Exclude generated files during development/build
+/src/**/*.js
+/src/**/*.js.map
+/src/**/*.d.ts
+/src/**/*.metadata.json
+/e2e/*.js
+/e2e/*.js.map
+/e2e/*.d.ts
+
+# Exclude npm and Yarn related files
+/node_modules/
 npm-debug.log
 yarn-error.log
+yarn.lock
 
-# IDEs and editors
+# Exclude IDE and editor-specific files
 .idea/
 .project
 .classpath
@@ -26,20 +36,21 @@ yarn-error.log
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
 
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+# Angular CLI build artifacts
+.angular/cache/
+.history/
 
-# System files
+# Test and coverage reports
+/coverage/
+/testem.log
+
+# Typings (if not used in your project)
+/typings/
+
+# System-specific files
 .DS_Store
 Thumbs.db
 
-# Environment files
-src/environments/environment.ts
+# Environment files (if not needed in your repository)
+/src/environments/environment.ts
