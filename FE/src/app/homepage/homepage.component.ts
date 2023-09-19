@@ -7,7 +7,7 @@ import {
   keyframes,
 } from '@angular/animations';
 import { UserService } from '../services/user-service/user.service';
-import { User } from '../../../../shared/user';
+import { User } from '../schemas/user';
 import { CollapsedMenuService } from '../services/collapsed-menu-service';
 import { Router } from '@angular/router';
 

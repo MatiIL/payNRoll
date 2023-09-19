@@ -5,7 +5,7 @@ import { payRollData } from './table-data';
 import { TABLE_DATA } from './table-data';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { User } from '../../../../shared/user';
+import { User } from '../schemas/user';
 import { OverlayMsgComponent } from './overlay-message/overlay-msg.component';
 import { AuthService } from '../auth/auth.service';
 import { SelectPayrollService } from '../services/select-payroll-service';

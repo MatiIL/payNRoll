@@ -5,7 +5,7 @@ import { RouterLink, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModalComponent } from '../auth/auth-modal/auth-modal.component';
 import { UserService } from '../services/user-service/user.service';
-import { User } from '../../../../shared/user';
+import { User } from '../schemas/user';
 import { AuthService } from '../auth/auth.service';
 import { SelectPayrollService } from '../services/select-payroll-service';
 import { CollapsedMenuService } from '../services/collapsed-menu-service';

@@ -21,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AddNewUserGQL } from '../../../generated-types';
 import { AuthService } from '../auth.service';
 import { UserService } from 'src/app/services/user-service/user.service';
-import { User } from '../../../../../shared/user';
+import { User } from '../../schemas/user';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../team-name/name-modal/name-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
