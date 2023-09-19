@@ -18,8 +18,8 @@
 # Exclude npm and Yarn related files
 /node_modules/
 npm-debug.log
-yarn-error.log
-yarn.lock
+/yarn-error.log
+/yarn.lock
 
 # Exclude IDE and editor-specific files
 .idea/
