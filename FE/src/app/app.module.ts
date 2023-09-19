@@ -14,8 +14,10 @@ import { AuthFormComponent } from './auth/auth-form/auth-form.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TeamNameModule } from './auth/team-name/team-name.module';
-import { KeepersFormModule } from './keepers-form/keepers-form.module';
-import { QuickGuideModule } from './quick-guide/quick-guide.module'
+// import { KeepersFormModule } from './keepers-form/keepers-form.module';
+import { KeepersFormComponent } from './keepers-form/keepers.form.component';
+// import { QuickGuideModule } from './quick-guide/quick-guide.module';
+import { QuickGuideComponent } from './quick-guide/quick-guide.component';
 import { UserService } from './services/user-service/user.service';
 
 @NgModule({
@@ -44,8 +46,8 @@ import { UserService } from './services/user-service/user.service';
     TeamNameModule,
     GraphQLModule,
     HttpClientModule,
-    KeepersFormModule,
-    QuickGuideModule
+    KeepersFormComponent,
+    QuickGuideComponent
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
