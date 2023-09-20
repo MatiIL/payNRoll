@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TeamNameModule } from './auth/team-name/team-name.module';
 import { KeepersFormComponent } from './keepers-form/keepers.form.component';
 import { QuickGuideComponent } from './quick-guide/quick-guide.component';
+import { RewardsListComponent } from './rewards-list/rewards-list.component';
 import { UserService } from './services/user-service/user.service';
 
 @NgModule({
@@ -45,7 +46,8 @@ import { UserService } from './services/user-service/user.service';
     GraphQLModule,
     HttpClientModule,
     KeepersFormComponent,
-    QuickGuideComponent
+    QuickGuideComponent,
+    RewardsListComponent
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
