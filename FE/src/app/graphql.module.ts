@@ -2,10 +2,9 @@ import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { NgModule } from '@angular/core';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
-import { getServerUrl } from './utils';
 
-const uri = 'http://localhost:9000/graphql'; 
-// paynroll-server.onrender.com
+const uri = 'http://paynroll-server.onrender.com/graphql'; 
+
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {
     link: httpLink.create({ uri }),
