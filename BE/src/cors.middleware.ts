@@ -11,7 +11,6 @@ export class CorsMiddleware implements NestMiddleware {
       origin: [
         'https://pay-n-roll.vercel.app', 
         'https://pay-n-roll.vercel.app/home', 
-        'https://api.login.yahoo.com/oauth2/request_auth/.well-known/openid-configuration',
         'http://localhost:4200'], 
       credentials: allowCredentials, 
     })(req, res, next);
