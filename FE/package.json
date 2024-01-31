@@ -29,6 +29,7 @@
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@ng-bootstrap/ng-bootstrap": "^15.1.1",
     "@popperjs/core": "^2.11.8",
+    "angular-oauth2-oidc": "^17.0.1",
     "apollo-angular": "5.0.0",
     "dotenv": "^16.3.1",
     "graphql": "^16.7.1",

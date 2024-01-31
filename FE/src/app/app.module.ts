@@ -18,6 +18,7 @@ import { KeepersFormComponent } from './keepers-form/keepers.form.component';
 import { QuickGuideComponent } from './quick-guide/quick-guide.component';
 import { RewardsListComponent } from './rewards-list/rewards-list.component';
 import { UserService } from './services/user-service/user.service';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UserService } from './services/user-service/user.service';
     HomepageComponent,
   ],
   imports: [
+    OAuthModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
@@ -47,7 +49,7 @@ import { UserService } from './services/user-service/user.service';
     HttpClientModule,
     KeepersFormComponent,
     QuickGuideComponent,
-    RewardsListComponent
+    RewardsListComponent,
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

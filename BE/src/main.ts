@@ -1,7 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import * as cookieParser from 'cookie-parser'
+import * as cookieParser from 'cookie-parser';
+import * as session from 'express-session';
+import * as passport from 'passport';
+import * as uuid from 'uuid';
+
+const sessionSecretKey = uuid.v4();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +16,16 @@ async function bootstrap() {
     origin: ['https://pay-n-roll.vercel.app', 'https://pay-n-roll.vercel.app/home', 'http://localhost:4200'],
     credentials: true,
   });
+
+  app.use(
+    session({
+      secret: sessionSecretKey,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   const configService = app.get(ConfigService);
   const port = configService.get<string>('PORT');

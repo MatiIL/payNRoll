@@ -4,8 +4,8 @@ interface ImportMeta {
 
 interface ImportMetaEnv {
   readonly NG_APP_SIGNUP_CODE: string;
-  // Add your environment variables below
   readonly NG_APP_OPENAI_KEY: string;
-  // You can add more variables as needed
+  readonly YAHOO_CLIENT_ID: string;
+  readonly YAHOO_CLIENT_SECRET: string;
   [key: string]: any;
 }
