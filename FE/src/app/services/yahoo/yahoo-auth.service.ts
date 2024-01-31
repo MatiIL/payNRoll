@@ -11,7 +11,7 @@ export class YahooAuthService {
     console.log('Configuring OAuth...');
     
     const authConfig: AuthConfig = {
-      issuer: 'https://api.login.yahoo.com/oauth2/request_auth',
+      issuer: 'https://api.login.yahoo.com',
       clientId: environment.yahooClientId,
       redirectUri: 'https://pay-n-roll.vercel.app/home',
       responseType: 'token',
