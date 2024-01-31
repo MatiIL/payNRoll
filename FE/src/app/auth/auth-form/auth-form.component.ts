@@ -135,17 +135,11 @@ export class AuthFormComponent {
         this.loading = false;
         form.reset();
         this.authSuccess.emit();
-        this.authService.login(loginInput).subscribe((response) => {
-          const userProperties = response.body.user;
-          this.userService.updateUser(userProperties);
-          this.loading = false;
-          form.reset();
-          this.authSuccess.emit();
-          this.yahooAuthService.authenticate();
-          this.yahooAuthService.getAccessToken();
-        });
-        
+      
+        this.yahooAuthService.configureOAuth();
+        this.yahooAuthService.authenticate();
       });
+    
     } else {
       const signupInput = {
         email: form.get('email')?.value || '',
