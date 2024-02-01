@@ -7,15 +7,13 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
-import { YahooAuthService } from './yahoo/yahoo-auth.service';
-import { OAuthService } from './o-auth/oauth-service';
-import { YahooStrategy } from './strategies/yahoo.strategy';
-import { YahooAuthGuard } from './guards/yahoo-auth.guard';
+import { YahooModule } from 'src/yahoo-api/yahoo-api.module';
 
 @Module({
   imports: [
     PassportModule,
     UserModule,
+    YahooModule,
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
@@ -27,6 +25,6 @@ import { YahooAuthGuard } from './guards/yahoo-auth.guard';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy, YahooAuthService, OAuthService, YahooStrategy, YahooAuthGuard],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}

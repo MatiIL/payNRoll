@@ -5,16 +5,13 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './current-user.decorator';
 import JwtAuthGuard from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { YahooAuthGuard } from './guards/yahoo-auth.guard';
-import { YahooStrategy } from './strategies/yahoo.strategy';
-import { YahooAuthService } from './yahoo/yahoo-auth.service';
+import { YahooApiService } from '../yahoo-api/yahoo-api.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly yahooStrategy: YahooStrategy,
-    private readonly yahooAuthService: YahooAuthService,
+    private readonly yahooApiService: YahooApiService,
   ) {}
 
   @UseGuards(LocalAuthGuard)
@@ -33,17 +30,50 @@ export class AuthController {
     return true;
   }
 
-  @UseGuards(YahooAuthGuard)
-  @Get('yahoo')
-  yahooLogin(@Req() request: Request) {
-    const accessToken = request.query['access_token'] as string;
-    this.yahooAuthService.validate(accessToken);
+  @UseGuards(JwtAuthGuard)
+  @Get('yahoo-authenticate')
+  async yahooAuthenticate(@Req() req: Request, @Res() res: Response) {
+    try {
+      // Redirect the user to Yahoo for authentication
+      const yahooAuthUrl = await this.yahooApiService.getAuthorizationUrl(
+        'https://pay-n-roll.vercel.app/home', // Replace with your actual callback URL
+      );
+      res.redirect(yahooAuthUrl);
+    } catch (error) {
+      throw new Error('Internal Server Error');
+    }
   }
 
-  @UseGuards(YahooAuthGuard)
-  @Get('yahoo/callback')
-  async yahooAuthCallback(@CurrentUser() user: User, @Res() response: Response) {
-    await this.authService.login(user, response); // Assuming your login method handles Yahoo authentication
-    response.redirect('/'); // Redirect to your app's home page or wherever you need
+  @UseGuards(JwtAuthGuard)
+  @Get('yahoo-callback')
+  async yahooCallback(@Req() req: Request, @Res() res: Response) {
+    try {
+      // Extract Yahoo OAuth parameters from the request
+      const oauthToken = req.query.oauth_token as string;
+      const oauthVerifier = req.query.oauth_verifier as string;
+
+      // Exchange the authorization code for Yahoo access tokens
+      const yahooTokens = await this.yahooApiService.exchangeAuthorizationCode(
+        oauthVerifier,
+        'https://pay-n-roll.vercel.app/home', // Replace with your actual callback URL
+      );
+
+      // Now you can use Yahoo access tokens (yahooTokens) as needed
+
+      // Optionally, you can associate Yahoo tokens with the current user
+      const currentUser = req.user as User;
+      // Save yahooTokens to the user's profile or database record
+
+      // Redirect or respond as needed
+      res.redirect('https://pay-n-roll.vercel.app/home');
+    } catch (error) {
+      throw new Error('Internal Server Error');
+    }
+  }
+
+  @Post('logout')
+  logout(@Res({ passthrough: true }) response: Response) {
+    this.authService.logout(response);
+    response.json({});
   }
 }
