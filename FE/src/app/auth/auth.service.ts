@@ -22,27 +22,14 @@ export class AuthService {
 
     login(loginRequest: LoginInput): Observable<any> {
       const url = `${this.apiUrl}/login`;
-      return this.httpClient.post<User>(url, loginRequest, { observe: 'response' }).pipe(
-        tap((response) => {
-          const accessToken = response.headers.get('Authorization');
-          if (accessToken) {
-            // Store the access token in a secure way (e.g., local storage, state management)
-            // You may also need to handle token expiration and refreshing
-            localStorage.setItem('access_token', accessToken);
-          }
-        })
-      );
+      return this.httpClient.post<User>(url, loginRequest, { observe: 'response' })
     }
   
     yahooAuthenticate(): Observable<any> {
-      const url = `${this.apiUrl}/yahoo-authenticate`;
+      const url = `https://api.login.yahoo.com/oauth2/request_auth`;
   
-      // Include the access token in the headers
-      const headers = new HttpHeaders({
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      });
   
-      return this.httpClient.get(url, { headers, observe: 'response' });
+      return this.httpClient.get(url, { observe: 'response' });
     }
 
   logout() {
