@@ -8,7 +8,6 @@ import { TeamsModule } from './teams/teams.module';
 import { UserModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CorsMiddleware } from './cors.middleware'; 
-import { YahooModule } from './yahoo-api/yahoo-api.module';
 
 @Module({
   imports: [
@@ -29,7 +28,6 @@ import { YahooModule } from './yahoo-api/yahoo-api.module';
     TeamsModule,
     UserModule,
     AuthModule,
-    YahooModule,
   ],
 })
 export class AppModule implements NestModule {

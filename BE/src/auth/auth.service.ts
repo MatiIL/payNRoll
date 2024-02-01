@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { User } from '../users/schemas/users.schema';
-import { YahooApiService } from '../yahoo-api/yahoo-api.service';
+import { YahooApiService } from 'src/yahoo-api/yahoo-api.service';
 
 export interface TokenPayload {
   userId: string;
@@ -35,13 +35,11 @@ export class AuthService {
     });
   }
 
-  async yahooLogin(user: User, res: Response) {
-    try {
-      // Redirect the user to Yahoo for authentication
-      this.yahooApiService.authenticate(res);
-    } catch (error) {
-      throw new Error('Internal Server Error');
-    }
+  async logout(response: Response) {
+    response.cookie('Authentication', '', {
+      httpOnly: true,
+      expires: new Date(),
+    });
   }
 
   async yahooCallback(
@@ -54,13 +52,16 @@ export class AuthService {
       // Exchange the authorization code for Yahoo access tokens
       const yahooTokens = await this.yahooApiService.exchangeAuthorizationCode(
         oauthVerifier,
-        'https://pay-n-roll.vercel.app/home', // Replace with your actual callback URL
+        'https://pay-n-roll.vercel.app/home',
       );
 
-      // Now you can use Yahoo access tokens (yahooTokens) as needed
+      // Fetch additional data from Yahoo Fantasy API
+      const games = await this.yahooApiService.fetchYahooGameData(yahooTokens.accessToken);
 
-      // Optionally, you can associate Yahoo tokens with the current user
-      // Save yahooTokens to the user's profile or database record
+      // Now you can use the 'games' data as needed
+
+      // Optionally, you can associate Yahoo tokens and data with the current user
+      // Save yahooTokens and games to the user's profile or database record
 
       // Redirect or respond as needed
       response.redirect('https://pay-n-roll.vercel.app/home');
@@ -69,10 +70,5 @@ export class AuthService {
     }
   }
 
-  async logout(response: Response) {
-    response.cookie('Authentication', '', {
-      httpOnly: true,
-      expires: new Date(),
-    });
-  }
+  // ... (other methods)
 }

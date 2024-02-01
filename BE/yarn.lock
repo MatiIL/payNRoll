@@ -514,6 +514,11 @@
     "@babel/helper-validator-identifier" "^7.22.5"
     to-fast-properties "^2.0.0"
 
+"@badgateway/oauth2-client@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@badgateway/oauth2-client/-/oauth2-client-2.2.4.tgz#6401b1d71f06944a320cfacd4285acbb54788d9d"
+  integrity sha512-R9MJWnf9gT5a38hNmAN4CFBB9yshvEVNYPb9iPgX7JIUAaqHjl3csivDcJESH3riRJMFVOEOqV4BsjamyYbsBg==
+
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"

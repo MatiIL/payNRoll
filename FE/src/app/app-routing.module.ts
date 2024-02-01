@@ -14,7 +14,8 @@ const routes: Routes = [
   { path: 'table', component: TableComponent },
   { path: 'quick-guide', component: QuickGuideComponent },
   { path: 'keepers-form', component: KeepersFormComponent },
-  { path: 'rewards-list', component: RewardsListComponent }
+  { path: 'rewards-list', component: RewardsListComponent },
+  { path: '**', redirectTo: '/' },
 ];
 
 @NgModule({
