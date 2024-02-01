@@ -30,7 +30,7 @@ export class AuthController {
     return true;
   }
 
-  @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Get('yahoo-authenticate')
 async yahooAuthenticate(@Req() req: Request, @Res() res: Response) {
   try {

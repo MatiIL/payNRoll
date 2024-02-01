@@ -130,7 +130,9 @@ export class AuthFormComponent {
       this.authService.login(loginInput).subscribe((response) => {
         const userProperties = response.body.user;
         this.userService.updateUser(userProperties);
-        this.authService.yahooAuthenticate();
+        this.authService.yahooAuthenticate().subscribe((res) => {
+          console.log(res.body)
+        });
         this.loading = false;
         form.reset();
         this.authSuccess.emit();
