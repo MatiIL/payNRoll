@@ -1,4 +1,9 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { 
+  Module, 
+  NestModule, 
+  MiddlewareConsumer,
+ } from '@nestjs/common';
+ import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -8,6 +13,7 @@ import { TeamsModule } from './teams/teams.module';
 import { UserModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CorsMiddleware } from './cors.middleware'; 
+import { YahooModule } from './yahoo-api/yahoo-api.module';
 
 @Module({
   imports: [
@@ -25,9 +31,11 @@ import { CorsMiddleware } from './cors.middleware';
       autoSchemaFile: true,
     }),
     MongooseModule.forRoot(process.env.DB_URL),
+    HttpModule.register({}),
     TeamsModule,
     UserModule,
     AuthModule,
+    YahooModule,
   ],
 })
 export class AppModule implements NestModule {
