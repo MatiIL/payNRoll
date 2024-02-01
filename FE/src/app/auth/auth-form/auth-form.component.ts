@@ -26,7 +26,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../team-name/name-modal/name-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { GeneratedNamesService } from './gen-names.service';
-import { YahooAuthService } from '../../services/yahoo-service/yahoo-auth.service';
 
 
 @Component({
@@ -96,7 +95,6 @@ export class AuthFormComponent {
     private userService: UserService,
     private modalService: NgbModal,
     private genNamesService: GeneratedNamesService,
-    private yahooAuthService: YahooAuthService
   ) {}
 
   ngOnInit(): void {
@@ -132,12 +130,11 @@ export class AuthFormComponent {
       this.authService.login(loginInput).subscribe((response) => {
         const userProperties = response.body.user;
         this.userService.updateUser(userProperties);
+        this.authService.yahooAuthenticate();
         this.loading = false;
         form.reset();
         this.authSuccess.emit();
-      
-        this.yahooAuthService.configureOAuth();
-        this.yahooAuthService.authenticate();
+        
       });
     
     } else {

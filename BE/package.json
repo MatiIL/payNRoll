@@ -33,6 +33,7 @@
     "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@types/cookie-parser": "^1.4.3",
+    "@types/oauth": "^0.9.4",
     "@types/passport-jwt": "^3.0.9",
     "@types/passport-local": "^1.0.35",
     "@types/uuid": "^9.0.8",
@@ -53,7 +54,8 @@
     "passport-yahoo-oauth": "^0.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "yahoo-fantasy": "^5.2.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

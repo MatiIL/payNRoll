@@ -31,20 +31,16 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('yahoo-authenticate')
-  async yahooAuthenticate(@Req() req: Request, @Res() res: Response) {
-    try {
-      // Redirect the user to Yahoo for authentication
-      const yahooAuthUrl = await this.yahooApiService.getAuthorizationUrl(
-        'https://pay-n-roll.vercel.app/home', // Replace with your actual callback URL
-      );
-      res.redirect(yahooAuthUrl);
-    } catch (error) {
-      throw new Error('Internal Server Error');
-    }
+@Get('yahoo-authenticate')
+async yahooAuthenticate(@Req() req: Request, @Res() res: Response) {
+  try {
+    // Redirect the user to Yahoo for authentication
+    this.yahooApiService.authenticate(res);
+  } catch (error) {
+    throw new Error('Internal Server Error');
   }
+}
 
-  @UseGuards(JwtAuthGuard)
   @Get('yahoo-callback')
   async yahooCallback(@Req() req: Request, @Res() res: Response) {
     try {

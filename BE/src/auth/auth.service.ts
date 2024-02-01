@@ -35,13 +35,10 @@ export class AuthService {
     });
   }
 
-  async yahooLogin(user: User, response: Response) {
+  async yahooLogin(user: User, res: Response) {
     try {
       // Redirect the user to Yahoo for authentication
-      const yahooAuthUrl = await this.yahooApiService.getAuthorizationUrl(
-        'https://your-callback-url.com/yahoo-callback', // Replace with your actual callback URL
-      );
-      response.redirect(yahooAuthUrl);
+      this.yahooApiService.authenticate(res);
     } catch (error) {
       throw new Error('Internal Server Error');
     }
@@ -57,7 +54,7 @@ export class AuthService {
       // Exchange the authorization code for Yahoo access tokens
       const yahooTokens = await this.yahooApiService.exchangeAuthorizationCode(
         oauthVerifier,
-        'https://your-callback-url.com/yahoo-callback', // Replace with your actual callback URL
+        'https://pay-n-roll.vercel.app/home', // Replace with your actual callback URL
       );
 
       // Now you can use Yahoo access tokens (yahooTokens) as needed
@@ -66,7 +63,7 @@ export class AuthService {
       // Save yahooTokens to the user's profile or database record
 
       // Redirect or respond as needed
-      response.redirect('https://your-app-redirect-url.com');
+      response.redirect('https://pay-n-roll.vercel.app/home');
     } catch (error) {
       throw new Error('Internal Server Error');
     }

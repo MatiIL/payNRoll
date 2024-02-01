@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginInput, User } from '../../generated-types';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { YahooAuthService } from '../services/yahoo-service/yahoo-auth.service';
 import { getServerUrl } from '../utils';
 
 @Injectable({
@@ -15,7 +14,6 @@ export class AuthService {
 
   constructor(
     private readonly httpClient: HttpClient,
-    private readonly yahooAuthService: YahooAuthService,
     ) {}
 
     get isLoggedIn$(): Observable<boolean> {
@@ -24,11 +22,12 @@ export class AuthService {
 
   login(loginRequest: LoginInput): Observable<any> {
     const url = `${this.apiUrl}/login`; 
-    return this.httpClient.post<User>(url, loginRequest, { withCredentials: true, observe: 'response' }).pipe(
-      tap(() => {
-        this.yahooAuthService.authenticate();
-      })
-    );
+    return this.httpClient.post<User>(url, loginRequest, { observe: 'response' });
+  }
+
+  yahooAuthenticate(): Observable<any> {
+    const url = `${this.apiUrl}/yahoo-authenticate`;
+    return this.httpClient.get(url, { observe: 'response' });
   }
 
   logout() {
