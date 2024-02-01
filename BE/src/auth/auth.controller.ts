@@ -1,5 +1,5 @@
-import { Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Req, Get, Post, Res, UseGuards } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { User } from '../users/schemas/users.schema';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './current-user.decorator';
@@ -7,12 +7,14 @@ import JwtAuthGuard from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { YahooAuthGuard } from './guards/yahoo-auth.guard';
 import { YahooStrategy } from './strategies/yahoo.strategy';
+import { YahooAuthService } from './yahoo/yahoo-auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly yahooStrategy: YahooStrategy,
+    private readonly yahooAuthService: YahooAuthService,
   ) {}
 
   @UseGuards(LocalAuthGuard)
@@ -33,20 +35,15 @@ export class AuthController {
 
   @UseGuards(YahooAuthGuard)
   @Get('yahoo')
-  yahooLogin() {
-    // This endpoint will initiate the Yahoo OAuth flow
+  yahooLogin(@Req() request: Request) {
+    const accessToken = request.query['access_token'] as string;
+    this.yahooAuthService.validate(accessToken);
   }
 
   @UseGuards(YahooAuthGuard)
   @Get('yahoo/callback')
-  yahooAuthCallback(@Res() response: Response) {
-    // Handle the successful authentication callback
+  async yahooAuthCallback(@CurrentUser() user: User, @Res() response: Response) {
+    await this.authService.login(user, response); // Assuming your login method handles Yahoo authentication
     response.redirect('/'); // Redirect to your app's home page or wherever you need
-  }
-
-  @Post('logout')
-  logout(@Res({ passthrough: true }) response: Response) {
-    this.authService.logout(response);
-    response.json({});
   }
 }
