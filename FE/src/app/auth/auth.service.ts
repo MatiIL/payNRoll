@@ -26,7 +26,7 @@ export class AuthService {
     }
   
     yahooAuthenticate(): Observable<any> {
-      const url = `https://api.login.yahoo.com/oauth2/request_auth`;
+      const url = "https://api.login.yahoo.com/oauth/v2/get_request_token";
   
   
       return this.httpClient.get(url, { observe: 'response' });
