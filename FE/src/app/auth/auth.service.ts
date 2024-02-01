@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginInput, User } from '../../generated-types';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { YahooAuthService } from '../services/yahoo/yahoo-auth.service';
+import { YahooAuthService } from '../services/yahoo-service/yahoo-auth.service';
 import { getServerUrl } from '../utils';
 
 @Injectable({

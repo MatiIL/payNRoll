@@ -26,7 +26,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../team-name/name-modal/name-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { GeneratedNamesService } from './gen-names.service';
-import { YahooAuthService } from '../../services/yahoo/yahoo-auth.service';
+import { YahooAuthService } from '../../services/yahoo-service/yahoo-auth.service';
 
 
 @Component({
