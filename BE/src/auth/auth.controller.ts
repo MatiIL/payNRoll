@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { User } from '../users/schemas/users.schema';
 import { AuthService } from './auth.service';
@@ -40,4 +40,23 @@ export class AuthController {
   yahooAuth(@Res() res: Response) {
     this.yahooApiService.initiateAuthentication(res);
   }
+
+  @Get('yahoo/callback')
+  async yahooCallback(@Query('code') code: string, @Res() res: any) {
+    try {
+      const tokens = await this.yahooApiService.exchangeCodeForTokens(code);
+      console.log(tokens)
+
+      // Handle tokens as needed (store in database, set cookies, etc.)
+      // ...
+
+      // Redirect or respond as appropriate
+      res.redirect('/');
+    } catch (error) {
+      // Handle errors (redirect to an error page, log, etc.)
+      console.error('Error exchanging code for tokens:', error);
+      res.redirect('/error');
+    }
+  }
+
 }
