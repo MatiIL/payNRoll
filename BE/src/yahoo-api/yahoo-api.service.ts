@@ -11,14 +11,7 @@ export class YahooApiService {
     this.yf = new YahooFantasy(
       this.configService.get<string>('YAHOO_CLIENT_ID'),
       this.configService.get<string>('YAHOO_CLIENT_SECRET'),
-      this.tokenCallbackFunction, // Implement this function or remove it if not needed
-      'https://pay-n-roll.vercel.app/home/auth/yahoo/callback'
     );
-  }
-
-  // Implement this function or remove it if not needed
-  private tokenCallbackFunction(response: any) {
-    console.log(response)
   }
 
   auth(response: any): void {
