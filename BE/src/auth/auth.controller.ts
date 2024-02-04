@@ -38,6 +38,6 @@ export class AuthController {
 
   @Get('yahoo-auth')
   yahooAuth(@Res() res: Response) {
-    this.yahooApiService.auth(res);
+    this.yahooApiService.initiateAuthentication(res);
   }
 }
