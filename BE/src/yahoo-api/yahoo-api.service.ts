@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Res, HttpStatus } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Response } from 'express';
 const YahooFantasy = require('yahoo-fantasy');
 
 @Injectable()
@@ -11,10 +12,11 @@ export class YahooApiService {
     this.yf = new YahooFantasy(
       this.configService.get<string>('YAHOO_CLIENT_ID'),
       this.configService.get<string>('YAHOO_CLIENT_SECRET'),
+      'https://pay-n-roll.vercel.app/home/auth/yahoo/callback'
     );
   }
 
-  auth(response: any): void {
+  auth(@Res() response: Response): void {
     // Check if the response is already sent before redirecting
     if (!response.headersSent) {
       this.yf.auth(response);
