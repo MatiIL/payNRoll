@@ -40,10 +40,12 @@ export class YahooApiService {
     try {
       // Example: Fetching games using the Yahoo Fantasy API
       // Replace this with the actual endpoint you want to hit
-      const games = await this.api('GET', '/users/games', accessToken);
+      const games = await this.api(
+        'GET', 
+        'https://fantasysports.yahooapis.com/fantasy/v2/league/4731/', 
+        accessToken);
 
-      // Adjust this based on the actual endpoint you want to hit
-      // The 'games' variable now holds the data returned from the Yahoo Fantasy API
+      console.log(games)
 
       return games;
     } catch (error) {

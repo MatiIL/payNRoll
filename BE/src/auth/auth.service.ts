@@ -55,8 +55,12 @@ export class AuthService {
         'https://pay-n-roll.vercel.app/home',
       );
 
+      console.log(yahooTokens)
+
       // Fetch additional data from Yahoo Fantasy API
       const games = await this.yahooApiService.fetchYahooGameData(yahooTokens.accessToken);
+
+      console.log(games)
 
       // Now you can use the 'games' data as needed
 
