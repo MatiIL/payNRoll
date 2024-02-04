@@ -12,7 +12,7 @@ export class YahooApiService {
   initiateAuthentication(response: any): void {
     const authData = {
       client_id: this.configService.get<string>('YAHOO_CLIENT_ID'),
-      redirect_uri: 'https://pay-n-roll.vercel.app/home/',
+      redirect_uri: 'https://pay-n-roll.vercel.app/home',
       response_type: 'code',
       language: 'en-us',
     };

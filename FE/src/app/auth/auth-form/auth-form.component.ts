@@ -26,6 +26,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../team-name/name-modal/name-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { GeneratedNamesService } from './gen-names.service';
+import { YahooApiService } from 'src/app/services/yahoo-api.service';
 
 
 @Component({
@@ -95,6 +96,7 @@ export class AuthFormComponent {
     private userService: UserService,
     private modalService: NgbModal,
     private genNamesService: GeneratedNamesService,
+    private yahooApiService: YahooApiService
   ) {}
 
   ngOnInit(): void {
@@ -118,6 +120,10 @@ export class AuthFormComponent {
       size: 'xl',
       fullscreen: true,
     });
+  }
+
+  yahooAuth() {
+    this.yahooApiService.initiateAuthentication();
   }
 
   onSubmit(form: FormGroup) {
@@ -166,20 +172,6 @@ export class AuthFormComponent {
         error: (error) => console.error('Signup error:', error),
       });
     }
-  }
-
-  yahooAuth() {
-    this.authService.yahooAuth().subscribe({
-      next: (response) => {
-        // Handle the success response from the server
-        console.log('Yahoo! Authentication success:', response);
-        this.authSuccess.emit();
-      },
-      error: (error) => {
-        // Handle the error response from the server
-        console.error('Yahoo! Authentication error:', error);
-      },
-    });
   }
 
 }

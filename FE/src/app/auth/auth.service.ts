@@ -25,11 +25,6 @@ export class AuthService {
       return this.httpClient.post<User>(url, loginRequest, { observe: 'response' })
     }
 
-    yahooAuth(): Observable<any> {
-      const yahooAuthUrl = `${this.apiUrl}/yahoo-auth`;
-      return this.httpClient.get(yahooAuthUrl);
-    }
-
   logout() {
     const url = `${this.apiUrl}/logout`; 
     return this.httpClient.post(url, { observe: 'response' });
