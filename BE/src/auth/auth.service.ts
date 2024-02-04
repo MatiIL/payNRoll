@@ -42,37 +42,4 @@ export class AuthService {
     });
   }
 
-  async yahooCallback(
-    oauthToken: string,
-    oauthVerifier: string,
-    user: User,
-    response: Response,
-  ) {
-    try {
-      // Exchange the authorization code for Yahoo access tokens
-      const yahooTokens = await this.yahooApiService.exchangeAuthorizationCode(
-        oauthVerifier,
-        'https://pay-n-roll.vercel.app/home',
-      );
-
-      console.log(yahooTokens)
-
-      // Fetch additional data from Yahoo Fantasy API
-      const games = await this.yahooApiService.fetchYahooGameData(yahooTokens.accessToken);
-
-      console.log(games)
-
-      // Now you can use the 'games' data as needed
-
-      // Optionally, you can associate Yahoo tokens and data with the current user
-      // Save yahooTokens and games to the user's profile or database record
-
-      // Redirect or respond as needed
-      response.redirect('https://pay-n-roll.vercel.app/home');
-    } catch (error) {
-      throw new Error('Internal Server Error');
-    }
-  }
-
-  // ... (other methods)
 }

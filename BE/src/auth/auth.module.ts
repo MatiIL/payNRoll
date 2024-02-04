@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -7,7 +7,6 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
-import { YahooStrategy } from './strategies/yahoo.strategy';
 import { YahooApiService } from 'src/yahoo-api/yahoo-api.service';
 
 @Module({
@@ -28,9 +27,8 @@ import { YahooApiService } from 'src/yahoo-api/yahoo-api.service';
   providers: [
     AuthService, 
     LocalStrategy, 
-    JwtStrategy, 
-    YahooStrategy, 
-    { provide: YahooApiService, useFactory: () => forwardRef(() => YahooApiService) },
+    JwtStrategy,  
+    YahooApiService,
   ],
 })
 export class AuthModule {}

@@ -178,7 +178,18 @@
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
       </div>
-      <button type="submit" class="btn btn-outline-dark mt-4">התחברות</button>
+      <div class="d-flex justify-content-evenly">
+        <button type="submit" class="btn btn-outline-dark mt-4">התחברות</button>
+      <button
+        class="btn btn-outline-dark mt-4"
+        *ngIf="userLoggedIn"
+        mat-button
+        (click)="yahooAuth()"
+      >
+        הרשאה דרך יאהו
+      </button>
+      </div>
+      
       <mat-progress-bar *ngIf="loading" mode="indeterminate" class="mt-2" />
     </form>
   </div>

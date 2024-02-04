@@ -52,7 +52,7 @@ export class AuthFormComponent {
   loading: boolean = false;
   generatedNames: string[] = [];
   signupCode = environment.signupCode;
-
+  userLoggedIn: boolean = false;
 
   startLoading() {
     this.loading = true;
@@ -131,9 +131,7 @@ export class AuthFormComponent {
         const userProperties = response.body.user;
         this.userService.updateUser(userProperties);
         this.loading = false;
-        form.reset();
-        this.authSuccess.emit();
-        
+        this.userLoggedIn = true;   
       });
     
     } else {
@@ -169,4 +167,19 @@ export class AuthFormComponent {
       });
     }
   }
+
+  yahooAuth() {
+    this.authService.yahooAuth().subscribe({
+      next: (response) => {
+        // Handle the success response from the server
+        console.log('Yahoo! Authentication success:', response);
+        this.authSuccess.emit();
+      },
+      error: (error) => {
+        // Handle the error response from the server
+        console.error('Yahoo! Authentication error:', error);
+      },
+    });
+  }
+
 }

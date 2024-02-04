@@ -1,75 +1,49 @@
-// yahoo-api.service.ts
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as OAuth from 'oauth';
+const YahooFantasy = require('yahoo-fantasy');
 
 @Injectable()
 export class YahooApiService {
-  private readonly yahooApiUrl = 'https://api.login.yahoo.com';
+  private readonly yf: any; // Type based on the Yahoo Fantasy library
 
-  private readonly oauth = new OAuth.OAuth(
-    `${this.yahooApiUrl}/oauth/v2/request_auth`,
-    `${this.yahooApiUrl}/oauth/v2/get_token`,
-    this.configService.get<string>('YAHOO_CLIENT_ID'),
-    this.configService.get<string>('YAHOO_CLIENT_SECRET'),
-    '1.0',
-    'https://pay-n-roll.vercel.app/home/auth/yahoo/callback',
-    'HMAC-SHA1',
-  );
-
-  constructor(private readonly configService: ConfigService) {}
-
-  async exchangeAuthorizationCode(code: string, redirectUri: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.oauth.getOAuthAccessToken(
-        code,
-        null,
-        null,
-        (err, accessToken, accessTokenSecret, results) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve({ accessToken, accessTokenSecret });
-          }
-        }
-      );
-    });
+  constructor(private readonly configService: ConfigService) {
+    // Initialize YahooFantasy instance with your application key and secret
+    this.yf = new YahooFantasy(
+      this.configService.get<string>('YAHOO_CLIENT_ID'),
+      this.configService.get<string>('YAHOO_CLIENT_SECRET'),
+      this.tokenCallbackFunction, // Implement this function or remove it if not needed
+      this.configService.get<string>('YAHOO_CALLBACK_URI'),
+    );
   }
 
-  async fetchYahooGameData(accessToken: string): Promise<any> {
-    try {
-      // Example: Fetching games using the Yahoo Fantasy API
-      // Replace this with the actual endpoint you want to hit
-      const games = await this.api(
-        'GET', 
-        'https://fantasysports.yahooapis.com/fantasy/v2/league/4731/', 
-        accessToken);
+  // Implement this function or remove it if not needed
+  private tokenCallbackFunction(response: any) {
+    console.log(response)
+  }
 
-      console.log(games)
-
-      return games;
-    } catch (error) {
-      console.error('Error in fetchYahooGameData:', error);
-      throw new Error('Failed to fetch Yahoo Fantasy data');
+  auth(response: any): void {
+    // Check if the response is already sent before redirecting
+    if (!response.headersSent) {
+      this.yf.auth(response);
     }
   }
 
-  // ... (other methods)
+  // Callback method to handle the authentication callback from Yahoo
+  authCallback(request: any, callback: any): void {
+    this.yf.authCallback(request, callback);
+  }
 
-  private async api(method: string, url: string, accessToken: string, postData?: any): Promise<any> {
-    // Implement the logic to make authenticated requests to the Yahoo Fantasy API
-    // This could involve making HTTP requests using a library like axios
+  // Example method to get data from Yahoo Fantasy API after authentication
+  async fetchData(): Promise<any> {
+    try {
+      // Replace 'league_key' with the actual league key you want to fetch data from
+      const data = await this.yf.league('league_key').meta();
 
-    // Example using axios:
-    // const response = await axios[method.toLowerCase()](`https://fantasysports.yahooapis.com${url}`, {
-    //   headers: {
-    //     Authorization: `Bearer ${accessToken}`,
-    //   },
-    //   data: postData,
-    // });
-
-    // return response.data;
-
-    // Adjust the implementation based on your actual requirements and the library you use
+      // You can perform additional processing on 'data' as needed
+      return data;
+    } catch (error) {
+      console.error('Error fetching data from Yahoo Fantasy API:', error);
+      throw new Error('Failed to fetch data from Yahoo Fantasy API');
+    }
   }
 }
