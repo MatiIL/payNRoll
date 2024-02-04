@@ -12,7 +12,7 @@ export class YahooApiService {
   initiateAuthentication(response: any): void {
     const authData = {
       client_id: this.configService.get<string>('YAHOO_CLIENT_ID'),
-      redirect_uri: 'https://pay-n-roll.vercel.app/home',
+      redirect_uri: 'https://pay-n-roll.vercel.app/home/',
       response_type: 'code',
       language: 'en-us',
     };
@@ -22,6 +22,7 @@ export class YahooApiService {
       .join('&');
 
     const authUrl = `https://api.login.yahoo.com/oauth2/request_auth?${queryString}`;
+    console.log(authUrl)
 
     response.redirect(authUrl);
   }
@@ -35,44 +36,27 @@ export class YahooApiService {
       grant_type: 'authorization_code',
     };
 
-    const formData = Object.entries(tokenData)
-      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-      .join('&');
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    };
+      const options = {
+        hostname: 'api.login.yahoo.com',
+        port: 443,
+        path: '/oauth2/get_token',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      };
 
     return new Promise((resolve, reject) => {
-      const req = https.request(
-        `https://api.login.yahoo.com/oauth2/get_token`,
-        { ...options },
-        (res) => {
-          let data = '';
-
-          res.on('data', (chunk) => {
-            data += chunk;
-          });
-
-          res.on('end', () => {
-            try {
-              resolve(JSON.parse(data));
-            } catch (error) {
-              reject(error);
-            }
-          });
-        }
-      );
-
-      req.on('error', (error) => {
-        reject(error);
+      const tokenRequest = https.request(options, (tokenReponse) => {
+        const chunks = [];
+        tokenReponse.on('data', (d) => chunks.push(d));
+        tokenReponse.on('end', () => resolve(Buffer.concat(chunks).toString()));
       });
 
-      req.write(formData);
-      req.end();
+      tokenRequest.on('error', (error) => reject(error));
+
+      tokenRequest.write(new URLSearchParams(tokenData).toString());
+      tokenRequest.end();
     });
   }
 }
