@@ -12,7 +12,7 @@ export class YahooApiService {
       this.configService.get<string>('YAHOO_CLIENT_ID'),
       this.configService.get<string>('YAHOO_CLIENT_SECRET'),
       this.tokenCallbackFunction, // Implement this function or remove it if not needed
-      this.configService.get<string>('YAHOO_CALLBACK_URI'),
+      'https://pay-n-roll.vercel.app/home/auth/yahoo/callback'
     );
   }
 
