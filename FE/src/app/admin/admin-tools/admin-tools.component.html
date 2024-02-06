@@ -1,0 +1,19 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened class="p-2">
+    <div 
+    class="hover-pointer mb-3"
+    (click)="onSelectComponent(usersComponent)"
+    >מאגר משתמשים</div>
+    <div
+    class="hover-pointer mb-3"
+    >קבוצות</div>
+    <div
+    class="hover-pointer"
+    >לוטרי</div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <ng-container *ngIf="selectedComponent">
+        <ng-container *ngComponentOutlet="selectedComponent"></ng-container>
+      </ng-container>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -45,6 +45,7 @@ export type CreateUserInput = {
   lastName: Scalars['String']['input'];
   password: Scalars['String']['input'];
   teamName: Scalars['String']['input'];
+  isAdmin: Scalars['Boolean']['input'];
 };
 
 export type DraftRecord = {
@@ -123,6 +124,7 @@ export type User = {
   password: Scalars['String']['output'];
   teamName: Scalars['String']['output'];
   userId: Scalars['String']['output'];
+  isAdmin: Scalars['Boolean']['output'];
 };
 
 export type AddNewUserMutationVariables = Exact<{

@@ -26,8 +26,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../team-name/name-modal/name-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { GeneratedNamesService } from './gen-names.service';
-import { YahooApiService } from 'src/app/services/yahoo-api.service';
-
 
 @Component({
   selector: 'app-auth-form',
@@ -45,7 +43,6 @@ import { YahooApiService } from 'src/app/services/yahoo-api.service';
     NgIf,
   ],
 })
-
 export class AuthFormComponent {
   @Input() noAccount: boolean = false;
   @Output() authSuccess = new EventEmitter<void>();
@@ -53,7 +50,6 @@ export class AuthFormComponent {
   loading: boolean = false;
   generatedNames: string[] = [];
   signupCode = environment.signupCode;
-  userLoggedIn: boolean = false;
 
   startLoading() {
     this.loading = true;
@@ -73,7 +69,7 @@ export class AuthFormComponent {
       Validators.required,
       this.validateSignupCode.bind(this),
     ]),
-    teamName: this.teamNameFormControl, 
+    teamName: this.teamNameFormControl,
   });
 
   validateSignupCode(control: AbstractControl): { [key: string]: any } | null {
@@ -96,7 +92,6 @@ export class AuthFormComponent {
     private userService: UserService,
     private modalService: NgbModal,
     private genNamesService: GeneratedNamesService,
-    private yahooApiService: YahooApiService
   ) {}
 
   ngOnInit(): void {
@@ -108,8 +103,7 @@ export class AuthFormComponent {
   getErrorMessage(control: AbstractControl | null) {
     if (control?.hasError('required')) return 'שדה חובה';
     if (control?.hasError('email')) return 'נא להכניס כתובת מייל תקינה';
-    if (control?.hasError('minlength'))
-      return 'סיסמה קצרה מדי!';
+    if (control?.hasError('minlength')) return 'סיסמה קצרה מדי!';
     if (control?.hasError('signupCode')) return 'קוד הרשמה אינו תקין';
     return '';
   }
@@ -120,10 +114,6 @@ export class AuthFormComponent {
       size: 'xl',
       fullscreen: true,
     });
-  }
-
-  yahooAuth() {
-    this.yahooApiService.initiateAuthentication();
   }
 
   onSubmit(form: FormGroup) {
@@ -137,9 +127,9 @@ export class AuthFormComponent {
         const userProperties = response.body.user;
         this.userService.updateUser(userProperties);
         this.loading = false;
-        this.userLoggedIn = true;   
+        form.reset();
+        this.authSuccess.emit();
       });
-    
     } else {
       const signupInput = {
         email: form.get('email')?.value || '',
@@ -147,6 +137,7 @@ export class AuthFormComponent {
         firstName: form.get('firstName')?.value || '',
         lastName: form.get('lastName')?.value || '',
         teamName: form.get('teamName')?.value || '',
+        isAdmin: false,
       };
       this.addNewUserGQL.mutate({ user: signupInput }).subscribe({
         next: ({ data }) => {
@@ -159,6 +150,7 @@ export class AuthFormComponent {
               firstName: newUserData.firstName,
               lastName: '',
               teamName: newUserData.teamName,
+              isAdmin: false,
             };
             this.userService.updateUser(newUser);
             this.loading = false;
@@ -173,5 +165,4 @@ export class AuthFormComponent {
       });
     }
   }
-
 }

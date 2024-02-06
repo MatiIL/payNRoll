@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -19,11 +20,13 @@ import { QuickGuideComponent } from './quick-guide/quick-guide.component';
 import { RewardsListComponent } from './rewards-list/rewards-list.component';
 import { UserService } from './services/user-service/user.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
+  
   ],
   imports: [
     OAuthModule.forRoot(),
@@ -50,6 +53,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     KeepersFormComponent,
     QuickGuideComponent,
     RewardsListComponent,
+    AdminModule,
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

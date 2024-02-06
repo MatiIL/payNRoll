@@ -18,9 +18,7 @@ async function bootstrap() {
     origin: [
       'https://pay-n-roll.vercel.app', 
       'https://pay-n-roll.vercel.app/home', 
-      'https://api.login.yahoo.com/oauth2/request_auth/.well-known/openid-configuration',
       'http://localhost:4200',
-      'https://api.login.yahoo.com',
     ],
     credentials: true,
   });

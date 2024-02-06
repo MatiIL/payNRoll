@@ -28,6 +28,10 @@ export class User extends Document {
   @Field()
   @Prop({ type: String, required: false })
   teamName: string;
+
+  @Field()
+  @Prop({ type: Boolean, required: true, default: false})
+  isAdmin: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

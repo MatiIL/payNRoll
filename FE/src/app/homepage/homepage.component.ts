@@ -66,6 +66,7 @@ export class HomepageComponent implements OnInit {
   containerVisible: boolean = false;
   buttonVisible: boolean = false;
   isMenuCollapsed: boolean = true;
+  isAdmin: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -76,6 +77,10 @@ export class HomepageComponent implements OnInit {
   ngOnInit(): void {
     this.userService.userData$.subscribe((userData) => {
       this.user = userData;
+      if (this.user?.isAdmin) {
+        this.isAdmin = true;
+        this.buttonVisible = false;
+      }
     });
 
     this.animateNextElements();

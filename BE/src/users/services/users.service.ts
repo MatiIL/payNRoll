@@ -40,8 +40,8 @@ export class UserService {
     if (!isPassValid) {
         throw new UnauthorizedException('Credentials are not valid.');
       }
-      const { userId, firstName, teamName } = userDoc;
-      return { userId, firstName, teamName };
+      const { userId, firstName, teamName, isAdmin } = userDoc;
+      return { userId, firstName, teamName, isAdmin };
   }
 
   async deleteUser(userId: string): Promise<boolean> {

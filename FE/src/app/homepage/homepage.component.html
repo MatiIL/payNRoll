@@ -40,14 +40,14 @@ class="mx-auto mt-4 btn btn-outline-warning"
 routerLink="/quick-guide"
 >איך משחקים - מדריך מזורז</button>
 
-    <button 
-    *ngIf="buttonVisible"
-    [@fadeInButton]
-    type="button" 
-    class="mx-auto mt-4 btn btn-outline-warning"
-    routerLink="/keepers-form"
-    data-cy="goto-keepers-form"
-    >לבחירת קיפרים (סימולציה)</button>
+<button
+*ngIf="isAdmin"
+type="button"
+class="mx-auto mt-4 btn btn-outline-warning"
+routerLink="/admin-tools"
+>
+פעולות קומישינר
+</button>
   
 <div *ngIf="isMenuCollapsed" class="frame mt-1">
     <div *ngFor="let i of [0, 1, 2, 3, 4, 5]; let index = index" class="circle circle-{{index}}">
