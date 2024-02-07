@@ -63,9 +63,10 @@ export class HeaderComponent implements OnInit {
   }
 
   handleLogout(e: any) {
-    this.authService.logout().subscribe((userData) => {
-      this.user = userData as User;
+    this.authService.logout().subscribe(() => {
+      this.user = null;
       this.userService.updateUser(null); 
     });
   }
+  
 }

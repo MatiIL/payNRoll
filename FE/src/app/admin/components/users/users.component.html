@@ -1,1 +1,23 @@
-<p>users works!</p>
+<table>
+    <thead>
+      <tr>
+        <th>Delete</th>
+        <th>User ID</th>
+        <th>Email</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Team Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td><button (click)="deleteUser(user.userId)">Delete</button></td>
+        <td>{{ user.userId }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.teamName }}</td>
+      </tr>
+    </tbody>
+  </table>
+  

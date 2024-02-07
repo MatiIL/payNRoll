@@ -125,6 +125,7 @@ export class AuthFormComponent {
       };
       this.authService.login(loginInput).subscribe((response) => {
         const userProperties = response.body.user;
+        console.log(userProperties.userId)
         this.userService.updateUser(userProperties);
         this.loading = false;
         form.reset();

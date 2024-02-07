@@ -3,31 +3,18 @@ import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type CreateTeamInput = {
@@ -45,7 +32,6 @@ export type CreateUserInput = {
   lastName: Scalars['String']['input'];
   password: Scalars['String']['input'];
   teamName: Scalars['String']['input'];
-  isAdmin: Scalars['Boolean']['input'];
 };
 
 export type DraftRecord = {
@@ -65,14 +51,22 @@ export type Mutation = {
   __typename?: 'Mutation';
   addNewTeam: Team;
   addNewUser: User;
+  deleteUser: Scalars['Boolean']['output'];
 };
+
 
 export type MutationAddNewTeamArgs = {
   team: CreateTeamInput;
 };
 
+
 export type MutationAddNewUserArgs = {
   user: CreateUserInput;
+};
+
+
+export type MutationDeleteUserArgs = {
+  userId: Scalars['String']['input'];
 };
 
 export type PlayerInfo = {
@@ -92,14 +86,17 @@ export type PlayerInput = {
 
 export type Query = {
   __typename?: 'Query';
+  allUsers: Array<User>;
   findAllTeams: Array<Team>;
   findTeam?: Maybe<Team>;
   user: User;
 };
 
+
 export type QueryFindTeamArgs = {
   name: Scalars['String']['input'];
 };
+
 
 export type QueryUserArgs = {
   _id: Scalars['String']['input'];
@@ -120,51 +117,42 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
   firstName: Scalars['String']['output'];
+  isAdmin: Scalars['Boolean']['output'];
   lastName: Scalars['String']['output'];
   password: Scalars['String']['output'];
   teamName: Scalars['String']['output'];
   userId: Scalars['String']['output'];
-  isAdmin: Scalars['Boolean']['output'];
 };
 
 export type AddNewUserMutationVariables = Exact<{
   user: CreateUserInput;
 }>;
 
-export type AddNewUserMutation = {
-  __typename?: 'Mutation';
-  addNewUser: {
-    __typename?: 'User';
-    userId: string;
-    firstName: string;
-    teamName: string;
-  };
-};
+
+export type AddNewUserMutation = { __typename?: 'Mutation', addNewUser: { __typename?: 'User', userId: string, firstName: string, teamName: string } };
 
 export const AddNewUserDocument = gql`
-  mutation AddNewUser($user: CreateUserInput!) {
-    addNewUser(user: $user) {
-      userId
-      firstName
-      teamName
-    }
-  }
-`;
-export type LoginInput = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
-};
-
-@Injectable({
-  providedIn: 'root',
-})
-export class AddNewUserGQL extends Apollo.Mutation<
-  AddNewUserMutation,
-  AddNewUserMutationVariables
-> {
-  override document = AddNewUserDocument;
-
-  constructor(apollo: Apollo.Apollo) {
-    super(apollo);
+    mutation AddNewUser($user: CreateUserInput!) {
+  addNewUser(user: $user) {
+    userId
+    firstName
+    teamName
   }
 }
+    `;
+
+    export type LoginInput = {
+      email: Scalars['String']['input'];
+      password: Scalars['String']['input'];
+    };
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddNewUserGQL extends Apollo.Mutation<AddNewUserMutation, AddNewUserMutationVariables> {
+    override document = AddNewUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }

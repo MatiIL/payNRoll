@@ -6,6 +6,7 @@ import { User } from '../schemas/users.schema';
 import { UserService } from '../services/users.service';
 import { CreateUserInput } from '../inputs/create-user.input';
 import { SignupResponse } from '../dtos/signup-response.dto';
+import { ObjectId } from 'mongodb';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -34,6 +35,12 @@ export class UserResolver {
   @Query(() => User, { name: 'user' })
   async getUser(@Args() getUserArgs: GetUserArgs) {
     return this.userService.getUser(getUserArgs);
+  }
+
+  // @UseGuards(GqlAuthGuard)
+  @Query(() => [User], { name: 'allUsers' }) 
+  async getAllUsers() {
+    return this.userService.findAllUsers();
   }
 
   @Mutation(() => Boolean)

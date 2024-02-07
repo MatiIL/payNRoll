@@ -5,21 +5,21 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './current-user.decorator';
 import JwtAuthGuard from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
+    private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
   ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(
-    @CurrentUser() user: User,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    await this.authService.login(user, res);
-    res.json({ success: true, user });
+  async login(@CurrentUser() user: User, @Res() res: Response) {
+    this.authService.login(user, res);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -33,5 +33,4 @@ export class AuthController {
     this.authService.logout(response);
     response.json({});
   }
-
 }
