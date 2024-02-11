@@ -16,7 +16,12 @@
         <td>{{ user.email }}</td>
         <td>{{ user.firstName }}</td>
         <td>{{ user.lastName }}</td>
-        <td>{{ user.teamName }}</td>
+        <td 
+        (click)="openTeamModal(user.userId, user.teamName)"
+        class="team-name"
+        >
+            {{ user.teamName }}
+          </td>
       </tr>
     </tbody>
   </table>
