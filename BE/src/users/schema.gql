@@ -9,7 +9,7 @@ input CreateUserInput {
 
 type Mutation {
   addNewUser(user: CreateUserInput!): User
-  deleteUser(userId: ID!): Boolean
+  deleteUser(userId: String!): Boolean
 }
 
 type Query {

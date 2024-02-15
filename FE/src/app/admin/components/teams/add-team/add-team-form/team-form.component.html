@@ -1,4 +1,6 @@
 <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+
+  <div class="d-flex justify-content-evenly">
   <div class="form-group">
     <label for="name">Name</label>
     <input type="text" formControlName="name" class="form-control" [value]="teamName" />
@@ -11,6 +13,52 @@
     <label for="nextYearBudget">Next Year Budget</label>
     <input type="number" formControlName="nextYearBudget" class="form-control" />
   </div>
-  <!-- Add more form inputs here -->
-  <button type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+  <div class="d-flex justify-content-evenly mt-3">
+    <div class="form-group">
+      <label for="incomingPick">Incoming Pick</label>
+      <input type="text" formControlName="incomingPick" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="outgoingPick">Outgoing Pick</label>
+      <input type="text" formControlName="outgoingPick" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="swapRightsWith">Swapping Rights</label>
+      <input type="text" formControlName="swapRightsWith" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="draftPosition">Draft Position</label>
+      <input type="number" formControlName="draftPosition" class="form-control" />
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-evenly">
+    <div class="form-group">
+      <label for="playerName">Player Name</label>
+      <input type="text" formControlName="playerName" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="purchasePrice">Purchase Price</label>
+      <input type="number" formControlName="purchasePrice" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="keeperStatus">Keeper</label>
+      <select formControlName="keeperStatus" class="form-control">
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+    </select>
+    </div>
+    <div class="form-group">
+      <label for="yearsOfService">YOS</label>
+      <input type="number" formControlName="yearsOfService" class="form-control" />
+    </div>
+    <div class="add-player mt-2 text-light bg-dark p-2 rounded" (click)="onPlayerAdd()">Add</div>
+  </div>
+  
+  <button 
+  type="submit" 
+  class="btn btn-primary mt-3"
+  >Submit</button>
 </form>

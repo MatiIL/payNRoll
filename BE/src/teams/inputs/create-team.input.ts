@@ -1,4 +1,20 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
+import { RookiesDraftDetails } from '../schemas/teams.schema';
+
+@InputType()
+class RookiesDraftDetailsInput {
+  @Field()
+  incomingPick: string;
+
+  @Field()
+  outgoingPick: string;
+
+  @Field()
+  swapRightsWith: string;
+
+  @Field(() => Int)
+  draftPosition: number;
+}
 
 @InputType()
 export class CreateTeamInput {
@@ -10,6 +26,9 @@ export class CreateTeamInput {
 
   @Field(() => Int)
   nextYearBudget: number;
+
+  @Field(() => RookiesDraftDetailsInput)
+  rookiesDraftDetails: RookiesDraftDetailsInput;
 
   @Field(() => [PlayerInput])
   currentRoster: PlayerInput[];
@@ -47,4 +66,3 @@ class DraftRecordInput {
   @Field()
   playerDrafted: string;
 }
-

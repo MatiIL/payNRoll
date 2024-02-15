@@ -13,7 +13,6 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   };
 }
 
-
 @NgModule({
   exports: [ApolloModule],
   providers: [

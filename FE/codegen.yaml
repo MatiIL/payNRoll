@@ -1,7 +1,7 @@
 # schema: https://paynroll-server.onrender.com/graphql
+overwrite: true
 schema: http://localhost:9000/graphql
 documents:
-  - './src/**/*.graphql'
   - './src/**/*.ts'
 generates:
   src/generated-types.ts:

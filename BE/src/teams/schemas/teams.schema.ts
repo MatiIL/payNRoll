@@ -2,6 +2,22 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
+
+@ObjectType()
+export class RookiesDraftDetails {
+  @Field()
+  incomingPick: string;
+
+  @Field()
+  outgoingPick: string;
+
+  @Field()
+  swapRightsWith: string;
+
+  @Field()
+  draftPosition: number;
+}
+
 @ObjectType()
 @Schema({ collection: 'teams' })
 export class Team extends Document {
@@ -22,6 +38,18 @@ export class Team extends Document {
   @Prop({ type: Number, required: true })
   nextYearBudget: number;
 
+  @Field(() => RookiesDraftDetails)
+  @Prop({
+    required: true,
+    type: {
+        incomingPick: String,
+        outgoingPick: String,
+        swapRightsWith: String,
+        draftPosition: Number,
+      }
+  })
+  rookiesDraftDetails: RookiesDraftDetails
+  
   @Field(() => [PlayerInfo])
   @Prop({
     required: false,
@@ -82,5 +110,6 @@ export class DraftRecord {
   @Field()
   playerDrafted: string;
 }
+
 
 export const TeamSchema = SchemaFactory.createForClass(Team);

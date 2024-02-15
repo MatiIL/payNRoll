@@ -16,6 +16,11 @@
   ></app-team-form>
 </div>
 <div class="modal-footer">
+  <ul>
+    <li *ngFor="let player of teamModalService.payrollList">
+      {{ player.player }}
+    </li>
+  </ul>
   <button
     type="button"
     class="btn btn-secondary"

@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginInput, User } from '../../generated-types';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { getServerUrl } from '../utils';
 
@@ -20,7 +19,7 @@ export class AuthService {
     return this.loggedInSubject.asObservable();
   }
 
-  login(loginRequest: LoginInput): Observable<any> {
+  login(loginRequest: any): Observable<any> {
     const url = `${this.apiUrl}/login`;
     return this.httpClient
       .post<any>(url, loginRequest, { observe: 'response' })

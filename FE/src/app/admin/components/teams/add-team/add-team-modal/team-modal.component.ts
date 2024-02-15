@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamFormComponent } from '../add-team-form/team-form.component';
 import { TeamModalService } from 'src/app/services/team-modal.service';
@@ -8,7 +9,7 @@ import { TeamModalService } from 'src/app/services/team-modal.service';
   templateUrl: './team-modal.component.html',
   styleUrls: ['./team-modal.component.scss'],
   standalone: true,
-  imports: [TeamFormComponent],
+  imports: [TeamFormComponent, CommonModule],
 })
 export class TeamModalComponent {
 
@@ -17,9 +18,8 @@ export class TeamModalComponent {
     public teamModalService: TeamModalService,
     ) {}
 
-    ngOnInit(): void {
-      console.log('Received userId:', this.teamModalService.userId);
-      console.log('Received teamName:', this.teamModalService.teamName);
+    get payrollList() {
+      return this.teamModalService.payrollList;
     }
 
 }

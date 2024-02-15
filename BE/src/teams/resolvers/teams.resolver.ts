@@ -19,6 +19,7 @@ export class TeamResolver {
 
   @Mutation(() => Team)
   async addNewTeam(@Args('team') team: CreateTeamInput): Promise<Team> {
+    console.log(team)
     return this.teamService.createTeam(team);
   }
 }

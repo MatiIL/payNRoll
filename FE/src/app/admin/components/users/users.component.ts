@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { TeamModalComponent } from '../teams/add-team/add-team-modal/team-modal.component';
 import { TeamModalService } from 'src/app/services/team-modal.service';
 
@@ -83,9 +83,13 @@ export class UsersComponent implements OnInit {
       });
   }
 
+  modalOptions: NgbModalOptions = {
+    fullscreen: true
+};
+
   openTeamModal(userId: string, teamName: string): void {
     this.teamModalService.userId = userId;
     this.teamModalService.teamName = teamName;
-    const modalRef = this.modal.open(TeamModalComponent);
+    const modalRef = this.modal.open(TeamModalComponent, this.modalOptions);
   }
 }
