@@ -1,5 +1,4 @@
-<div (click)="handleTableClick()">
-  <app-overlay-msg *ngIf="user" [showOverlay]="showOverlay" data-cy="overlay"></app-overlay-msg>
+<div >
   <table 
   data-cy="table"
   mat-table 
@@ -10,13 +9,13 @@
   >
     <ng-container matColumnDef="onFinalRoster">
       <th mat-header-cell *matHeaderCellDef>
-        סגל סוף עונה (23/24), בחירות ותקציב
+        סגל עונתי (23/24), בחירות ותקציב
       </th>
       <td mat-cell *matCellDef="let element">{{ element.onFinalRoster }}</td>
     </ng-container>
 
     <ng-container matColumnDef="nextSeasonSalary">
-      <th mat-header-cell *matHeaderCellDef>פיי רול לעונה הקרובה (24/25)</th>
+      <th mat-header-cell *matHeaderCellDef>פיי רול לעונה הבאה (24/25)</th>
       <td
         mat-cell
         *matCellDef="let element"

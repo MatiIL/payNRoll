@@ -10,6 +10,7 @@ input CreateTeamInput {
   name: String!
   manager_id: String!
   nextYearBudget: Int!
+  rookiesDraftDetails: [RookiesDraftDetails]
   currentRoster: [PlayerInput!]
   prevRosters: [[PlayerInput!]]
   draftRecord: [DraftRecordInput!]
@@ -39,6 +40,7 @@ type Team {
   name: String!
   manager_id: String!
   nextYearBudget: Float!
+  rookiesDraftDetails: RookiesDraftDetails!
   currentRoster: [Player]
   prevRosters: [[Player]]
   draftRecord: [DraftEntry]
@@ -55,4 +57,11 @@ type DraftEntry {
   season: Float!
   draftPosition: Float!
   playerDrafted: String!
+}
+
+type RookiesDraftDetails {
+  incomingPick: String!
+  outgoingPick: String!
+  swapRightsWith: String!
+  draftPosition: Int!
 }

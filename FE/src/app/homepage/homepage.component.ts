@@ -9,7 +9,6 @@ import {
 import { UserService } from '../services/user-service/user.service';
 import { User } from '../schemas/user';
 import { CollapsedMenuService } from '../services/collapsed-menu-service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -70,7 +69,6 @@ export class HomepageComponent implements OnInit {
   constructor(
     private userService: UserService,
     private collapsedMenuService: CollapsedMenuService,
-    private router: Router,
     ) {}
 
   ngOnInit(): void {

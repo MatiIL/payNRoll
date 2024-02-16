@@ -1,13 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, Output, OnDestroy  } from '@angular/core';
-import { UserService } from '../services/user-service/user.service';
+import { Component, OnInit, ViewEncapsulation, OnDestroy  } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { payRollData } from './table-data';
 import { TABLE_DATA } from './table-data';
 import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { User } from '../schemas/user';
 import { OverlayMsgComponent } from './overlay-message/overlay-msg.component';
-import { AuthService } from '../auth/auth.service';
 import { SelectPayrollService } from '../services/select-payroll-service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
@@ -37,28 +34,15 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 
 export class TableComponent implements OnInit, OnDestroy  {
-  @Output() showOverlay: boolean = false;
-  user: User | null = null;
   isLoggedIn: boolean = false;
   selectedPayroll: string = 'one';
   selectedData: payRollData[] = TABLE_DATA;
   selectedIndex: number = 0;
   private componentDestroyed = new Subject<void>();
 
-  constructor(
-    private userService: UserService,
-    private authService: AuthService,
-    private selectPayrollService: SelectPayrollService,
-
-  ) {}
+  constructor(private selectPayrollService: SelectPayrollService) {}
 
   ngOnInit(): void {
-
-    this.userService.userData$.subscribe((userData) => {
-      this.user = userData;
-      if (this.user) this.showOverlay = true;
-    });
-
     this.selectPayrollService.selectedValue$
     .pipe(takeUntil(this.componentDestroyed))
     .subscribe(value => {
@@ -158,17 +142,6 @@ export class TableComponent implements OnInit, OnDestroy  {
 
   isString(value: any): boolean {
     return typeof value === 'string';
-  }
-
-
-  toggleOverlay() {
-    this.showOverlay = !this.showOverlay;
-  }
-
-  handleTableClick() {
-    if (this.showOverlay) {
-      this.toggleOverlay();
-    }
   }
 
   displayedColumns: string[] = [

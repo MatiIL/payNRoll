@@ -3,6 +3,8 @@ import { Team } from '../schemas/teams.schema';
 import { TeamService } from '../services/teams.service';
 import { CreateTeamInput } from '../inputs/create-team.input';
 
+
+
 @Resolver(() => Team)
 export class TeamResolver {
   constructor(private readonly teamService: TeamService) {}

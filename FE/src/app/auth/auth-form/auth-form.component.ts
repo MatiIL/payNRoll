@@ -26,8 +26,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NameModalComponent } from '../team-name/name-modal/name-modal.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { GeneratedNamesService } from './gen-names.service';
-import { YahooApiService } from 'src/app/services/yahoo-api.service';
-
+import { MyTeamService } from 'src/app/services/my-team.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -45,7 +44,6 @@ import { YahooApiService } from 'src/app/services/yahoo-api.service';
     NgIf,
   ],
 })
-
 export class AuthFormComponent {
   @Input() noAccount: boolean = false;
   @Output() authSuccess = new EventEmitter<void>();
@@ -53,7 +51,6 @@ export class AuthFormComponent {
   loading: boolean = false;
   generatedNames: string[] = [];
   signupCode = environment.signupCode;
-  userLoggedIn: boolean = false;
 
   startLoading() {
     this.loading = true;
@@ -73,7 +70,7 @@ export class AuthFormComponent {
       Validators.required,
       this.validateSignupCode.bind(this),
     ]),
-    teamName: this.teamNameFormControl, 
+    teamName: this.teamNameFormControl,
   });
 
   validateSignupCode(control: AbstractControl): { [key: string]: any } | null {
@@ -96,7 +93,7 @@ export class AuthFormComponent {
     private userService: UserService,
     private modalService: NgbModal,
     private genNamesService: GeneratedNamesService,
-    private yahooApiService: YahooApiService
+    private myTeamService: MyTeamService
   ) {}
 
   ngOnInit(): void {
@@ -108,8 +105,7 @@ export class AuthFormComponent {
   getErrorMessage(control: AbstractControl | null) {
     if (control?.hasError('required')) return 'שדה חובה';
     if (control?.hasError('email')) return 'נא להכניס כתובת מייל תקינה';
-    if (control?.hasError('minlength'))
-      return 'סיסמה קצרה מדי!';
+    if (control?.hasError('minlength')) return 'סיסמה קצרה מדי!';
     if (control?.hasError('signupCode')) return 'קוד הרשמה אינו תקין';
     return '';
   }
@@ -122,10 +118,6 @@ export class AuthFormComponent {
     });
   }
 
-  yahooAuth() {
-    this.yahooApiService.initiateAuthentication();
-  }
-
   onSubmit(form: FormGroup) {
     this.loading = true;
     if (!this.noAccount) {
@@ -133,13 +125,28 @@ export class AuthFormComponent {
         email: form.get('email')?.value || '',
         password: form.get('password')?.value || '',
       };
-      this.authService.login(loginInput).subscribe((response) => {
-        const userProperties = response.body.user;
-        this.userService.updateUser(userProperties);
-        this.loading = false;
-        this.userLoggedIn = true;   
+      this.authService.login(loginInput).subscribe({
+        next: (response) => {
+          const userProperties = response.body.user;
+          const teamName = userProperties.teamName;
+          this.userService.updateUser(userProperties);
+          this.loading = false;
+          form.reset();
+          this.authSuccess.emit();
+          this.myTeamService.findTeam(teamName).subscribe({
+            next: (data) => {
+              this.myTeamService.saveToLocalStorage('myTeamData', data);
+            },
+            error: (error) => {
+              console.error('Error fetching team data:', error);
+            },
+          });
+        },
+        error: (error) => {
+          console.error('Error logging in:', error);
+          this.loading = false;
+        },
       });
-    
     } else {
       const signupInput = {
         email: form.get('email')?.value || '',
@@ -173,5 +180,4 @@ export class AuthFormComponent {
       });
     }
   }
-
 }
