@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let user of users">
-        <td><button (click)="deleteUser(user.userId)">Delete</button></td>
+        <td><button disabled (click)="deleteUser(user.userId)">Delete</button></td>
         <td>{{ user.userId }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.firstName }}</td>
