@@ -16,4 +16,7 @@ export class CreateUserInput {
 
   @Field()
   teamName?: string;
+
+  @Field()
+  isAdmin: boolean;
 }

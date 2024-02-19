@@ -33,6 +33,7 @@ export type CreateUserInput = {
   lastName: Scalars['String']['input'];
   password: Scalars['String']['input'];
   teamName: Scalars['String']['input'];
+  isAdmin: Scalars['Boolean']['input'];
 };
 
 export type DraftRecord = {
