@@ -1,0 +1,15 @@
+.keepers-form {
+    background-color: white;
+    color: black;
+    height: 100%;
+    overflow: auto;
+}
+
+.mat-mdc-option.mat-mdc-option-active.mdc-list-item {
+    font-size: smaller;
+}
+
+button[type="submit"] {
+    height: 50px; /* Adjust the height as needed */
+    overflow: hidden;
+}

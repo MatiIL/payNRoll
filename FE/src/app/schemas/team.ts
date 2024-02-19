@@ -5,6 +5,7 @@ export interface Team {
   name: string;
   manager_id: string;
   nextYearBudget: number;
+  finalRank?: number;
   rookiesDraftDetails: {
     incomingPick: string;
     outgoingPick: string;

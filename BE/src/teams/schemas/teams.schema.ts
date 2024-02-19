@@ -38,6 +38,10 @@ export class Team extends Document {
   @Prop({ type: Number, required: true })
   nextYearBudget: number;
 
+  @Field()
+  @Prop({ type: Number, required: false })
+  finalRank: number;
+
   @Field(() => RookiesDraftDetails)
   @Prop({
     required: true,

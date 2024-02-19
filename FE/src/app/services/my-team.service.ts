@@ -12,6 +12,7 @@ const FIND_TEAM_QUERY = gql`
       name
       manager_id
       nextYearBudget
+      finalRank
       rookiesDraftDetails {
         incomingPick
         outgoingPick
@@ -56,4 +57,5 @@ export class MyTeamService {
   saveToLocalStorage(key: string, data: any): void {
     localStorage.setItem(key, JSON.stringify(data));
   }
+
 }

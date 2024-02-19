@@ -5,7 +5,7 @@ import { GuideComponent } from './guidebook/guide-page/guide-page.component';
 import { TeamsTableComponent } from './teams-table/teams-table.component';
 import { TableComponent } from './table/table.component';
 import { QuickGuideComponent } from './quick-guide/quick-guide.component';
-import { KeepersFormComponent } from './keepers-form/keepers.form.component';
+import { KeepersFormComponent } from './keepers/keepers-form/keepers.form.component';
 import { RewardsListComponent } from './rewards-list/rewards-list.component'
 
 const routes: Routes = [
