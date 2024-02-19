@@ -63,6 +63,7 @@ export class KeepersFormComponent implements OnInit {
   selectedUndraftedRookies = new FormControl('');
   signedMaxPlayer: boolean = false;
   signedMaxpiring: boolean = false;
+  isSecondMaxAllowed: boolean = true;
   signedSolidDiffFrom29: number = 0;
   canSplitSolid: boolean = true;
   disableSelect = new FormControl(false);
@@ -178,6 +179,7 @@ export class KeepersFormComponent implements OnInit {
       this.keepersList.push(selectedPlayer);
       this.maxPlayersList.filter((player) => player !== selectedPlayer);
       this.openKeeperSlots -= 1;
+      this.auctionBudget -= selectedPlayer.nextSeasonSalary;
     }
   }
 
@@ -203,8 +205,9 @@ export class KeepersFormComponent implements OnInit {
       selectedPlayer.keeperStatus = 1;
       selectedPlayer.nextSeasonSalary = selectedPlayer.purchasePrice;
       this.keepersList.push(selectedPlayer);
-      this.maxPlayersList.filter((player) => player !== selectedPlayer);
+      this.maxpiringPlayerOptions.filter((player) => player !== selectedPlayer);
       this.openKeeperSlots -= 1;
+      this.isSecondMaxAllowed = false;
       this.auctionBudget -= selectedPlayer.nextSeasonSalary;
     }
   }

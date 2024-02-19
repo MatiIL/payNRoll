@@ -31,7 +31,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field *ngIf="signedMaxPlayer">
+        <mat-form-field *ngIf="isSecondMaxAllowed && signedMaxPlayer && maxPlayersList.length > 0">
           <mat-label>שחקן מקס נוסף</mat-label>
           <mat-select 
           (selectionChange)="onSecondMaxSelect($event)"
