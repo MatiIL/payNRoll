@@ -26,6 +26,7 @@ import {
 interface PotentialKeeper {
   value: Player;
   viewValue: string;
+  nextSeasonSalary?: number;
 }
 
 @Component({
@@ -47,11 +48,13 @@ interface PotentialKeeper {
 export class KeepersFormComponent implements OnInit {
   openKeeperSlots: number = 4;
   teamName: string = '';
+  owedSalaries: number[] = [];
   auctionBudget: number = 0;
   rookiesDraft: string = '';
   veteransMarket: string = '';
   keepersList: Player[] = [];
   maxPlayersList: PotentialKeeper[] = [];
+  secondMaxPlayersList: PotentialKeeper[] = [];
   maxpiringPlayerOptions: PotentialKeeper[] = [];
   potentialSolids: string[] = [];
   selectedSolids = new FormControl('');
@@ -62,6 +65,7 @@ export class KeepersFormComponent implements OnInit {
   potentialUndraftedRookies: PotentialKeeper[] = [];
   selectedUndraftedRookies = new FormControl('');
   signedMaxPlayer: boolean = false;
+  signedSecondMax: boolean = false;
   signedMaxpiring: boolean = false;
   isSecondMaxAllowed: boolean = true;
   signedSolidDiffFrom29: number = 0;
@@ -75,6 +79,16 @@ export class KeepersFormComponent implements OnInit {
         player.nextSeasonSalary = player.purchasePrice;
         this.openKeeperSlots -= 1;
         if (player.purchasePrice >= 40) {
+          this.maxPlayersList = this.maxPlayersList.filter(
+            (player) => player.value.keeperStatus !== 1
+          );
+          this.maxPlayersList.map((player) => {
+            const editedPlayer = player;
+            editedPlayer.nextSeasonSalary =
+              editedPlayer.value.purchasePrice + 5;
+            editedPlayer.viewValue = `${editedPlayer.value.player} (${editedPlayer.nextSeasonSalary}$ לעונה אחת)`;
+            this.secondMaxPlayersList.push(editedPlayer);
+          });
           this.signedMaxPlayer = true;
         }
         if (player.purchasePrice >= 30 && player.purchasePrice <= 39) {
@@ -91,11 +105,11 @@ export class KeepersFormComponent implements OnInit {
           case player.purchasePrice >= 40 && !this.signedMaxPlayer:
             this.maxPlayersList.push({
               value: player,
-              viewValue: `${player.player} (${player.purchasePrice}$ לשתי עונות)`,
+              viewValue: `${player.player} (${player.purchasePrice}$ לשתי העונות הקרובות)`,
             });
             break;
           case player.purchasePrice >= 40 && this.signedMaxPlayer:
-            this.maxPlayersList.push({
+            this.secondMaxPlayersList.push({
               value: player,
               viewValue: `${player.player} (${
                 player.purchasePrice + 5
@@ -107,7 +121,7 @@ export class KeepersFormComponent implements OnInit {
             !this.signedMaxpiring:
             this.maxpiringPlayerOptions.push({
               value: player,
-              viewValue: `${player.player} (${player.purchasePrice}$ לעונה אחת)`,
+              viewValue: `${player.player} (${player.purchasePrice}$ לעונה אחת בלבד)`,
             });
             break;
           case player.purchasePrice >= 10 &&
@@ -127,13 +141,13 @@ export class KeepersFormComponent implements OnInit {
           case player.purchasePrice <= 9 && player.YOS >= 10:
             this.potentialCheapVets.push({
               value: player,
-              viewValue: `${player.player} (${player.purchasePrice}$ לעונה אחת)`,
+              viewValue: `${player.player} (${player.purchasePrice}$ לעונה אחת בלבד)`,
             });
             break;
           case player.purchasePrice <= 5 && player.YOS === 1:
             this.potentialUndraftedRookies.push({
               value: player,
-              viewValue: `${player.player} (${player.purchasePrice}$ לשתי עונות)`,
+              viewValue: `${player.player} (${player.purchasePrice}$ לשתי העונות הבאות)`,
             });
             break;
         }
@@ -147,15 +161,14 @@ export class KeepersFormComponent implements OnInit {
       const teamDataArray = JSON.parse(myTeamData);
       this.filterPotentialKeepers(teamDataArray.currentRoster);
       this.teamName = teamDataArray.name;
-      let owedSalaries: number[] = [];
       teamDataArray.currentRoster.filter((player: Player) => {
         if (player.nextSeasonSalary) {
-          owedSalaries.push(player.nextSeasonSalary);
+          this.owedSalaries.push(player.nextSeasonSalary);
         }
       });
       this.auctionBudget = calcAuctionBudget(
         teamDataArray.nextYearBudget,
-        owedSalaries
+        this.owedSalaries
       );
       this.veteransMarket = veteransMarketStatus(teamDataArray.finalRank);
       const rookiePickStatus = teamDataArray.rookiesDraftDetails;
@@ -172,12 +185,20 @@ export class KeepersFormComponent implements OnInit {
     if (this.openKeeperSlots === 0) {
       return;
     } else {
-      this.signedMaxPlayer = true;
       const selectedPlayer = event.value;
       selectedPlayer.keeperStatus = 1;
       selectedPlayer.nextSeasonSalary = selectedPlayer.purchasePrice;
       this.keepersList.push(selectedPlayer);
-      this.maxPlayersList.filter((player) => player !== selectedPlayer);
+      this.maxPlayersList = this.maxPlayersList.filter(
+        (player) => player.value.keeperStatus !== 1
+      );
+      this.maxPlayersList.map((player) => {
+        const editedPlayer = player;
+        editedPlayer.nextSeasonSalary = editedPlayer.value.purchasePrice + 5;
+        editedPlayer.viewValue = `${editedPlayer.value.player} (${editedPlayer.nextSeasonSalary}$ לעונה אחת)`;
+        this.secondMaxPlayersList.push(editedPlayer);
+      });
+      this.signedMaxPlayer = true;
       this.openKeeperSlots -= 1;
       this.auctionBudget -= selectedPlayer.nextSeasonSalary;
     }
@@ -187,7 +208,7 @@ export class KeepersFormComponent implements OnInit {
     if (this.openKeeperSlots === 0) {
       return;
     } else {
-      this.signedMaxpiring = true;
+      this.signedSecondMax = true;
       const selectedPlayer = event.value;
       selectedPlayer.keeperStatus = 1;
       selectedPlayer.nextSeasonSalary = selectedPlayer.purchasePrice + 5;
@@ -207,7 +228,7 @@ export class KeepersFormComponent implements OnInit {
       this.keepersList.push(selectedPlayer);
       this.maxpiringPlayerOptions.filter((player) => player !== selectedPlayer);
       this.openKeeperSlots -= 1;
-      this.isSecondMaxAllowed = false;
+      this.signedMaxpiring = true;
       this.auctionBudget -= selectedPlayer.nextSeasonSalary;
     }
   }

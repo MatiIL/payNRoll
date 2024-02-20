@@ -20,31 +20,34 @@
   </div>
   <form class="mt-3">
     <div class="d-flex justify-content-around">
-        <mat-form-field *ngIf="!signedMaxPlayer">
+        <mat-form-field>
           <mat-label>שחקני מקס</mat-label>
           <mat-select 
           (selectionChange)="onFirstMaxSelect($event)"
+          [disabled]="signedMaxPlayer"
           >
               <mat-option
-              *ngFor="let player of maxPlayersList"
-               [value]="player">{{ player }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field *ngIf="isSecondMaxAllowed && signedMaxPlayer && maxPlayersList.length > 0">
-          <mat-label>שחקן מקס נוסף</mat-label>
-          <mat-select 
-          (selectionChange)="onSecondMaxSelect($event)"
-          >
-              <mat-option
+              multiple
               *ngFor="let player of maxPlayersList"
                [value]="player.value">{{ player.viewValue }}</mat-option>
           </mat-select>
         </mat-form-field>
 
-      <mat-form-field>
+        <mat-form-field *ngIf="secondMaxPlayersList.length > 0 && signedMaxPlayer">
+          <mat-label>שחקן מקס נוסף</mat-label>
+          <mat-select 
+          (selectionChange)="onSecondMaxSelect($event)"
+          [disabled]="signedMaxpiring || signedSecondMax"
+          >
+              <mat-option
+              *ngFor="let player of secondMaxPlayersList"
+               [value]="player.value">{{ player.viewValue }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      <mat-form-field *ngIf="maxpiringPlayerOptions.length > 0">
         <mat-label>שואפי-מקס</mat-label>
-        <mat-select (selectionChange)="onMaxpiringSelect($event)" [disabled]="signedMaxpiring">
+        <mat-select (selectionChange)="onMaxpiringSelect($event)" [disabled]="signedMaxpiring || signedSecondMax">
           <mat-option
             *ngFor="let player of maxpiringPlayerOptions"
             [value]="player.value"
