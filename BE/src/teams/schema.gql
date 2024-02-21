@@ -51,6 +51,8 @@ type Player {
   player: String!
   purchasePrice: Float!
   keeperStatus: Float!
+  nextSeasonSalary: Float!
+  contractLength: Float!
   YOS: Float!
 }
 

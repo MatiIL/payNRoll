@@ -26,8 +26,47 @@ export function findContractLength(
   return contractLength;
 }
 
-export function calcAuctionBudget (budget: number, salaries: number[]): number {
-  return salaries.reduce((acc, curr) => acc - curr, budget); 
+export function calcAuctionBudget (budget: number, rank: number, salaries: number[]): number {
+  let rankBonus: number = 0;
+  const reduceSalaries = salaries.reduce((acc, curr) => acc - curr, budget); 
+
+  switch (rank) {
+    case 1:
+      rankBonus = 0;
+      break;
+    case 2:
+      rankBonus = 5;
+      break;
+    case 3:
+      rankBonus = 10;
+      break;
+    case 4:
+      rankBonus = 50;
+      break;
+    case 5:
+      rankBonus = 45;
+      break;
+    case 6:
+      rankBonus = 40;
+      break;
+    case 7:
+      rankBonus = 35;
+      break;
+    case 8:
+      rankBonus = 30;
+      break;
+    case 9:
+      rankBonus = 25;
+      break;
+    case 10:
+      rankBonus = 20;
+      break;
+    case 11:
+      rankBonus = 15;
+      break;
+  }
+
+  return reduceSalaries + rankBonus;
 }
 
 interface RookieDraftPickDetails {
@@ -94,8 +133,8 @@ export function veteransMarketStatus(rank: number): string {
       break;
   }
   
-  let discountCaluse = `בהנחה של ${6 - rank}$ ממחירו הנקוב.`;
-  let message = `אתה בוחר ${position} את מי להחתים מבין כל השחקנים בעלי 10 שנות ניסיון ומעלה, שלא הוחתמו על חוזה, ${
+  let discountCaluse = `, בהנחה של ${6 - rank}$ ממחירו הנקוב.`;
+  let message = `אתה בוחר ${position} את מי להחתים מבין כל השחקנים בעלי 10 שנות ניסיון ומעלה, שלא הוחתמו על חוזה ${
     rank <= 5 ? discountCaluse : ''
   }`;
 

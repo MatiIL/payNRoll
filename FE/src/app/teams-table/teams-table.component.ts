@@ -38,11 +38,11 @@ export class TeamsTableComponent implements OnInit {
           }  
         }
       );
-      const auctionBudget = calcAuctionBudget(teamDataArray.nextYearBudget, owedSalaries);
+      const auctionBudget = calcAuctionBudget(teamDataArray.nextYearBudget, teamDataArray.finalRank, owedSalaries);
       this.dataSource = [
         ...currentRoster,
         {
-          player: 'תקציב לדראפט אוקשן',
+          player: 'תקציב (משוער) לדראפט אוקשן',
           nextSeasonSalary: auctionBudget,
         },
         {

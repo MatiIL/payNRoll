@@ -1,8 +1,8 @@
 <div class="keepers-form">
-  <h1 class="text-center">טופס בחירת קיפרים: {{ teamName }}</h1>
+  <h1 class="text-center mt-2">טופס בחירת קיפרים: {{ teamName }}</h1>
   <div class="d-flex flex-column me-3">
     <div>
-      תקציב דראפט אוקשן לעונה הבאה:
+      תקציב דראפט אוקשן לעונה הבאה (נכון לפי מיקום ב 22.2, ללא הפחתה של משכורות רוקי מדראפט 24 ושכיר חרב):
       <span>{{ auctionBudget }}$</span>
     </div>
     <mat-divider></mat-divider>
@@ -45,6 +45,12 @@
           </mat-select>
         </mat-form-field>
 
+        <mat-slide-toggle
+        *ngIf="signedSecondMax"
+        class="align-self-center me-3"
+        (change)="toggleMaxPlayers()"
+        >החלף בין מקס גאי ראשי למשני</mat-slide-toggle>
+
       <mat-form-field *ngIf="maxpiringPlayerOptions.length > 0">
         <mat-label>שואפי-מקס</mat-label>
         <mat-select (selectionChange)="onMaxpiringSelect($event)" [disabled]="signedMaxpiring || signedSecondMax">
@@ -57,38 +63,75 @@
       </mat-form-field>
     </div>
 
-    <div class="d-flex justify-content-around">
-        <mat-form-field>
-          <mat-label>סולידי - מלא או מפוצל</mat-label>
+    <div class="d-flex justify-content-start">
+      <mat-radio-group 
+      aria-label="שימוש בחוזה סולידי"
+      class="d-flex flex-column"
+      (change)="selectSolidType($event)"
+      [value]="defaultSolidType"
+      >
+        <mat-radio-button value="1">חוזה סולידי מלא (לשלוש עונות)</mat-radio-button>
+        <mat-radio-button value="2">פיצול חוזה סולידי (חוזה אחד לשנתיים, השני לשנה)</mat-radio-button>
+        <mat-radio-button value="3">חוזה וטרן יקר (1 + 1)</mat-radio-button>
+      </mat-radio-group>
+      
+        <mat-form-field *ngIf="showFullSolidSelect && !potentialSplitSolid" class="me-5">
+          <mat-label>חוזה סולידי מלא</mat-label>
           <mat-select 
-          [formControl]="selectedSolids" 
-          multiple
-          (selectionChange)="onSelectionChange($event)"
+          (selectionChange)="fullSolidSelect($event)"
+          [disabled]="usedSolidContract"
           >
               <mat-option
               *ngFor="let player of potentialSolids"
-               [value]="player">{{ player }}</mat-option>
+               [value]="player">{{ player.viewValue }}</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field>
+
+        <mat-form-field 
+        *ngIf="showSplitSolidSelect && !splitSolidContract" 
+        class="me-5"
+        (click)="handleClick($event)"
+        >
+          <mat-label>חוזה סולידי מפוצל</mat-label>
+          <mat-select 
+          (selectionChange)="splitSolidSelect($event)"
+          #selectRef
+          [disabled]="usedSolidContract"
+          multiple
+          >
+              <mat-option
+              *ngFor="let player of splitSolidOptions"
+               [value]="player"
+               [disabled]="alreadySigned"
+               >{{ player.viewValue }}</mat-option>
+              
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="showPriceyVetSelect && !potentialSplitSolid" class="me-5">
           <mat-label>חוזה וטרן יקר (1+1) </mat-label>
           <mat-select 
-          [formControl]="selectedPriceyVet" 
-          multiple
-          (selectionChange)="onSelectionChange($event)"
+          (selectionChange)="onPriceyVetSelect($event)"
+          [disabled]="usedSolidContract"
           >
               <mat-option
               *ngFor="let player of potentialPriceyVets"
-               [value]="player">{{ player }}</mat-option>
+               [value]="player">{{ player.viewValue }}</mat-option>
           </mat-select>
         </mat-form-field>
+
+        <mat-slide-toggle
+        *ngIf="splitSolidContract"
+        class="align-self-center me-3"
+        (change)="toggleSplitSolids()"
+        >החלף לשנה לשחקן הראשון, שנתיים לשני</mat-slide-toggle>
+
       </div>
 
-    <div class="d-flex justify-content-around">
+    <div class="d-flex justify-content-around mt-4">
       <mat-form-field>
         <mat-label>חוזי וטרן זול </mat-label>
         <mat-select 
-        [formControl]="selectedCheapVets" 
         multiple
         (selectionChange)="onCheapVeteranSelect($event)"
         >
@@ -100,13 +143,15 @@
         <mat-form-field>
           <mat-label>Undrafted Rookies</mat-label>
           <mat-select 
-          [formControl]="selectedUndraftedRookies" 
           multiple
           (selectionChange)="onUndraftedRookieSelect($event)"
           >
               <mat-option
               *ngFor="let player of potentialUndraftedRookies"
-               [value]="player">{{ player.viewValue }}</mat-option>
+               [value]="player"
+               [disabled]="player.value.keeperStatus === 1"
+               >{{ player.viewValue }} 
+              </mat-option>
           </mat-select>
         </mat-form-field>
     </div>
@@ -119,13 +164,33 @@
     </h3>
     
       <div class="d-flex justify-content-between">
-        <ul>
-          <li *ngFor="let keeper of keepersList">
-            {{ keeper.player }} {{ keeper.nextSeasonSalary }}$
-          </li>
-        </ul>
-        <div>הסברים ואזהרות</div>
-        <button type="submit" [disabled] class="btn btn-outline-dark ms-2">
+        <div>
+
+        </div>
+        <div class="d-flex">
+          <ul>
+            <li *ngFor="let keeper of keepersList">
+              {{ keeper.player }} {{ keeper.nextSeasonSalary }}$
+            </li>
+          </ul>
+          <ul class="list-unstyled">
+            <li *ngFor="let keeper of keepersList">
+              {{ getContractLengthDescription(keeper.contractLength) }}
+            </li>
+          </ul>
+        </div>
+        <div>
+          <mat-error *ngIf="showError">
+           {{ errorMessage }}
+          </mat-error>
+
+        </div>
+        <button 
+        type="submit"
+         [disabled]
+          class="btn btn-outline-dark ms-2 mb-2"
+          (click)="handleSubmit()"
+          >
           שליחה
         </button>
       </div>
