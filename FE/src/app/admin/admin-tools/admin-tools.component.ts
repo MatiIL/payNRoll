@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { UsersComponent } from '../components/users/users.component';
+import { TeamsComponent } from '../components/teams/teams/teams.component';
 
 @Component({
   selector: 'app-admin-tools',
@@ -12,6 +13,7 @@ import { UsersComponent } from '../components/users/users.component';
 })
 export class AdminToolsComponent {
   usersComponent = UsersComponent;
+  teamsComponent = TeamsComponent;
   selectedComponent: any;
 
   constructor() {}

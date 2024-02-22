@@ -1,1 +1,29 @@
-<p>teams works!</p>
+<table>
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th class="text-center">Next Year Budget</th>
+        <th class="text-center">Current Roster</th>
+        <th>Rookies Draft Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let team of teams">
+        <td>{{ team.name }}</td>
+        <td class="text-center">{{ team.nextYearBudget }}</td>
+        <td>
+          <ul>
+            <li *ngFor="let player of team.currentRoster">{{ player.player }} - {{ player.purchasePrice }}</li>
+          </ul>
+        </td>
+        <td>
+          <!-- <ul>
+            <li *ngFor="let detail of team.rookiesDraftDetails">
+              Incoming Pick: {{ detail.incomingPick }}, Outgoing Pick: {{ detail.outgoingPick }}, Swap Rights With: {{ detail.swapRightsWith }}, Draft Position: {{ detail.draftPosition }}
+            </li>
+          </ul> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

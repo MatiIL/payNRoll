@@ -21,6 +21,7 @@ import { TeamModalComponent } from './components/teams/add-team/add-team-modal/t
   exports: [
     AdminToolsComponent,
     UsersComponent,
+    TeamsComponent,
   ]
 })
 export class AdminModule { }
