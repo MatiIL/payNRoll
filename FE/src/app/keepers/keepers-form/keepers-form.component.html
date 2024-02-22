@@ -11,6 +11,7 @@
     <mat-divider></mat-divider>
     <div class="mt-2">שוק שכירי חרב: {{ veteransMarket }}</div>
     <mat-checkbox 
+    [(ngModel)]="noVetMarketChecked"
     (change)="onCheck($event)"
     [disabled]="keepersList.length === 5 && openKeeperSlots === 0"
     >מוותר על השתתפות בשוק שכירי החרב לצורך פינוי משבצת לקיפר
@@ -56,7 +57,8 @@
         (change)="toggleMaxPlayers()"
         >החלף בין מקס גאי ראשי למשני</mat-slide-toggle>
 
-      <mat-form-field *ngIf="maxpiringPlayerOptions.length > 0">
+      <mat-form-field
+       *ngIf="maxpiringPlayerOptions.length > 0">
         <mat-label>שואפי-מקס</mat-label>
         <mat-select (selectionChange)="onMaxpiringSelect($event)" [disabled]="signedMaxpiring || signedSecondMax">
           <mat-option
@@ -80,7 +82,10 @@
         <mat-radio-button value="3">חוזה וטרן יקר (1 + 1)</mat-radio-button>
       </mat-radio-group>
       
-        <mat-form-field *ngIf="showFullSolidSelect && !potentialSplitSolid" class="me-5">
+        <mat-form-field 
+        *ngIf="showFullSolidSelect && !potentialSplitSolid" 
+        class="me-5"
+        >
           <mat-label>חוזה סולידי מלא</mat-label>
           <mat-select 
           (selectionChange)="fullSolidSelect($event)"
@@ -113,7 +118,10 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field *ngIf="showPriceyVetSelect && !potentialSplitSolid" class="me-5">
+        <mat-form-field 
+        *ngIf="showPriceyVetSelect && !potentialSplitSolid" 
+        class="me-5"
+        >
           <mat-label>חוזה וטרן יקר (1+1) </mat-label>
           <mat-select 
           (selectionChange)="onPriceyVetSelect($event)"
@@ -134,7 +142,9 @@
       </div>
 
     <div class="d-flex justify-content-around mt-4 ms-2">
-      <mat-form-field class="ms-2">
+      <mat-form-field 
+      class="ms-2"
+      >
         <mat-label>חוזי וטרן זול </mat-label>
         <mat-select 
         multiple
@@ -161,40 +171,57 @@
         </mat-form-field>
     </div>
 
-    <div></div>
     <div class="d-flex flex-column me-3">
       <h3>
         יש לך {{ keepersList.length }} קיפרים חתומים.
         {{ openKeeperSlots === 0 ? 'בשביל לפנות משבצת ותר על השתתפות בשוק שכירי החרב, או נסה לסחור בבחירתך בדראפט הרוקיז תמורת תוספת תקציב/בחירה עתידית.' : 'עליך להחתים עוד ' + openKeeperSlots }}
     </h3>
     
-      <div class="d-flex justify-content-between">
-        <div class="d-flex">
-          <ul>
-            <li *ngFor="let keeper of keepersList">
-              {{ keeper.player }} {{ keeper.nextSeasonSalary }}$
-            </li>
-          </ul>
-          <ul class="list-unstyled">
-            <li *ngFor="let keeper of keepersList">
-              {{ getContractLengthDescription(keeper.contractLength) }}
-            </li>
-          </ul>
-        </div>
+      <div class="d-flex justify-content-around">
+
+        <table class="w-50">
+          <thead>
+            <tr>
+              <th>קיפר מוחתם</th>
+              <th>עלות</th>
+              <th class="p-3">לעוד</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let keeper of keepersList">
+              <td class="text-start ps-4"
+              >{{ keeper.player }}
+            </td>
+              <td >{{ keeper.nextSeasonSalary }}$</td>
+              <td class="p-3"
+              >{{ getContractLengthDescription(keeper.contractLength) }}
+            </td>
+            </tr>
+          </tbody>
+        </table>
+
         <div>
           <mat-error *ngIf="showError">
            {{ errorMessage }}
           </mat-error>
 
         </div>
+        <div class="buttons d-flex">
+          <button
+        class="keepers-form-btn btn btn-outline-dark ms-2 mb-2"
+        (click)="handleReset()"
+        >
+        איפוס 
+        </button>
         <button 
         type="submit"
          [disabled]
-          class="btn btn-outline-dark ms-2 mb-2"
+          class="keepers-form-btn btn btn-outline-dark ms-2 mb-2"
           (click)="handleSubmit()"
           >
           שליחה
         </button>
+        </div>
       </div>
     </div>
   </form>

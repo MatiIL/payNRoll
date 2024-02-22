@@ -48,6 +48,7 @@ interface PotentialKeeper {
     MatSlideToggleModule,
   ],
 })
+
 export class KeepersFormComponent implements OnInit {
   @ViewChild('selectRef') selectRef!: MatSelect;
   openKeeperSlots: number = 4;
@@ -56,6 +57,7 @@ export class KeepersFormComponent implements OnInit {
   auctionBudget: number = 0;
   rookiesDraft: string = '';
   veteransMarket: string = '';
+  noVetMarketChecked: boolean = false;
   keepersList: Player[] = [];
   maxPlayersList: PotentialKeeper[] = [];
   secondMaxPlayersList: PotentialKeeper[] = [];
@@ -237,7 +239,13 @@ export class KeepersFormComponent implements OnInit {
   }
 
   onCheck(event: MatCheckboxChange): void {
-    event.checked ? (this.openKeeperSlots += 1) : (this.openKeeperSlots -= 1);
+    if (event.checked) {
+      this.noVetMarketChecked = true;
+      this.openKeeperSlots += 1
+    } else {
+      this.noVetMarketChecked = false;
+      this.openKeeperSlots -= 1
+    }  
   }
 
   onFirstMaxSelect(event: MatSelectChange): void {
@@ -444,11 +452,11 @@ export class KeepersFormComponent implements OnInit {
     if (typeof contractLength === 'number') {
       switch (contractLength) {
         case 1:
-          return 'לשנה';
+          return 'שנה';
         case 2:
-          return 'לשנתיים';
+          return 'שנתיים';
         case 3:
-          return 'לשלוש שנים';
+          return 'שלוש שנים';
         default:
           return '';
       }
@@ -501,6 +509,34 @@ export class KeepersFormComponent implements OnInit {
         }
       }
     }
+  }
+
+  handleReset(): void {
+    this.noVetMarketChecked = false;
+    this.keepersList = [];
+    this.maxPlayersList = [];
+    this.openKeeperSlots = 4;
+    this.secondMaxPlayersList = [];
+    this.maxpiringPlayerOptions = [];
+    this.potentialSolids = [];
+    this.splitSolidOptions = [];
+    this.potentialPriceyVets = [];
+    this.showFullSolidSelect = false;
+    this.showSplitSolidSelect = false;
+    this.showPriceyVetSelect = false;
+    this.potentialCheapVets = [];
+    this.potentialUndraftedRookies = [];
+    this.signedMaxPlayer = false;
+    this.signedSecondMax = false;
+    this.signedMaxpiring = false;
+    this.usedSolidContract = false;
+    this.splitSolidContract = false;
+    this.potentialSplitSolid = false;
+    this.alreadySigned = false;
+    this.signedSolidDiffFrom29 = 0;
+    this.errorMessage = '';
+    this.showError = false;
+    this.ngOnInit();
   }
 
   handleSubmit(): void {

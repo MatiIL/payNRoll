@@ -2,9 +2,10 @@ import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { NgModule } from '@angular/core';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
+import { getServerUrl } from './utils';
 
-// const uri = 'https://paynroll-server.onrender.com/graphql'; 
-const uri = 'http://localhost:9000/graphql';
+const serverUrl = getServerUrl();
+const uri = `${serverUrl}/graphql`;
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {
@@ -12,7 +13,6 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     cache: new InMemoryCache(),
   };
 }
-
 
 @NgModule({
   exports: [ApolloModule],
