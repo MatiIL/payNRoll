@@ -2,20 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Player } from '../../schemas/player';
 import {
-  FormControl,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
-  FormGroup,
-  AbstractControl,
 } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
-import {
-  MatSlideToggleChange,
-  MatSlideToggleModule,
-} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule, MatSelectChange, MatSelect } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
