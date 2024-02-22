@@ -36,17 +36,20 @@
             >חוקת הליגה</a
           >
         </li>
+
         <li class="nav-item">
-          <a
-            *ngIf="user"
-            class="nav-link"
-            href="#"
-            routerLink="/my-team"
-            (click)="isMenuCollapsed = true"
-            data-cy="myteam-link"
+          <div 
+          *ngIf="user"
+          class="nav-link"
           >
-            הקבוצה שלי
-          </a>
+            <select (change)="selectTeam($event)">
+              <option value="">פיי רול קבוצות</option>
+              <option value="{{ team.name }}" *ngFor="let team of allTeamsData">
+                {{ team.name }}
+              </option>
+            </select>
+          </div>
+          
           <div
             *ngIf="!user"
             class="nav-link"

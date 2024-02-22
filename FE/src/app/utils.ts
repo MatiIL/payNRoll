@@ -82,14 +82,14 @@ export function processRookieDraftPick(
   let result = '';
 
   if (pickStatus.incomingPick !== '') {
-    result += `You have an incoming pick from: ${pickStatus.incomingPick}`;
+    result += `Got an incoming pick from: ${pickStatus.incomingPick}`;
   }
   if (pickStatus.outgoingPick !== '') {
-    result += `You owe a pick to: ${pickStatus.outgoingPick} `;
+    result += `Owe a pick to: ${pickStatus.outgoingPick} `;
   }
   if (pickStatus.swapRightsWith !== '') {
     const [firstElement, ...rest] = pickStatus.swapRightsWith.split(' ');
-    result += `You ${firstElement} a pick swap with ${rest.join(' ')}`;
+    result += `${firstElement} a pick swap with ${rest.join(' ')}`;
   }
   return result.trim();
 }

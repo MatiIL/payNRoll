@@ -17,10 +17,10 @@ import { CollapsedMenuService } from '../services/collapsed-menu-service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-
 export class HeaderComponent implements OnInit {
   isMenuCollapsed = true;
   user: User | null = null;
+  allTeamsData: any[] = [];
   selectedValue: string = '';
 
   constructor(
@@ -35,9 +35,15 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.userService.userData$.subscribe((userData) => {
       this.user = userData;
+      if (userData) {
+        const allTeamsDataString = localStorage.getItem('allTeamsData');
+        if (allTeamsDataString) {
+          this.allTeamsData = JSON.parse(allTeamsDataString);
+        }
+      }
     });
 
-    this.selectPayrollService.getSelectedValue().subscribe(value => {
+    this.selectPayrollService.getSelectedValue().subscribe((value) => {
       this.selectedValue = value;
     });
   }
@@ -52,11 +58,10 @@ export class HeaderComponent implements OnInit {
     setTimeout(() => {
       this.selectPayrollService.setSelectedValue(selectedValue);
       setTimeout(() => {
-        this.router.navigate(['/table']); 
-      }, 1); 
-    }, 1); 
+        this.router.navigate(['/table']);
+      }, 1);
+    }, 1);
   }
-  
 
   open(e: any) {
     this.modalService.open(AuthModalComponent, { size: 'l' });
@@ -65,7 +70,18 @@ export class HeaderComponent implements OnInit {
   handleLogout(e: any) {
     this.authService.logout().subscribe((userData) => {
       this.user = userData as User;
-      this.userService.updateUser(null); 
+      this.userService.updateUser(null);
     });
   }
+
+  selectTeam(e: any) {
+    const selectedValue = e.target.value;
+    setTimeout(() => {
+      this.selectPayrollService.setSelectedValue(selectedValue);
+      setTimeout(() => {
+        this.router.navigate(['/teams-table']);
+      }, 1);
+    }, 1);
+  }
+  
 }

@@ -27,6 +27,7 @@ import { NameModalComponent } from '../team-name/name-modal/name-modal.component
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { GeneratedNamesService } from './gen-names.service';
 import { MyTeamService } from 'src/app/services/my-team.service';
+import { AllTeamsService } from 'src/app/services/all-teams.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -93,7 +94,8 @@ export class AuthFormComponent {
     private userService: UserService,
     private modalService: NgbModal,
     private genNamesService: GeneratedNamesService,
-    private myTeamService: MyTeamService
+    private myTeamService: MyTeamService,
+    private allTeamsService: AllTeamsService,
   ) {}
 
   ngOnInit(): void {
@@ -141,6 +143,11 @@ export class AuthFormComponent {
               console.error('Error fetching team data:', error);
             },
           });
+          this.allTeamsService.getAllTeams().subscribe({
+            next: (data) => {
+              this.allTeamsService.saveToLocalStorage('allTeamsData', data);
+            }
+          })
         },
         error: (error) => {
           console.error('Error logging in:', error);

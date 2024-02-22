@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomepageComponent },
   { path: 'guide', component: GuideComponent },
-  { path: 'my-team', component: TeamsTableComponent },
+  { path: 'teams-table', component: TeamsTableComponent },
   { path: 'table', component: TableComponent },
   { path: 'quick-guide', component: QuickGuideComponent },
   { path: 'keepers-form', component: KeepersFormComponent },

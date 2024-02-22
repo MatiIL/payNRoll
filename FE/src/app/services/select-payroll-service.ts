@@ -16,4 +16,3 @@ export class SelectPayrollService {
     return this.selectedValueSubject.asObservable();
   }
 }
-
