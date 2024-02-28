@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Player } from '../../schemas/player';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSelectModule, MatSelectChange, MatSelect } from '@angular/material/select';
+import {
+  MatSelectModule,
+  MatSelectChange,
+  MatSelect,
+} from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
 import {
@@ -48,7 +49,6 @@ interface PotentialKeeper {
     MatSlideToggleModule,
   ],
 })
-
 export class KeepersFormComponent implements OnInit {
   @ViewChild('selectRef') selectRef!: MatSelect;
   openKeeperSlots: number = 4;
@@ -118,7 +118,10 @@ export class KeepersFormComponent implements OnInit {
           this.usedSolidContract = true;
           this.defaultSolidType = player.YOS >= 10 ? '3' : '1';
         }
+
         if (player.purchasePrice <= 19 && player.purchasePrice >= 10) {
+          this.showSplitSolidSelect = true;
+          this.splitSolidContract = true;
           if (this.splitSolidOptions.length === 0) {
             player.nextSeasonSalary = player.purchasePrice;
             player.contractLength = 2;
@@ -126,21 +129,12 @@ export class KeepersFormComponent implements OnInit {
             this.openKeeperSlots -= 1;
             this.potentialSplitSolid = true;
             this.signedSolidDiffFrom29 = 29 - player.purchasePrice;
-            this.splitSolidOptions.push({
-              value: player,
-              viewValue: `${player.player} (${player.purchasePrice}$`,
-            });
           } else {
             player.nextSeasonSalary = player.purchasePrice;
             player.contractLength = 1;
             this.keepersList.push(player);
             this.openKeeperSlots -= 1;
             this.signedSolidDiffFrom29 = 29 - player.purchasePrice;
-            this.splitSolidOptions.push({
-              value: player,
-              viewValue: `${player.player} (${player.purchasePrice}$`,
-            });
-            this.splitSolidContract = true;
             this.defaultSolidType = '2';
           }
         }
@@ -241,11 +235,11 @@ export class KeepersFormComponent implements OnInit {
   onCheck(event: MatCheckboxChange): void {
     if (event.checked) {
       this.noVetMarketChecked = true;
-      this.openKeeperSlots += 1
+      this.openKeeperSlots += 1;
     } else {
       this.noVetMarketChecked = false;
-      this.openKeeperSlots -= 1
-    }  
+      this.openKeeperSlots -= 1;
+    }
   }
 
   onFirstMaxSelect(event: MatSelectChange): void {
@@ -349,14 +343,14 @@ export class KeepersFormComponent implements OnInit {
     }
   }
 
-  handleClick(event: any): void {
-    const optionCount = this.selectRef.options.length;
-    if (optionCount === 1) {
-      this.alreadySigned = true;
-    } else {
-      this.alreadySigned = false;
-    }
-}
+  //   handleClick(event: any): void {
+  //     const optionCount = this.selectRef.options.length;
+  //     if (optionCount === 1) {
+  //       this.alreadySigned = true;
+  //     } else {
+  //       this.alreadySigned = false;
+  //     }
+  // }
 
   splitSolidSelect(event: MatSelectChange): void {
     this.showError = false;
@@ -365,6 +359,22 @@ export class KeepersFormComponent implements OnInit {
       this.showError = true;
       return;
     } else {
+      if (event.value.length === 1) {
+        const secondPlayer = event.value[0].value;
+        if (this.potentialSplitSolid && this.signedSolidDiffFrom29 < secondPlayer.purchasePrice) {
+          this.errorMessage = 'סכום משכורות השחקנים עולה על 29!';
+          this.showError = true;
+          return;
+        } else {
+          secondPlayer.nextSeasonSalary = secondPlayer.purchasePrice;
+          secondPlayer.contractLength = 1;
+          this.keepersList.push(secondPlayer);
+          this.openKeeperSlots -= 1;
+          this.auctionBudget -= secondPlayer.nextSeasonSalary;
+          this.splitSolidContract = true;
+          this.showError = false;
+        }
+      }
       if (event.value.length > 1) {
         const firstPlayer = event.value[0].value;
         const secondPlayer = event.value[1].value;
@@ -385,10 +395,13 @@ export class KeepersFormComponent implements OnInit {
           this.showError = false;
         }
       } else {
-        setTimeout(() => {
-          this.errorMessage = 'עליך לבחור שחקן שני';
-          this.showError = true;
-        }, 3000);
+        if (!this.splitSolidContract) {
+          setTimeout(() => {
+            this.errorMessage = 'עליך לבחור שחקן שני';
+            this.showError = true;
+          }, 3000);
+
+        }
       }
     }
   }
@@ -417,8 +430,8 @@ export class KeepersFormComponent implements OnInit {
       return;
     } else {
       this.showError = false;
-      let idx = event.value.length
-      const selectedPlayer = event.value[idx-1].value;
+      let idx = event.value.length;
+      const selectedPlayer = event.value[idx - 1].value;
       selectedPlayer.keeperStatus = 1;
       selectedPlayer.nextSeasonSalary = selectedPlayer.purchasePrice;
       selectedPlayer.contractLength = 1;
@@ -436,13 +449,15 @@ export class KeepersFormComponent implements OnInit {
       return;
     } else {
       this.showError = false;
-      let idx = event.value.length
-      const selectedPlayer = event.value[idx-1].value;
+      let idx = event.value.length;
+      const selectedPlayer = event.value[idx - 1].value;
       selectedPlayer.keeperStatus = 1;
       selectedPlayer.nextSeasonSalary = selectedPlayer.purchasePrice;
       selectedPlayer.contractLength = 2;
       this.keepersList.push(selectedPlayer);
-      this.potentialUndraftedRookies.filter((player) => player !== selectedPlayer);
+      this.potentialUndraftedRookies.filter(
+        (player) => player !== selectedPlayer
+      );
       this.openKeeperSlots -= 1;
       this.auctionBudget -= selectedPlayer.nextSeasonSalary;
     }
@@ -540,8 +555,7 @@ export class KeepersFormComponent implements OnInit {
   }
 
   handleSubmit(): void {
-    this.errorMessage = "לא פעיל עד אמצע אוקטובר 2024"
+    this.errorMessage = 'לא פעיל עד אמצע אוקטובר 2024';
     this.showError = true;
   }
-
 }

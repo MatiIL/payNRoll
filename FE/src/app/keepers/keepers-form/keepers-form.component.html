@@ -83,7 +83,7 @@
       </mat-radio-group>
       
         <mat-form-field 
-        *ngIf="showFullSolidSelect && !potentialSplitSolid" 
+        *ngIf="showFullSolidSelect && !splitSolidContract" 
         class="me-5"
         >
           <mat-label>חוזה סולידי מלא</mat-label>
@@ -98,9 +98,8 @@
         </mat-form-field>
 
         <mat-form-field 
-        *ngIf="showSplitSolidSelect && !splitSolidContract" 
+        *ngIf="showSplitSolidSelect" 
         class="me-5"
-        (click)="handleClick($event)"
         >
           <mat-label>חוזה סולידי מפוצל</mat-label>
           <mat-select 
@@ -119,7 +118,7 @@
         </mat-form-field>
 
         <mat-form-field 
-        *ngIf="showPriceyVetSelect && !potentialSplitSolid" 
+        *ngIf="showPriceyVetSelect && !splitSolidContract" 
         class="me-5"
         >
           <mat-label>חוזה וטרן יקר (1+1) </mat-label>
