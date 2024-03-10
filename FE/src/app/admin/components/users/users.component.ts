@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { TeamModalComponent } from '../teams/add-team/add-team-modal/team-modal.component';
 import { TeamModalService } from 'src/app/services/team-modal.service';
@@ -16,7 +16,6 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private apollo: Apollo,
-    private http: HttpClient,
     private modal: NgbModal,
     private teamModalService: TeamModalService
   ) {}

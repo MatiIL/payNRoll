@@ -1,0 +1,30 @@
+<div class="edit-team-modal">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit {{ team.name }} Details</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-edit-team-form [team]="team"></app-edit-team-form>
+  </div>
+  <div class="modal-footer d-flex justify-content-between">
+    <ul class="d-flex justify-content-evenly">
+      <li *ngFor="let player of team.currentRoster" class="ms-2">
+        {{ player.player }} {{ player.purchasePrice }}
+      </li>
+    </ul>
+    <button
+      type="button"
+      class="btn btn-secondary ms-2"
+      (click)="activeModal.dismiss()"
+    >
+      Close
+    </button>
+  </div>
+</div>

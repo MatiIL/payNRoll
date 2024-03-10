@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AllTeamsService } from 'src/app/services/all-teams.service';
+import { EditTeamModalComponent } from '../edit-team/edit-team-modal/edit-team-modal.component';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-teams',
@@ -8,8 +10,11 @@ import { AllTeamsService } from 'src/app/services/all-teams.service';
 })
 export class TeamsComponent implements OnInit {
   teams: any[] = [];
-
-  constructor(private allTeamsService: AllTeamsService) {}
+  
+  constructor(
+    private allTeamsService: AllTeamsService,
+    private modal: NgbModal,
+    ) {}
 
   ngOnInit(): void {
     this.allTeamsService.getAllTeams().subscribe({
@@ -20,8 +25,18 @@ export class TeamsComponent implements OnInit {
     const allTeamsDataString = localStorage.getItem('allTeamsData');
     if (allTeamsDataString) {
       this.teams = JSON.parse(allTeamsDataString);
-      console.log(this.teams)
     }
-  }
+  };
+
+  modalOptions: NgbModalOptions = {
+    fullscreen: true
+};
+
+editTeam(teamName: string) {
+  console.log(teamName)
+  const clickedTeam = this.teams.find((team) => team.name === teamName); 
+  const modalRef = this.modal.open(EditTeamModalComponent, this.modalOptions);
+  modalRef.componentInstance.team = clickedTeam; 
+}
 
 }

@@ -12,8 +12,6 @@ import { Team } from '../../../../../schemas/team';
 import { Apollo } from 'apollo-angular';
 import { gql } from 'apollo-angular';
 import { map } from 'rxjs/operators';
-import { tap } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-team-form',

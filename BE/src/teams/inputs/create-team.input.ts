@@ -1,5 +1,4 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
-import { RookiesDraftDetails } from '../schemas/teams.schema';
 
 @InputType()
 class RookiesDraftDetailsInput {

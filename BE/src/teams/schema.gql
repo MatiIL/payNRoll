@@ -29,11 +29,30 @@ input DraftRecordInput {
   playerDrafted: String!
 }
 
+type Mutation {
+  updateTeamProperty(
+    name: String!
+    property: String!
+    value: UpdateTeamInput!
+  ): Team
+}
+
+input UpdateTeamInput {
+  _id: String
+  name: String
+  nextYearBudget: Int
+  incomingPick: String!
+  outgoingPick: String!
+  swapRightsWith: String!
+  draftPosition: Int!
+  currentRoster: [PlayerInput]
+  prevRosters: [[PlayerInput]]
+  draftRecord: [DraftRecordInput]
+}
 
 type Mutation {
   addNewTeam(team: CreateTeamInput!): Team
 }
-
 
 type Team {
   _id: ID!

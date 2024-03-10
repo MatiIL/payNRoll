@@ -9,7 +9,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let team of teams">
-        <td>{{ team.name }}</td>
+        <td (click)="editTeam(team.name)" class="team-name">{{ team.name }}</td>
         <td class="text-center">{{ team.nextYearBudget }}</td>
         <td>
           <ul>
@@ -17,13 +17,14 @@
           </ul>
         </td>
         <td>
-          <!-- <ul>
-            <li *ngFor="let detail of team.rookiesDraftDetails">
-              Incoming Pick: {{ detail.incomingPick }}, Outgoing Pick: {{ detail.outgoingPick }}, Swap Rights With: {{ detail.swapRightsWith }}, Draft Position: {{ detail.draftPosition }}
+          <ul *ngIf="team.rookiesDraftDetails">
+            <li *ngFor="let detail of team.rookiesDraftDetails | keyvalue">
+              <ng-container *ngIf="detail.key !== '__typename'">
+                {{ detail.key }}: {{ detail.value }}
+              </ng-container>
             </li>
-          </ul> -->
+          </ul>                   
         </td>
       </tr>
     </tbody>
   </table>
-  

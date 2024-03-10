@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { UsersComponent } from '../components/users/users.component';
-import { TeamsComponent } from '../components/teams/teams/teams.component';
+import { TeamsComponent } from '../components/teams/teams-view/teams.component';
 
 @Component({
   selector: 'app-admin-tools',

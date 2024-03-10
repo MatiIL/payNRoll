@@ -2,6 +2,7 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { Team } from '../schemas/teams.schema';
 import { TeamService } from '../services/teams.service';
 import { CreateTeamInput } from '../inputs/create-team.input';
+import { UpdateTeamInput } from '../inputs/update-team.input';
 
 @Resolver(() => Team)
 export class TeamResolver {
@@ -21,4 +22,12 @@ export class TeamResolver {
   async addNewTeam(@Args('team') team: CreateTeamInput): Promise<Team> {
     return this.teamService.createTeam(team);
   }
+
+  @Mutation(() => Team) 
+async updateTeamProperty(
+  @Args('team') team: UpdateTeamInput
+): Promise<Team> {
+  return this.teamService.updateTeam(team);
+}
+
 }

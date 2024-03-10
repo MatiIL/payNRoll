@@ -27,6 +27,19 @@ export type CreateTeamInput = {
   rookiesDraftDetails: RookiesDraftDetailsInput;
 };
 
+export type UpdateTeamInput = {
+  _id?: Scalars['String'];
+  name?: Scalars['String'];
+  nextYearBudget?: Scalars['Int'];
+  draftPosition: Scalars['Float']['output'];
+  incomingPick: Scalars['String']['output'];
+  outgoingPick: Scalars['String']['output'];
+  swapRightsWith: Scalars['String']['output'];
+  currentRoster?: Array<PlayerInput>;
+  prevRosters?: Array<Array<PlayerInput>>;
+  draftRecord?: Array<DraftRecordInput>;
+};
+
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
@@ -52,6 +65,7 @@ export type DraftRecordInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   addNewTeam: Team;
+  updateTeamProperty: Team;
   addNewUser: User;
   deleteUser: Scalars['Boolean']['output'];
 };
@@ -60,6 +74,10 @@ export type Mutation = {
 export type MutationAddNewTeamArgs = {
   team: CreateTeamInput;
 };
+
+export type MutationUpdateTeamPropertyArgs = {
+  team: UpdateTeamInput;
+}
 
 
 export type MutationAddNewUserArgs = {
