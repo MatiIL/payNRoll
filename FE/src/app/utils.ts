@@ -82,10 +82,10 @@ export function processRookieDraftPick(
   let result = '';
 
   if (pickStatus.incomingPick !== '') {
-    result += `Got an incoming pick from: ${pickStatus.incomingPick}`;
+    result += `Got an incoming pick from: ${pickStatus.incomingPick}.\n`;
   }
   if (pickStatus.outgoingPick !== '') {
-    result += `Owe a pick to: ${pickStatus.outgoingPick} `;
+    result += `Owe a pick to: ${pickStatus.outgoingPick}.\n`;
   }
   if (pickStatus.swapRightsWith !== '') {
     const [firstElement, ...rest] = pickStatus.swapRightsWith.split(' ');
