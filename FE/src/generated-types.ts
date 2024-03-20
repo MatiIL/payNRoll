@@ -145,6 +145,7 @@ export type Team = {
   manager_id: Scalars['String']['output'];
   name: Scalars['String']['output'];
   nextYearBudget: Scalars['Float']['output'];
+  finalRank: Scalars['Float']['output'];
   prevRosters: Array<Array<Scalars['String']['output']>>;
   rookiesDraftDetails: RookiesDraftDetails;
 };

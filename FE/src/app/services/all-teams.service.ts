@@ -10,6 +10,7 @@ const GET_ALL_TEAMS_QUERY = gql`
       _id
       name
       nextYearBudget
+      finalRank
       rookiesDraftDetails {
         incomingPick
         outgoingPick

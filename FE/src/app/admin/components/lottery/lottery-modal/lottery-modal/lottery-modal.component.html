@@ -1,0 +1,25 @@
+<div class="lottery-modal">
+  <div class="modal-header">
+    <h4 class="modal-title mx-auto fs-3">לוטרי דראפט רוקיז</h4>
+  </div>
+  <div class="modal-body" dir="ltr">
+    
+    <ul *ngFor="let pick of draftPicks.reverse(); let i = index">
+        <li class="lottery-teams">{{ pick }}</li>
+    </ul>
+    <ul>
+        <li>9. {{ lotteryData[2].name }}</li>
+        <li class="mt-3 mb-3">10. {{ lotteryData[1].name }}</li>
+        <li>11. {{ lotteryData[0].name }}</li>
+      </ul>      
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="activeModal.dismiss()"
+    >
+      Close
+    </button>
+  </div>
+</div>

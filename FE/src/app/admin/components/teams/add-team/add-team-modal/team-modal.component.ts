@@ -11,6 +11,7 @@ import { TeamModalService } from 'src/app/services/team-modal.service';
   standalone: true,
   imports: [TeamFormComponent, CommonModule],
 })
+
 export class TeamModalComponent {
 
   constructor(

@@ -1,0 +1,53 @@
+<div class="d-flex flex-column justify-content-between">
+  <table>
+    <thead>
+      <tr>
+        <th>Team Name</th>
+        <th>Final Rank</th>
+        <th>Lottery Odds</th>
+        <th>Pick Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let team of teamsLotteryDetails">
+        <td>{{ team.name }}</td>
+        <td>{{ team.finalRank }}</td>
+        <td>{{ team.lotteryOdds }}%</td>
+        <td>
+          <ng-container *ngIf="team.rookiesDraftDetails">
+            <span *ngIf="team.rookiesDraftDetails.incomingPick"
+              >Recieves {{ team.rookiesDraftDetails.incomingPick }} Pick
+            </span>
+            <br *ngIf="team.rookiesDraftDetails.incomingPick" />
+            <span *ngIf="team.rookiesDraftDetails.outgoingPick"
+              >Pick goes to: {{ team.rookiesDraftDetails.outgoingPick }}</span
+            >
+            <br *ngIf="team.rookiesDraftDetails.outgoingPick" />
+            <span *ngIf="team.rookiesDraftDetails.swapRightsWith"
+              >Pick swap: {{ team.rookiesDraftDetails.swapRightsWith }}</span
+            >
+            <br *ngIf="team.rookiesDraftDetails.swapRightsWith" />
+            <span *ngIf="team.rookiesDraftDetails.draftPosition">{{
+              team.rookiesDraftDetails.draftPosition
+            }}</span>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex flex-column">
+    <button 
+  class="m-5 w-75 rounded bg-danger text-light"
+  (click)="openLotteryModal()"
+  >
+    Start Lottery
+  </button>
+  <button
+  class="me-5 w-75 rounded "
+  (click)="testLotteryCalc()"
+  >
+    Test Lottery
+  </button>
+  </div>
+  
+</div>
