@@ -46,6 +46,15 @@ export class LotteryComponent implements OnInit {
 
   openLotteryModal() {
     const modalRef = this.modal.open(LotteryModalComponent, this.modalOptions);
+    const lotteryTeams: any[] = [];
+    this.teamsLotteryDetails.map((team) => {
+      if (team.lotteryOdds !== 0) {
+        delete team.finalRank;
+        team.drawn = false;
+        lotteryTeams.push(team);
+      }
+    })
+    modalRef.componentInstance.teamsLotteryDetails = lotteryTeams;
   }
 
   testLotteryCalc() {

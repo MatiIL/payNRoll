@@ -1,25 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { lotteryCalculator } from 'src/app/utils';
-import { CountdownModule } from 'ngx-countdown';
+import { map, timer, takeWhile, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lottery-modal',
   templateUrl: './lottery-modal.component.html',
   styleUrls: ['./lottery-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule, CountdownModule],
+  imports: [CommonModule],
 })
 export class LotteryModalComponent implements OnInit {
+  teamsLotteryDetails: any[] = [];
   lotteryData: any[] = [];
   postLotteryOrder: any[] = [];
   finalDraftOrder: any[] = [];
   draftPicks: string[] = [];
-  intervalDuration = 20000;
+  intervalDuration = 10000;
   currentIndex = 7;
+  lotteryCountdown: string = '';
+  didLotteryBegin: boolean = true;
+  resultsInterval: string = '';
+  seconds = 10;
+  private destroy$ = new Subject<void>();
+  didLotteryEnd: boolean = false;
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     const lotteryDetails = localStorage.getItem('lotteryDetails');
@@ -27,7 +38,7 @@ export class LotteryModalComponent implements OnInit {
       this.lotteryData = JSON.parse(lotteryDetails);
       for (let i = 0; i < 3; i++) {
         if (this.lotteryData[i].rookiesDraftDetails.outgoingPick !== '') {
-          this.lotteryData[i].name = `${this.lotteryData[i].name} -->
+          this.lotteryData[i].name = `${this.lotteryData[i].name} --->
           ${this.lotteryData[i].rookiesDraftDetails.outgoingPick}
           `;
         }
@@ -47,28 +58,84 @@ export class LotteryModalComponent implements OnInit {
       );
       filteredLotteryTeams.sort((a: any, b: any) => b.finalRank - a.finalRank);
       this.finalDraftOrder.push(...filteredLotteryTeams);
+      this.startTimer();
       this.renderPicksWithDelay();
       this.handlePickSwap(this.finalDraftOrder);
     }
   }
 
+  startTimer() {
+    timer(0, 1000)
+      .pipe(
+        map((n) => this.seconds - n),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((timeInSeconds) => {
+        if (timeInSeconds >= 0) {
+          this.lotteryCountdown = this.formatTimeRemaining(timeInSeconds);
+          this.cdr.detectChanges(); // Trigger change detection
+        } else {
+          this.lotteryCountdown = '0:00'; // Set time remaining to 0:00 when countdown completes
+        }
+      });
+  }
+
+  formatTimeRemaining(timeInSeconds: number): string {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+
   renderPicksWithDelay(): void {
     const intervalId = setInterval(() => {
-      if (this.currentIndex < 0) {
-        clearInterval(intervalId); // Stop the interval when all picks are rendered
-      } else {
-        const pickIndex = this.currentIndex + 1; // Calculate the pick index (1-based)
-        const teamName = this.finalDraftOrder[this.currentIndex].name; // Get the team name
-        const formattedPick = `${pickIndex}. ${teamName}`; // Format the pick with index and team name
-        this.draftPicks.push(formattedPick); // Push the formatted pick into the array
-        this.currentIndex--; // Move to the previous pick
+        const pickIndex = this.currentIndex + 1;
+        if (pickIndex === 8) this.didLotteryBegin = false;
+        const teamName = this.finalDraftOrder[this.currentIndex].name; 
+        const formattedPick = `${pickIndex}. ${teamName}`; 
+        this.draftPicks.push(formattedPick); 
+        this.markTeamAsDrawn(teamName);
+        this.currentIndex--;
+        if (pickIndex > 2) {
+          this.lotteryResultsTimer();
+        } else {
+          clearInterval(intervalId);
+          this.didLotteryEnd = true;
+          setTimeout(() => {
+            const pickIndex = this.currentIndex + 1;
+            const teamName = this.finalDraftOrder[this.currentIndex].name; 
+            const formattedPick = `${pickIndex}. ${teamName}`; 
+            this.draftPicks.push(formattedPick); 
+            this.markTeamAsDrawn(teamName);
+            this.currentIndex--;
+          }, 1000);
       }
     }, this.intervalDuration);
   }
 
-  handlePickSwap(picks: any[]): void {
-    console.log(picks);
+  markTeamAsDrawn(teamName: string) {
+    const cleanedTeamName = teamName.includes(' --->') ? teamName.split(' --->')[0] : teamName;
+    const team = this.teamsLotteryDetails.find(t => t.name === cleanedTeamName);
+    if (team) {
+      team.drawn = true;
+    }
+  }
+  
+  lotteryResultsTimer(): void {
+    timer(0, 1000)
+      .pipe(
+        map((n) => this.seconds - n),
+        takeWhile((timeInSeconds) => timeInSeconds >= 0) // Stop emitting values when countdown reaches zero
+      )
+      .subscribe((timeInSeconds) => {
+        if (timeInSeconds >= 0) {
+          this.resultsInterval = this.formatTimeRemaining(timeInSeconds);
+        } else {
+          this.resultsInterval = '0:00'; 
+        }
+      });
+  }
 
+  handlePickSwap(picks: any[]): void {
     let teamThatOwes: any;
     let teamThatOwns: any;
     const lotteryDetails = localStorage.getItem('lotteryDetails');
@@ -97,25 +164,20 @@ export class LotteryModalComponent implements OnInit {
       );
 
       if (teamThatOwes && teamThatOwns && ownsIndex > owesIndex) {
-        console.log(teamThatOwes.name, teamThatOwns.name);
         picks.find((item) => {
-          console.log(item);
           if (item.name === teamThatOwes.name) {
-            item.name = `${item.name} --> ${teamThatOwns.name}`;
+            item.name = `${item.name} ---> ${teamThatOwns.name}`;
           }
           if (item.name === teamThatOwns.name) {
-            item.name = `${item.name} --> ${teamThatOwes.name}`;
+            item.name = `${item.name} ---> ${teamThatOwes.name}`;
           }
         });
-
-        // if (!teamThatOwes.name.includes'-->') && !teamThatOwns.name.includes('-->')) {
-
-        // if (picks[owesIndex]?.finalRank > picks[ownsIndex]?.finalRank) {
-        //   const temp = picks[owesIndex];
-        //   picks[owesIndex] = picks[ownsIndex];
-        //   picks[ownsIndex] = temp;
-        // }
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
