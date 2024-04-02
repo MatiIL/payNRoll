@@ -4,11 +4,25 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { lotteryCalculator } from 'src/app/utils';
 import { map, timer, takeWhile, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-lottery-modal',
   templateUrl: './lottery-modal.component.html',
   styleUrls: ['./lottery-modal.component.scss'],
+  animations: [
+    trigger('fadeInTeam', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('2000ms ease', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
   standalone: true,
   imports: [CommonModule],
 })

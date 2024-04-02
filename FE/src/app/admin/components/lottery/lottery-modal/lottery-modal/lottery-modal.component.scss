@@ -1,5 +1,16 @@
 .lottery-modal {
     color: black;
+    background-image: url(../../../../../../assets/nba24draft.png);
+    background-size: cover;
+}
+
+.modal-header {
+    background: linear-gradient(to bottom, #C80F2E, #FFFFFF);
+    color: whitesmoke;
+}
+
+h1 {
+    font-weight: bolder;
 }
 
 ul {
@@ -8,6 +19,15 @@ ul {
 
 .lottery-teams {
     list-style: none;
+}
+
+.modal-footer {
+    background: linear-gradient(to bottom, #FFFFFF, #1D428A);
+    color: whitesmoke;
+}
+
+.footer-teams {
+    // color: gold;
 }
 
 button {

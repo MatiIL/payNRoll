@@ -41,7 +41,8 @@ export class LotteryComponent implements OnInit {
   }
 
   modalOptions: NgbModalOptions = {
-    fullscreen: true,
+    animation: true,
+    size: 'xl',
   };
 
   openLotteryModal() {
