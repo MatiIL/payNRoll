@@ -59,7 +59,7 @@ type Team {
   name: String!
   manager_id: String!
   nextYearBudget: Float!
-  finalRank: Int!
+  finalRank: Float!
   rookiesDraftDetails: RookiesDraftDetails!
   currentRoster: [Player]
   prevRosters: [[Player]]

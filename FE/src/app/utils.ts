@@ -21,6 +21,9 @@ export const convertRankToOdds = (rank: number) => {
       case 5:
         odds = 3.5;
         break;
+      case 5.5:
+        odds = 5.25;
+        break;
       case 6:
         odds = 7;
         break;
@@ -50,13 +53,8 @@ export const lotteryCalculator = (teams: TeamData[]): LotteryResult[] => {
   const results: LotteryResult[] = [];
 
   for (let finalRank = 1; finalRank <= 3; finalRank++) {
-    console.log(`Drawing the ${ordinalSuffix(finalRank)} pick:`);
-
     const pickIndex = drawPick(odds);
-    console.log(`Team ${teams[pickIndex].name} won the ${ordinalSuffix(finalRank)} pick.`);
-    
     results.push({ name: teams[pickIndex].name, finalRank });
-    
     teams.splice(pickIndex, 1);
     odds.splice(pickIndex, 1);
   }
@@ -76,7 +74,7 @@ function drawPick(odds: number[]) {
   const normalizedOdds = odds.map(odd => odd / totalOdds);
   const randomNumber = Math.random();
   let cumulativeProbability = 0;
-  const shuffledIndices = shuffle([...Array(normalizedOdds.length).keys()]);
+  const shuffledIndices = shuffle([...Array(normalizedOdds.length).keys()]); 
 
   for (const index of shuffledIndices) {
     cumulativeProbability += normalizedOdds[index];
@@ -89,14 +87,6 @@ function drawPick(odds: number[]) {
   return normalizedOdds.length - 1;
 }
 
-
-function ordinalSuffix(num: number) {
-  const suffixes = ["st", "nd", "rd", "th"];
-  const remainder = num % 100;
-  const suffix = suffixes[(remainder - 1) % 10] || suffixes[3];
-  return num + suffix;
-}
-
 function shuffle(array: number[]) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -104,6 +94,3 @@ function shuffle(array: number[]) {
   }
   return array;
 }
-
-
-

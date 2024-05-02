@@ -66,7 +66,7 @@ export class LotteryComponent implements OnInit {
       pickWins[team.name] = [0, 0, 0];
     });
 
-    for (let i = 0; i <= 1000; i++) {
+    for (let i = 0; i <= 10000; i++) {
       const lotteryDataCopy = [...this.teamsLotteryDetails];
       const lotteryTeams = lotteryDataCopy.splice(3, 8);
       const namesWithOdds = lotteryTeams.map((team: any) => ({
@@ -86,9 +86,9 @@ export class LotteryComponent implements OnInit {
     this.teamsLotteryDetails.forEach((team) => {
       const [firstPickWins, secondPickWins, thirdPickWins] =
         pickWins[team.name];
-      const firstPickProbability = 100 * (firstPickWins / 1000);
-      const secondPickProbability = 100 * (secondPickWins / 1000);
-      const thirdPickProbability = 100 * (thirdPickWins / 1000);
+      const firstPickProbability = 100 * (firstPickWins / 10000);
+      const secondPickProbability = 100 * (secondPickWins / 10000);
+      const thirdPickProbability = 100 * (thirdPickWins / 10000);
       console.log(`${team.name}: 
        ${firstPickWins} first picks wins with probability of ${firstPickProbability}.
        ${secondPickWins} first picks wins with probability of ${secondPickProbability}.
