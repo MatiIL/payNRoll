@@ -361,7 +361,10 @@ export class KeepersFormComponent implements OnInit {
     } else {
       if (event.value.length === 1) {
         const secondPlayer = event.value[0].value;
-        if (this.potentialSplitSolid && this.signedSolidDiffFrom29 < secondPlayer.purchasePrice) {
+        if (
+          this.potentialSplitSolid &&
+          this.signedSolidDiffFrom29 < secondPlayer.purchasePrice
+        ) {
           this.errorMessage = 'סכום משכורות השחקנים עולה על 29!';
           this.showError = true;
           return;
@@ -400,7 +403,6 @@ export class KeepersFormComponent implements OnInit {
             this.errorMessage = 'עליך לבחור שחקן שני';
             this.showError = true;
           }, 3000);
-
         }
       }
     }
@@ -555,7 +557,23 @@ export class KeepersFormComponent implements OnInit {
   }
 
   handleSubmit(): void {
-    this.errorMessage = 'לא פעיל עד אמצע אוקטובר 2024';
-    this.showError = true;
+    console.log(this.noVetMarketChecked);
+    console.log(this.keepersList);
+    console.log(this.auctionBudget);
+    if (this.noVetMarketChecked) {
+      if (this.keepersList.length < 5) {
+        console.log(
+          'need to sign 5th keeper due to passing sellswords market!'
+        );
+      } else {
+        console.log('submit');
+      }
+    } else {
+      if (this.keepersList.length < 4) {
+        console.log('not enough keepers!');
+      } else {
+        console.log('submit');
+      }
+    }
   }
 }
