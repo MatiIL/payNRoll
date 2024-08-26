@@ -3,7 +3,6 @@
       <a class="page-link ms-5 me-2 mt-3" href="/quick-guide" tabindex="-1" aria-disabled="true">לעמוד הקודם</a>
       <h1 class="mt-2 ms-3">סקאלת משכורות חוזי רוקי והארכות</h1>
     </div>
-    <h4>תזכורת - משכורת עונת הרוקי היא 1$ עבור כל נבחרי דראפט הרוקיז</h4>
 
     <button 
     mat-button 
@@ -21,34 +20,39 @@
       </ng-container>
   
       <ng-container matColumnDef="column2">
-        <th mat-header-cell *matHeaderCellDef>משכורת סופמור</th>
+        <th mat-header-cell *matHeaderCellDef>משכורת רוקי</th>
         <td mat-cell *matCellDef="let element"> {{ element.column2 }} </td>
       </ng-container>
   
       <ng-container matColumnDef="column3">
-        <th mat-header-cell *matHeaderCellDef>משכורת עונה 3</th>
+        <th mat-header-cell *matHeaderCellDef>משכורת סופמור</th>
         <td mat-cell *matCellDef="let element"> {{ element.column3 }} </td>
       </ng-container>
   
       <ng-container matColumnDef="column4">
-        <th mat-header-cell *matHeaderCellDef>משכורת עונה 4</th>
+        <th mat-header-cell *matHeaderCellDef>משכורת עונה 3</th>
         <td mat-cell *matCellDef="let element"> {{ element.column4 }} </td>
       </ng-container>
   
       <!-- Additional columns for extension salaries -->
       <ng-container matColumnDef="column5">
-        <th mat-header-cell *matHeaderCellDef>משכורת עונה 5</th>
+        <th mat-header-cell *matHeaderCellDef>משכורת עונה 4</th>
         <td mat-cell *matCellDef="let element"> {{ element.extendedData[0] }}$ </td>
       </ng-container>
   
       <ng-container matColumnDef="column6">
-        <th mat-header-cell *matHeaderCellDef>משכורת עונה 6</th>
+        <th mat-header-cell *matHeaderCellDef>משכורת עונה 5</th>
         <td mat-cell *matCellDef="let element"> {{ element.extendedData[1] }}$ </td>
       </ng-container>
   
       <ng-container matColumnDef="column7">
-        <th mat-header-cell *matHeaderCellDef>משכורת עונה 7</th>
+        <th mat-header-cell *matHeaderCellDef>משכורת עונה 6</th>
         <td mat-cell *matCellDef="let element"> {{ element.extendedData[2] }}$ </td>
+      </ng-container>
+
+      <ng-container matColumnDef="column8">
+        <th mat-header-cell *matHeaderCellDef>משכורת עונה 7</th>
+        <td mat-cell *matCellDef="let element"> {{ element.extendedData[3] }}$ </td>
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
