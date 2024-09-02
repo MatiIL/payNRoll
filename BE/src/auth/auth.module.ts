@@ -7,7 +7,6 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
-import { YahooApiService } from 'src/yahoo-api/yahoo-api.service';
 
 @Module({
   imports: [
@@ -28,7 +27,6 @@ import { YahooApiService } from 'src/yahoo-api/yahoo-api.service';
     AuthService, 
     LocalStrategy, 
     JwtStrategy,  
-    YahooApiService,
   ],
 })
 export class AuthModule {}

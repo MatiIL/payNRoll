@@ -130,6 +130,7 @@ export class AuthFormComponent {
       this.authService.login(loginInput).subscribe({
         next: (response) => {
           const userProperties = response.body.user;
+          localStorage.setItem('userId', userProperties.userId);
           const teamName = userProperties.teamName;
           this.userService.updateUser(userProperties);
           this.loading = false;

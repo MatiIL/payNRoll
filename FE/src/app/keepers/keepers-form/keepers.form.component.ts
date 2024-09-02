@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Apollo } from 'apollo-angular';
+import { UserService } from 'src/app/services/user-service/user.service';
 import { Player } from '../../schemas/player';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
@@ -22,6 +24,7 @@ import {
   veteransMarketStatus,
   calcAuctionBudget,
 } from '../../utils';
+import { ChosenKeepersDocument } from 'src/generated-types';
 
 interface PotentialKeeper {
   value: Player;
@@ -51,6 +54,7 @@ interface PotentialKeeper {
 })
 export class KeepersFormComponent implements OnInit {
   @ViewChild('selectRef') selectRef!: MatSelect;
+  userId: string | null = null;
   openKeeperSlots: number = 4;
   teamName: string = '';
   owedSalaries: number[] = [];
@@ -209,7 +213,10 @@ export class KeepersFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  constructor(private apollo: Apollo) {}
+
+  ngOnInit(): void { 
+    this.userId = localStorage.getItem('userId');
     const myTeamData = localStorage.getItem('myTeamData');
     if (myTeamData) {
       const teamDataArray = JSON.parse(myTeamData);
@@ -342,15 +349,6 @@ export class KeepersFormComponent implements OnInit {
       this.usedSolidContract = true;
     }
   }
-
-  //   handleClick(event: any): void {
-  //     const optionCount = this.selectRef.options.length;
-  //     if (optionCount === 1) {
-  //       this.alreadySigned = true;
-  //     } else {
-  //       this.alreadySigned = false;
-  //     }
-  // }
 
   splitSolidSelect(event: MatSelectChange): void {
     this.showError = false;
@@ -567,13 +565,43 @@ export class KeepersFormComponent implements OnInit {
         );
       } else {
         console.log('submit');
+        this.submitChosenKeepers();
       }
     } else {
       if (this.keepersList.length < 4) {
         console.log('not enough keepers!');
       } else {
         console.log('submit');
+        this.submitChosenKeepers();
       }
     }
+  }
+
+  submitChosenKeepers(): void {
+    const filteredRoster = this.keepersList.map(player => {
+      const { __typename, ...playerData } = player;
+      return playerData;
+    });
+
+    const input = {
+      manager_id: this.userId,
+      currentRoster: filteredRoster,
+      nextYearBudget: this.auctionBudget,
+    };
+    console.log(input);
+
+    this.apollo
+      .mutate({
+        mutation: ChosenKeepersDocument,
+        variables: { input },
+      })
+      .subscribe(
+        ({ data }) => {
+          console.log('Chosen Keepers Updated:', data);
+        },
+        (error) => {
+          console.error('Error updating chosen keepers:', error);
+        }
+      );
   }
 }

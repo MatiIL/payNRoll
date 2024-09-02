@@ -3,6 +3,7 @@ import { Team } from '../schemas/teams.schema';
 import { TeamService } from '../services/teams.service';
 import { CreateTeamInput } from '../inputs/create-team.input';
 import { ChosenKeepersInput } from '../inputs/ChosenKeepersInput';
+import { UpdateChosenKeepersResponse } from '../responses/UpdateChosenKeepersResponse';
 
 
 
@@ -25,12 +26,11 @@ export class TeamResolver {
     return this.teamService.createTeam(team);
   }
 
-  @Mutation(() => Boolean)
-  updateChosenKeepers(
+  @Mutation(() => UpdateChosenKeepersResponse)
+  async updateChosenKeepers(
     @Args('input') input: ChosenKeepersInput,
-  ): boolean {
-    // Logic to update chosen keepers based on the input
-    return true; // or some other return type
+  ): Promise<UpdateChosenKeepersResponse> {
+    return this.teamService.updateChosenKeepers(input);
   }
   
 }

@@ -12,4 +12,10 @@ export class UserService {
   updateUser(user: User | null) {
     this.userDataSubject.next(user);
   }
+
+  getUserId(): string | null {
+    const user = this.userDataSubject.getValue();
+    return user ? user._id : null;
+  }
+
 }

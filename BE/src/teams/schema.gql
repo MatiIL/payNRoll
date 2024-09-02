@@ -1,5 +1,5 @@
 type Query {
-  findAllTeams: [Team]
+  findAllTeams: [Team]!
 }
 
 type Query {
@@ -11,9 +11,9 @@ input CreateTeamInput {
   manager_id: String!
   nextYearBudget: Int!
   rookiesDraftDetails: [RookiesDraftDetails]
-  currentRoster: [PlayerInput!]
-  prevRosters: [[PlayerInput!]]
-  draftRecord: [DraftRecordInput!]
+  currentRoster: [PlayerInput!]!
+  prevRosters: [[PlayerInput!]]!
+  draftRecord: [DraftRecordInput!]!
 }
 
 input PlayerInput {
@@ -21,30 +21,30 @@ input PlayerInput {
   purchasePrice: Int!
   keeperStatus: Int!
   YOS: Int!
+  contractLength: Int!
+}
+
+input ChosenKeepersInput {
+  manager_id: String!
+  nextYearBudget: Int!
+  currentRoster: [PlayerInput!]!
+}
+
+type Mutation {
+  updateChosenKeepers(input: ChosenKeepersInput!): UpdateChosenKeepersResponse!
+  addNewTeam(team: CreateTeamInput!): Team
+}
+
+type UpdateChosenKeepersResponse {
+  manager_id: String!
+  nextYearBudget: Int!
+  currentRoster: [Player!]!
 }
 
 input DraftRecordInput {
   season: Int!
   draftPosition: Int!
   playerDrafted: String!
-}
-
-
-type Mutation {
-  addNewTeam(team: CreateTeamInput!): Team
-}
-
-
-type Team {
-  _id: ID!
-  name: String!
-  manager_id: String!
-  nextYearBudget: Float!
-  finalRank: Int!
-  rookiesDraftDetails: RookiesDraftDetails!
-  currentRoster: [Player]
-  prevRosters: [[Player]]
-  draftRecord: [DraftEntry]
 }
 
 type Player {
@@ -54,6 +54,18 @@ type Player {
   nextSeasonSalary: Float!
   contractLength: Float!
   YOS: Float!
+}
+
+type Team {
+  _id: ID!
+  name: String!
+  manager_id: String!
+  nextYearBudget: Float!
+  finalRank: Int!
+  rookiesDraftDetails: RookiesDraftDetails!
+  currentRoster: [Player!]!
+  prevRosters: [[Player!]!]!
+  draftRecord: [DraftEntry!]!
 }
 
 type DraftEntry {

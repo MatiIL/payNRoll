@@ -105,10 +105,10 @@ export class PlayerInfo {
   YOS: number;
   
   @Field()
-  nextSeasonSalary: Number;
+  nextSeasonSalary?: Number;
 
   @Field()
-  contractLength: Number;
+  contractLength?: Number;
 }
 
 @ObjectType()

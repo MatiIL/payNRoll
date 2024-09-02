@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { User } from '../users/schemas/users.schema';
-import { YahooApiService } from 'src/yahoo-api/yahoo-api.service';
 
 export interface TokenPayload {
   userId: string;
@@ -14,7 +13,6 @@ export class AuthService {
   constructor(
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
-    private readonly yahooApiService: YahooApiService,
   ) {}
 
   async login(user: User, response: Response) {

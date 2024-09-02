@@ -1,4 +1,5 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
+import { PlayerInput } from './create-team.input';
 
 @InputType()
 export class ChosenKeepersInput {
@@ -10,19 +11,4 @@ export class ChosenKeepersInput {
 
   @Field(() => [PlayerInput])
   currentRoster: PlayerInput[];
-}
-
-@InputType()
-class PlayerInput {
-  @Field()
-  player: string;
-
-  @Field(() => Int)
-  purchasePrice: number;
-
-  @Field(() => Int)
-  keeperStatus: number;
-
-  @Field(() => Int)
-  YOS: number;
 }
