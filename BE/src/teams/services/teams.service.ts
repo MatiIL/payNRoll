@@ -45,7 +45,6 @@ export class TeamService {
     await team.save();
 
     return {
-      manager_id: team.manager_id,
       nextYearBudget: team.nextYearBudget,
       currentRoster: team.currentRoster,
     };

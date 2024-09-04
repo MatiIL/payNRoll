@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Apollo } from 'apollo-angular';
-import { UserService } from 'src/app/services/user-service/user.service';
 import { Player } from '../../schemas/player';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
@@ -25,6 +24,7 @@ import {
   calcAuctionBudget,
 } from '../../utils';
 import { ChosenKeepersDocument } from 'src/generated-types';
+import { Team } from 'src/app/schemas/team';
 
 interface PotentialKeeper {
   value: Player;
@@ -60,6 +60,7 @@ export class KeepersFormComponent implements OnInit {
   owedSalaries: number[] = [];
   auctionBudget: number = 0;
   rookiesDraft: string = '';
+  pickOrder: number = 0;
   veteransMarket: string = '';
   noVetMarketChecked: boolean = false;
   keepersList: Player[] = [];
@@ -222,6 +223,7 @@ export class KeepersFormComponent implements OnInit {
       const teamDataArray = JSON.parse(myTeamData);
       this.filterPotentialKeepers(teamDataArray.currentRoster);
       this.teamName = teamDataArray.name;
+      this.pickOrder = teamDataArray.draftRecord[0].draftPosition;
       teamDataArray.currentRoster.filter((player: Player) => {
         if (player.nextSeasonSalary) {
           this.owedSalaries.push(player.nextSeasonSalary);
@@ -343,6 +345,7 @@ export class KeepersFormComponent implements OnInit {
       const selectedPlayer = event.value.value;
       selectedPlayer.nextSeasonSalary = selectedPlayer.purchasePrice;
       selectedPlayer.contractLength = 3;
+      selectedPlayer.keeperStatus = 1;
       this.keepersList.push(selectedPlayer);
       this.openKeeperSlots -= 1;
       this.auctionBudget -= selectedPlayer.nextSeasonSalary;
@@ -555,23 +558,18 @@ export class KeepersFormComponent implements OnInit {
   }
 
   handleSubmit(): void {
-    console.log(this.noVetMarketChecked);
-    console.log(this.keepersList);
-    console.log(this.auctionBudget);
     if (this.noVetMarketChecked) {
       if (this.keepersList.length < 5) {
         console.log(
           'need to sign 5th keeper due to passing sellswords market!'
         );
       } else {
-        console.log('submit');
         this.submitChosenKeepers();
       }
     } else {
       if (this.keepersList.length < 4) {
         console.log('not enough keepers!');
       } else {
-        console.log('submit');
         this.submitChosenKeepers();
       }
     }
@@ -596,8 +594,22 @@ export class KeepersFormComponent implements OnInit {
         variables: { input },
       })
       .subscribe(
-        ({ data }) => {
+        ({ data }: any) => {
           console.log('Chosen Keepers Updated:', data);
+          const { updateChosenKeepers } = data;
+          const { currentRoster, nextYearBudget } = updateChosenKeepers;
+          const allTeamsDataString = localStorage.getItem('allTeamsData');
+          if (allTeamsDataString) {
+          const teamDataArray = JSON.parse(allTeamsDataString);
+          teamDataArray.map((team: Team) => {
+            if (team.name === this.teamName) {
+              team.currentRoster = currentRoster;
+              team.nextYearBudget = nextYearBudget;
+            }
+          });
+          const updatedTeamData = JSON.stringify(teamDataArray);
+          localStorage.setItem('allTeamsData', updatedTeamData);
+          }
         },
         (error) => {
           console.error('Error updating chosen keepers:', error);

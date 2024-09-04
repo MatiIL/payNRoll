@@ -3,9 +3,6 @@ import { PlayerInfo } from '../schemas/teams.schema';
 
 @ObjectType()
 export class UpdateChosenKeepersResponse {
-  @Field()
-  manager_id: string;
-
   @Field(() => Int)
   nextYearBudget: number;
 

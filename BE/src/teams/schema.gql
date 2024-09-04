@@ -36,7 +36,6 @@ type Mutation {
 }
 
 type UpdateChosenKeepersResponse {
-  manager_id: String!
   nextYearBudget: Int!
   currentRoster: [Player!]!
 }

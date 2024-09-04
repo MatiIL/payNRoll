@@ -162,7 +162,6 @@ export const AddNewUserDocument = gql`
 export const ChosenKeepersDocument = gql`
   mutation UpdateChosenKeepers($input: ChosenKeepersInput!) {
   updateChosenKeepers(input: $input) {
-    manager_id
     nextYearBudget
     currentRoster {
       player
