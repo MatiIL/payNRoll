@@ -149,11 +149,16 @@ export class KeepersFormComponent implements OnInit {
           this.keepersList.push(player);
           this.openKeeperSlots -= 1;
         }
-        if (player.purchasePrice <= 5 && player.YOS === 1) {
+        if (player.purchasePrice <= 5 && player.YOS === 2) {
           player.nextSeasonSalary = player.purchasePrice;
           player.contractLength = 2;
           this.keepersList.push(player);
           this.openKeeperSlots -= 1;
+        }
+        if (player.purchasePrice <= 4 && player.YOS === 1) {
+          player.nextSeasonSalary = player.purchasePrice;
+          player.contractLength = 1;
+          this.keepersList.push(player);
         }
       } else {
         switch (true) {
@@ -209,6 +214,7 @@ export class KeepersFormComponent implements OnInit {
               viewValue: `${player.player} (${player.purchasePrice}$ לשתי העונות הבאות)`,
             });
             break;
+          
         }
       }
     });

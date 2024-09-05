@@ -95,7 +95,7 @@ export class PlayerInfo {
   @Field()
   player: string;
 
-  @Field()
+  @Field({ nullable: true })
   purchasePrice: number;
 
   @Field()
