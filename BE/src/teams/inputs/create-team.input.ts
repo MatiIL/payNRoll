@@ -22,7 +22,7 @@ export class CreateTeamInput {
 }
 
 @InputType()
-class PlayerInput {
+export class PlayerInput {
   @Field()
   player: string;
 
@@ -34,6 +34,12 @@ class PlayerInput {
 
   @Field(() => Int)
   YOS: number;
+
+  @Field()
+  nextSeasonSalary?: Number;
+
+  @Field()
+  contractLength?: Number;
 }
 
 @InputType()

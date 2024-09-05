@@ -39,6 +39,12 @@ export type CreateTeamInput = {
   prevRosters: Array<Array<PlayerInput>>;
 };
 
+export type ChosenKeepersInput = {
+  manager_id: Scalars['String']['input'];
+  nextYearBudget: Scalars['Int']['input'];
+  currentRoster: Array<PlayerInput>;
+};
+
 export type CreateUserInput = {
   email: Scalars['String']['input'];
   firstName: Scalars['String']['input'];
@@ -64,6 +70,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addNewTeam: Team;
   addNewUser: User;
+  chosenKeepersInput: ChosenKeepersInput;
 };
 
 export type MutationAddNewTeamArgs = {
@@ -75,7 +82,6 @@ export type MutationAddNewUserArgs = {
 };
 
 export type PlayerInfo = {
-  __typename?: 'PlayerInfo';
   YOS: Scalars['Float']['output'];
   keeperStatus: Scalars['Float']['output'];
   player: Scalars['String']['output'];
@@ -89,6 +95,7 @@ export type PlayerInput = {
   keeperStatus: Scalars['Int']['input'];
   player: Scalars['String']['input'];
   purchasePrice: Scalars['Int']['input'];
+  contractLength: Scalars['Int']['input'];
 };
 
 export type Query = {
@@ -151,6 +158,22 @@ export const AddNewUserDocument = gql`
     }
   }
 `;
+
+export const ChosenKeepersDocument = gql`
+  mutation UpdateChosenKeepers($input: ChosenKeepersInput!) {
+  updateChosenKeepers(input: $input) {
+    nextYearBudget
+    currentRoster {
+      player
+      purchasePrice
+      keeperStatus
+      YOS
+      contractLength
+    }
+  }
+}
+`;
+
 export type LoginInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];

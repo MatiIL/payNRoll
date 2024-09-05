@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Apollo } from 'apollo-angular';
 import { Player } from '../../schemas/player';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
@@ -22,6 +23,8 @@ import {
   veteransMarketStatus,
   calcAuctionBudget,
 } from '../../utils';
+import { ChosenKeepersDocument } from 'src/generated-types';
+import { Team } from 'src/app/schemas/team';
 
 interface PotentialKeeper {
   value: Player;
@@ -51,11 +54,13 @@ interface PotentialKeeper {
 })
 export class KeepersFormComponent implements OnInit {
   @ViewChild('selectRef') selectRef!: MatSelect;
+  userId: string | null = null;
   openKeeperSlots: number = 4;
   teamName: string = '';
   owedSalaries: number[] = [];
   auctionBudget: number = 0;
   rookiesDraft: string = '';
+  pickOrder: number = 0;
   veteransMarket: string = '';
   noVetMarketChecked: boolean = false;
   keepersList: Player[] = [];
@@ -144,11 +149,16 @@ export class KeepersFormComponent implements OnInit {
           this.keepersList.push(player);
           this.openKeeperSlots -= 1;
         }
-        if (player.purchasePrice <= 5 && player.YOS === 1) {
+        if (player.purchasePrice <= 5 && player.YOS === 2) {
           player.nextSeasonSalary = player.purchasePrice;
           player.contractLength = 2;
           this.keepersList.push(player);
           this.openKeeperSlots -= 1;
+        }
+        if (player.purchasePrice <= 4 && player.YOS === 1) {
+          player.nextSeasonSalary = player.purchasePrice;
+          player.contractLength = 1;
+          this.keepersList.push(player);
         }
       } else {
         switch (true) {
@@ -204,17 +214,22 @@ export class KeepersFormComponent implements OnInit {
               viewValue: `${player.player} (${player.purchasePrice}$ לשתי העונות הבאות)`,
             });
             break;
+          
         }
       }
     });
   }
 
+  constructor(private apollo: Apollo) {}
+
   ngOnInit(): void {
+    this.userId = localStorage.getItem('userId');
     const myTeamData = localStorage.getItem('myTeamData');
     if (myTeamData) {
       const teamDataArray = JSON.parse(myTeamData);
       this.filterPotentialKeepers(teamDataArray.currentRoster);
       this.teamName = teamDataArray.name;
+      this.pickOrder = teamDataArray.draftRecord[0].draftPosition;
       teamDataArray.currentRoster.filter((player: Player) => {
         if (player.nextSeasonSalary) {
           this.owedSalaries.push(player.nextSeasonSalary);
@@ -336,21 +351,13 @@ export class KeepersFormComponent implements OnInit {
       const selectedPlayer = event.value.value;
       selectedPlayer.nextSeasonSalary = selectedPlayer.purchasePrice;
       selectedPlayer.contractLength = 3;
+      selectedPlayer.keeperStatus = 1;
       this.keepersList.push(selectedPlayer);
       this.openKeeperSlots -= 1;
       this.auctionBudget -= selectedPlayer.nextSeasonSalary;
       this.usedSolidContract = true;
     }
   }
-
-  //   handleClick(event: any): void {
-  //     const optionCount = this.selectRef.options.length;
-  //     if (optionCount === 1) {
-  //       this.alreadySigned = true;
-  //     } else {
-  //       this.alreadySigned = false;
-  //     }
-  // }
 
   splitSolidSelect(event: MatSelectChange): void {
     this.showError = false;
@@ -361,7 +368,10 @@ export class KeepersFormComponent implements OnInit {
     } else {
       if (event.value.length === 1) {
         const secondPlayer = event.value[0].value;
-        if (this.potentialSplitSolid && this.signedSolidDiffFrom29 < secondPlayer.purchasePrice) {
+        if (
+          this.potentialSplitSolid &&
+          this.signedSolidDiffFrom29 < secondPlayer.purchasePrice
+        ) {
           this.errorMessage = 'סכום משכורות השחקנים עולה על 29!';
           this.showError = true;
           return;
@@ -400,7 +410,6 @@ export class KeepersFormComponent implements OnInit {
             this.errorMessage = 'עליך לבחור שחקן שני';
             this.showError = true;
           }, 3000);
-
         }
       }
     }
@@ -555,7 +564,74 @@ export class KeepersFormComponent implements OnInit {
   }
 
   handleSubmit(): void {
-    this.errorMessage = 'לא פעיל עד אמצע אוקטובר 2024';
-    this.showError = true;
+    if (this.noVetMarketChecked) {
+      if (this.keepersList.length < 5) {
+        console.log(
+          'need to sign 5th keeper due to passing on sellswords market!'
+        );
+      } else {
+        if (
+          confirm(
+            'האם אתה בטוח שאלו הקיפרים שלך? אישור שליחה ימחק את שאר הקיפרים הפוטנציאליים מנתוניך בדאטה בייס'
+          )
+        ) {
+          this.submitChosenKeepers();
+        }
+      }
+    } else {
+      if (this.keepersList.length < 4) {
+        console.log('not enough keepers!');
+      } else {
+        if (
+          confirm(
+            'האם אתה בטוח שאלו הקיפרים שלך? אישור שליחה ימחק את שאר הקיפרים הפוטנציאליים מנתוניך בדאטה בייס'
+          )
+        ) {
+          this.submitChosenKeepers();
+        }
+      }
+    }
+  }
+
+  submitChosenKeepers(): void {
+    const filteredRoster = this.keepersList.map((player) => {
+      const { __typename, ...playerData } = player;
+      return playerData;
+    });
+
+    const input = {
+      manager_id: this.userId,
+      currentRoster: filteredRoster,
+      nextYearBudget: this.auctionBudget,
+    };
+    console.log(input);
+
+    this.apollo
+      .mutate({
+        mutation: ChosenKeepersDocument,
+        variables: { input },
+      })
+      .subscribe(
+        ({ data }: any) => {
+          console.log('Chosen Keepers Updated:', data);
+          const { updateChosenKeepers } = data;
+          const { currentRoster, nextYearBudget } = updateChosenKeepers;
+          const allTeamsDataString = localStorage.getItem('allTeamsData');
+          if (allTeamsDataString) {
+            const teamDataArray = JSON.parse(allTeamsDataString);
+            teamDataArray.map((team: Team) => {
+              if (team.name === this.teamName) {
+                team.currentRoster = currentRoster;
+                team.nextYearBudget = nextYearBudget;
+              }
+            });
+            const updatedTeamData = JSON.stringify(teamDataArray);
+            localStorage.setItem('allTeamsData', updatedTeamData);
+          }
+        },
+        (error) => {
+          console.error('Error updating chosen keepers:', error);
+        }
+      );
   }
 }

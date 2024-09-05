@@ -66,7 +66,7 @@ export class TeamsTableComponent implements OnInit {
         ...currentRoster,
         {
           player: 'תקציב (משוער) לדראפט אוקשן',
-          nextSeasonSalary: auctionBudget,
+          nextSeasonSalary: teamDataArray.nextYearBudget,
         },
         {
           player: 'סטטוס בחירה בדראפט רוקיז',

@@ -95,7 +95,7 @@ export class PlayerInfo {
   @Field()
   player: string;
 
-  @Field()
+  @Field({ nullable: true })
   purchasePrice: number;
 
   @Field()
@@ -105,10 +105,10 @@ export class PlayerInfo {
   YOS: number;
   
   @Field()
-  nextSeasonSalary: Number;
+  nextSeasonSalary?: Number;
 
   @Field()
-  contractLength: Number;
+  contractLength?: Number;
 }
 
 @ObjectType()
