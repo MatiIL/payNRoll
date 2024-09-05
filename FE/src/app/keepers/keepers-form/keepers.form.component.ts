@@ -216,7 +216,7 @@ export class KeepersFormComponent implements OnInit {
 
   constructor(private apollo: Apollo) {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.userId = localStorage.getItem('userId');
     const myTeamData = localStorage.getItem('myTeamData');
     if (myTeamData) {
@@ -561,22 +561,34 @@ export class KeepersFormComponent implements OnInit {
     if (this.noVetMarketChecked) {
       if (this.keepersList.length < 5) {
         console.log(
-          'need to sign 5th keeper due to passing sellswords market!'
+          'need to sign 5th keeper due to passing on sellswords market!'
         );
       } else {
-        this.submitChosenKeepers();
+        if (
+          confirm(
+            'האם אתה בטוח שאלו הקיפרים שלך? אישור שליחה ימחק את שאר הקיפרים הפוטנציאליים מנתוניך בדאטה בייס'
+          )
+        ) {
+          this.submitChosenKeepers();
+        }
       }
     } else {
       if (this.keepersList.length < 4) {
         console.log('not enough keepers!');
       } else {
-        this.submitChosenKeepers();
+        if (
+          confirm(
+            'האם אתה בטוח שאלו הקיפרים שלך? אישור שליחה ימחק את שאר הקיפרים הפוטנציאליים מנתוניך בדאטה בייס'
+          )
+        ) {
+          this.submitChosenKeepers();
+        }
       }
     }
   }
 
   submitChosenKeepers(): void {
-    const filteredRoster = this.keepersList.map(player => {
+    const filteredRoster = this.keepersList.map((player) => {
       const { __typename, ...playerData } = player;
       return playerData;
     });
@@ -600,15 +612,15 @@ export class KeepersFormComponent implements OnInit {
           const { currentRoster, nextYearBudget } = updateChosenKeepers;
           const allTeamsDataString = localStorage.getItem('allTeamsData');
           if (allTeamsDataString) {
-          const teamDataArray = JSON.parse(allTeamsDataString);
-          teamDataArray.map((team: Team) => {
-            if (team.name === this.teamName) {
-              team.currentRoster = currentRoster;
-              team.nextYearBudget = nextYearBudget;
-            }
-          });
-          const updatedTeamData = JSON.stringify(teamDataArray);
-          localStorage.setItem('allTeamsData', updatedTeamData);
+            const teamDataArray = JSON.parse(allTeamsDataString);
+            teamDataArray.map((team: Team) => {
+              if (team.name === this.teamName) {
+                team.currentRoster = currentRoster;
+                team.nextYearBudget = nextYearBudget;
+              }
+            });
+            const updatedTeamData = JSON.stringify(teamDataArray);
+            localStorage.setItem('allTeamsData', updatedTeamData);
           }
         },
         (error) => {
