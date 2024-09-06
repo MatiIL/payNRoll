@@ -32,37 +32,37 @@ export function calcAuctionBudget (budget: number, rank: number, salaries: numbe
 
   switch (rank) {
     case 1:
-      rankBonus = 0;
+      rankBonus = 1;
       break;
     case 2:
-      rankBonus = 5;
+      rankBonus = 2;
       break;
     case 3:
-      rankBonus = 10;
+      rankBonus = 3;
       break;
     case 4:
-      rankBonus = 50;
+      rankBonus = 11;
       break;
     case 5:
-      rankBonus = 45;
+      rankBonus = 10;
       break;
     case 6:
-      rankBonus = 40;
+      rankBonus = 9;
       break;
     case 7:
-      rankBonus = 35;
+      rankBonus = 8;
       break;
     case 8:
-      rankBonus = 30;
+      rankBonus = 7;
       break;
     case 9:
-      rankBonus = 25;
+      rankBonus = 6;
       break;
     case 10:
-      rankBonus = 20;
+      rankBonus = 5;
       break;
     case 11:
-      rankBonus = 15;
+      rankBonus = 4;
       break;
   }
 
