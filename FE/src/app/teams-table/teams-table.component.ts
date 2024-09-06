@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Player } from '../schemas/player';
 import { SelectPayrollService } from '../services/select-payroll-service';
-import { processRookieDraftPick, calcAuctionBudget } from '../utils';
+import { processRookieDraftPick } from '../utils';
 
 @Component({
   selector: 'app-teams-table',
@@ -57,16 +57,14 @@ export class TeamsTableComponent implements OnInit {
           owedSalaries.push(player.nextSeasonSalary);
         }
       });
-      const auctionBudget = calcAuctionBudget(
-        teamDataArray.nextYearBudget,
-        teamDataArray.finalRank,
-        owedSalaries
-      );
+      const salariesSum = owedSalaries.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue
+      },0);
       this.dataSource = [
         ...currentRoster,
         {
           player: 'תקציב (משוער) לדראפט אוקשן',
-          nextSeasonSalary: teamDataArray.nextYearBudget,
+          nextSeasonSalary: teamDataArray.nextYearBudget - salariesSum,
         },
         {
           player: 'סטטוס בחירה בדראפט רוקיז',

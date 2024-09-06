@@ -208,7 +208,7 @@ export class KeepersFormComponent implements OnInit {
               viewValue: `${player.player} (${player.purchasePrice}$ לעונה אחת בלבד)`,
             });
             break;
-          case player.purchasePrice <= 5 && player.YOS === 1:
+          case player.purchasePrice <= 5 && player.YOS === 2:
             this.potentialUndraftedRookies.push({
               value: player,
               viewValue: `${player.player} (${player.purchasePrice}$ לשתי העונות הבאות)`,
