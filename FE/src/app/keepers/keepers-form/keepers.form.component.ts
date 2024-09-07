@@ -55,7 +55,7 @@ interface PotentialKeeper {
 export class KeepersFormComponent implements OnInit {
   @ViewChild('selectRef') selectRef!: MatSelect;
   userId: string | null = null;
-  openKeeperSlots: number = 4;
+  openKeeperSlots: number = 0;
   teamName: string = '';
   owedSalaries: number[] = [];
   auctionBudget: number = 0;
@@ -156,6 +156,7 @@ export class KeepersFormComponent implements OnInit {
           this.openKeeperSlots -= 1;
         }
         if (player.purchasePrice <= 4 && player.YOS === 1) {
+          
           player.nextSeasonSalary = player.purchasePrice;
           player.contractLength = 1;
           this.keepersList.push(player);
@@ -227,7 +228,14 @@ export class KeepersFormComponent implements OnInit {
     const myTeamData = localStorage.getItem('myTeamData');
     if (myTeamData) {
       const teamDataArray = JSON.parse(myTeamData);
-      this.filterPotentialKeepers(teamDataArray.currentRoster);
+      const currentRoster = teamDataArray.currentRoster;
+      const isRookieOnPayroll = currentRoster.some((player: Player) => player.YOS === 1);
+      if (isRookieOnPayroll) {
+        this.openKeeperSlots = 4;
+      } else {
+        this.openKeeperSlots = 5;
+      }
+      this.filterPotentialKeepers(currentRoster);
       this.teamName = teamDataArray.name;
       this.pickOrder = teamDataArray.draftRecord[0].draftPosition;
       teamDataArray.currentRoster.filter((player: Player) => {
