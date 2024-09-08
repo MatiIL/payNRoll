@@ -29,7 +29,7 @@ export function findContractLength(
 export function calcAuctionBudget (budget: number, rank: number, salaries: number[]): number {
   let rankBonus: number = 0;
   const reduceSalaries = salaries.reduce((acc, curr) => acc - curr, budget); 
-
+  console.log(reduceSalaries)
   switch (rank) {
     case 1:
       rankBonus = 1;
@@ -133,9 +133,9 @@ export function veteransMarketStatus(rank: number): string {
       break;
   }
   
-  let discountCaluse = `, בהנחה של ${6 - rank}$ ממחירו הנקוב.`;
-  let message = `אתה בוחר ${position} את מי להחתים מבין כל השחקנים בעלי 10 שנות ניסיון ומעלה, שלא הוחתמו על חוזה ${
-    rank <= 5 ? discountCaluse : ''
+  let discountCaluse = `, בהנחה של ${4 - rank}$ ממחירו הנקוב.`;
+  let message = `אתה בוחר ${position} את מי להחתים מבין כל השחקנים בעלי 10 שנות ניסיון ומעלה, שלא הוחתמו כקיפרים לעונה הקרובה  ${
+    rank < 4 ? discountCaluse : ''
   }`;
 
   return message;

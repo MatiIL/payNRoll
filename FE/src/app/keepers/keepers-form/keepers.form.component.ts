@@ -60,7 +60,6 @@ export class KeepersFormComponent implements OnInit {
   owedSalaries: number[] = [];
   auctionBudget: number = 0;
   rookiesDraft: string = '';
-  pickOrder: number = 0;
   veteransMarket: string = '';
   noVetMarketChecked: boolean = false;
   keepersList: Player[] = [];
@@ -237,17 +236,13 @@ export class KeepersFormComponent implements OnInit {
       }
       this.filterPotentialKeepers(currentRoster);
       this.teamName = teamDataArray.name;
-      this.pickOrder = teamDataArray.draftRecord[0].draftPosition;
       teamDataArray.currentRoster.filter((player: Player) => {
         if (player.nextSeasonSalary) {
           this.owedSalaries.push(player.nextSeasonSalary);
         }
       });
-      this.auctionBudget = calcAuctionBudget(
-        teamDataArray.nextYearBudget,
-        teamDataArray.finalRank,
-        this.owedSalaries
-      );
+      const owedSalariesSum = this.owedSalaries.reduce((acc, curr) => acc + curr);
+      this.auctionBudget = teamDataArray.nextYearBudget - owedSalariesSum;
       this.veteransMarket = veteransMarketStatus(teamDataArray.finalRank);
       const rookiePickStatus = teamDataArray.rookiesDraftDetails;
       delete rookiePickStatus.__typename;
@@ -374,7 +369,7 @@ export class KeepersFormComponent implements OnInit {
       this.showError = true;
       return;
     } else {
-      if (event.value.length === 1) {
+      if (this.splitSolidContract && event.value.length === 1) {
         const secondPlayer = event.value[0].value;
         if (
           this.potentialSplitSolid &&

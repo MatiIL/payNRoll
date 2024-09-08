@@ -2,18 +2,15 @@
   <h1 class="text-center mt-2">טופס בחירת קיפרים: {{ teamName }}</h1>
   <div class="d-flex flex-column me-3">
     <div>
-      תקציב דראפט אוקשן לעונה הבאה (נכון לפי מיקום ב 22.2, ללא הפחתה של משכורות רוקי מדראפט 24 ושכיר חרב):
+      תקציב דראפט אוקשן לעונה הבאה:
       <span>{{ auctionBudget }}$</span>
     </div>
     <mat-divider></mat-divider>
-    <div class="mt-2"> אתה מחזיק בבחירה {{ pickOrder }} בדראפט הרוקיז
-    <div>{{ rookiesDraft }}</div>
     <mat-divider></mat-divider>
     <div class="mt-2">שוק שכירי חרב: {{ veteransMarket }}</div>
     <mat-checkbox 
     [(ngModel)]="noVetMarketChecked"
     (change)="onCheck($event)"
-    [disabled]="keepersList.length === 5 && openKeeperSlots === 0"
     >מוותר על השתתפות בשוק שכירי החרב לצורך פינוי משבצת לקיפר
       נוסף</mat-checkbox
     >
@@ -220,6 +217,9 @@
           >
           שליחה
         </button>
+        </div>
+        <div>
+          תקציב אוקשן מתעדכן: {{ auctionBudget }}$
         </div>
       </div>
     </div>
