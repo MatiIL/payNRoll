@@ -9,6 +9,7 @@ import { User } from '../schemas/user';
 import { AuthService } from '../auth/auth.service';
 import { SelectPayrollService } from '../services/select-payroll-service';
 import { CollapsedMenuService } from '../services/collapsed-menu-service';
+import { Apollo } from 'apollo-angular';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +30,8 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private selectPayrollService: SelectPayrollService,
-    private collapsedMenuService: CollapsedMenuService
+    private collapsedMenuService: CollapsedMenuService,
+    private apollo: Apollo,
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +74,7 @@ export class HeaderComponent implements OnInit {
       this.user = userData as User;
       this.userService.updateUser(null);
       localStorage.clear();
+      this.apollo.client.resetStore();
     });
   }
 

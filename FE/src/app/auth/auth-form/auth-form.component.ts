@@ -147,8 +147,8 @@ export class AuthFormComponent {
           this.allTeamsService.getAllTeams().subscribe({
             next: (data) => {
               this.allTeamsService.saveToLocalStorage('allTeamsData', data);
-            }
-          })
+            },
+          });
         },
         error: (error) => {
           console.error('Error logging in:', error);

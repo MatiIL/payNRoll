@@ -43,7 +43,6 @@ export class TeamService {
     }));
 
     await team.save();
-
     return {
       nextYearBudget: team.nextYearBudget,
       currentRoster: team.currentRoster,

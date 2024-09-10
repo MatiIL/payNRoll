@@ -22,6 +22,8 @@ const GET_ALL_TEAMS_QUERY = gql`
         player
         purchasePrice
         keeperStatus
+        nextSeasonSalary
+        contractLength
         YOS
       }
     }

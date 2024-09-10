@@ -20,11 +20,15 @@ import { QuickGuideComponent } from './quick-guide/quick-guide.component';
 import { RewardsListComponent } from './rewards-list/rewards-list.component';
 import { UserService } from './services/user-service/user.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { FunDataComponent } from './fun-data/fun-data.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
+    FunDataComponent,  
   ],
   imports: [
     OAuthModule.forRoot(),
@@ -52,8 +56,10 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     KeepersFormComponent,
     QuickGuideComponent,
     RewardsListComponent,
+    CdkAccordionModule,
+    MatExpansionModule 
   ],
   providers: [UserService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, FunDataComponent]
 })
 export class AppModule { }
