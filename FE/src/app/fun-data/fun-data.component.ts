@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Team } from '../schemas/team';
 import { Player } from '../schemas/player';
-import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { MatExpansionModule } from '@angular/material/expansion';
-import {MatGridListModule} from '@angular/material/grid-list';
 
 interface FunTeamData {
   teamName: string;
@@ -23,7 +20,19 @@ export class FunDataComponent implements OnInit {
   funDataSortedBudget: FunTeamData[] = [];
   accumulatedBudget: number = 0;
   funDataSortedYOS: FunTeamData[] = [];
-  upcomingSellswords: String[] = [];
+  upcomingSellswords: String[] = [
+    'Kevin Durant',
+    'Devin Booker',
+    'Demar Derozan',
+    'Zach LaVine',
+    'Bradley Beal',
+    'Khris Middleton',
+    'Brook Lopez',
+    'CJ McCollum',
+    'Jonas Valanciunas',
+    'Aaron Gordon',
+    'Chris Paul',
+  ];
   upcomingFreeAgents: String[] = [];
 
   ngOnInit(): void {
@@ -32,9 +41,13 @@ export class FunDataComponent implements OnInit {
       this.allTeamsData = JSON.parse(allTeamsDataString);
 
       this.allKeepers = [
-        ...this.allTeamsData.flatMap(team => 
-          team.currentRoster.filter(player => player.keeperStatus === 1)
-        ).sort((a, b) => (b.nextSeasonSalary || 0) - (a.nextSeasonSalary || 0))
+        ...this.allTeamsData
+          .flatMap((team) =>
+            team.currentRoster.filter((player) => player.keeperStatus === 1)
+          )
+          .sort(
+            (a, b) => (b.nextSeasonSalary || 0) - (a.nextSeasonSalary || 0)
+          ),
       ];
 
       let totalBudgets = 0;
@@ -46,7 +59,7 @@ export class FunDataComponent implements OnInit {
             0
           );
 
-        totalBudgets += auctionBudget; 
+        totalBudgets += auctionBudget;
 
         return {
           teamName: team.name,
@@ -62,19 +75,13 @@ export class FunDataComponent implements OnInit {
         };
       });
 
-      this.accumulatedBudget = totalBudgets; 
+      this.accumulatedBudget = totalBudgets;
 
       this.funDataSortedBudget = [...this.teamsFunData].sort(
         (a, b) => b.auctionBudget - a.auctionBudget
       );
       this.funDataSortedYOS = [...this.teamsFunData].sort(
         (a, b) => b.avgYOS - a.avgYOS
-      );
-
-      this.upcomingSellswords.push(
-        "Kevin Durant", "Devin Booker", "Demar Derozan", "Zach LaVine","Bradley Beal", 
-        "Khris Middleton", "Brook Lopez", "CJ McCollum", "Jonas Valanciunas", 
-        "Aaron Gordon", "Chris Paul"
       );
 
       // Create an array of players that meet the criteria, including their nextSeasonSalary
@@ -90,9 +97,13 @@ export class FunDataComponent implements OnInit {
         .sort((a, b) => (b.nextSeasonSalary || 0) - (a.nextSeasonSalary || 0)); // Sort by nextSeasonSalary descending
 
       // Extract just the player names from the sorted array
+      this.upcomingFreeAgents = filteredAndSortedPlayers.map(
+        (player) => player.player
+      );
+
       this.upcomingFreeAgents = filteredAndSortedPlayers
-    .map((player) => player.player)
-    .filter(playerName => !this.upcomingSellswords.includes(playerName));
+        .map((player) => player.player)
+        .filter((playerName) => !this.upcomingSellswords.includes(playerName));
     }
   }
 

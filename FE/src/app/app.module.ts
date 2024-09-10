@@ -62,6 +62,6 @@ import { FunDataComponent } from './fun-data/fun-data.component';
     MatGridListModule
   ],
   providers: [UserService],
-  bootstrap: [AppComponent, FunDataComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
