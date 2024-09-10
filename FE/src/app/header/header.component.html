@@ -38,6 +38,17 @@
         </li>
 
         <li class="nav-item">
+          <a
+            class="nav-link"
+            href="#"
+            routerLink="/fun-data"
+            (click)="isMenuCollapsed = true"
+            data-cy="fun-data"
+            >דאטה מעניין</a
+          >
+        </li>
+
+        <li class="nav-item">
           <div 
           *ngIf="user"
           class="nav-link"

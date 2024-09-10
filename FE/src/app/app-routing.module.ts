@@ -8,6 +8,7 @@ import { QuickGuideComponent } from './quick-guide/quick-guide.component';
 import { KeepersFormComponent } from './keepers/keepers-form/keepers.form.component';
 import { RewardsListComponent } from './rewards-list/rewards-list.component'
 import { RookSalaryScaleComponent } from './rook-salary-scale/rook-salary-scale.component';
+import { FunDataComponent } from './fun-data/fun-data.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'keepers-form', component: KeepersFormComponent },
   { path: 'rewards-list', component: RewardsListComponent },
   { path: 'rook-salary-scale', component: RookSalaryScaleComponent },
+  { path: 'fun-data', component: FunDataComponent },
   { path: '**', redirectTo: '/' },
 ];
 
