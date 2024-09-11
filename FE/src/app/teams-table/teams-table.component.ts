@@ -57,6 +57,9 @@ export class TeamsTableComponent implements OnInit {
           owedSalaries.push(player.nextSeasonSalary);
         }
       });
+      teamDataArray.currentRoster.sort(
+        (a: Player, b: Player) => (b.nextSeasonSalary || 0) - (a.nextSeasonSalary || 0)
+      );
       const salariesSum = owedSalaries.reduce((accumulator, currentValue) => {
         return accumulator + currentValue
       },0);
