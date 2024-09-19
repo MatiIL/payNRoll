@@ -87,8 +87,8 @@ export type PlayerInfo = {
   keeperStatus: Scalars['Float']['output'];
   player: Scalars['String']['output'];
   purchasePrice: Scalars['Float']['output'];
-  nextSeasonSalary?: Scalars['Float']['output'];
-  contractLength?: Scalars['Float']['output'];
+  nextSeasonSalary?: Scalars['String']['output'];
+  contractLength?: Scalars['String']['output'];
 };
 
 export type PlayerInput = {
@@ -96,7 +96,7 @@ export type PlayerInput = {
   keeperStatus: Scalars['Int']['input'];
   player: Scalars['String']['input'];
   purchasePrice: Scalars['Int']['input'];
-  contractLength: Scalars['Int']['input'];
+  contractLength: Scalars['String']['input'];
 };
 
 export type Query = {

@@ -21,7 +21,7 @@ input PlayerInput {
   purchasePrice: Int!
   keeperStatus: Int!
   YOS: Int!
-  contractLength: Int!
+  contractLength: String!
 }
 
 input ChosenKeepersInput {
@@ -50,8 +50,8 @@ type Player {
   player: String!
   purchasePrice: Float!
   keeperStatus: Float!
-  nextSeasonSalary: Float
-  contractLength: Float
+  nextSeasonSalary: String!
+  contractLength: String!
   YOS: Float!
 }
 

@@ -36,10 +36,10 @@ export class PlayerInput {
   YOS: number;
 
   @Field()
-  nextSeasonSalary?: Number;
+  nextSeasonSalary?: string;
 
   @Field()
-  contractLength?: Number;
+  contractLength?: string;
 }
 
 @InputType()
