@@ -17,6 +17,7 @@ export class EditTeamFormComponent implements OnInit {
   @Input() team: any;
   teamForm!: FormGroup;
   selectedPlayer: string = '';
+  extraKeeperFields: boolean = false;
 
   constructor(private fb: FormBuilder, private apollo: Apollo) {}
 
@@ -33,10 +34,24 @@ export class EditTeamFormComponent implements OnInit {
       purchasePrice: [0],
       keeperStatus: [''],
       yearsOfService: [0],
+      nextSeasonSalary: [''],
+      contractLength: [''],
       currentRoster: [this.team.currentRoster],
       prevRosters: this.fb.array([]), // You need to initialize this properly based on the team data
       draftRecord: this.fb.array([]), // You need to initialize this properly based on the team data
     });
+    this.teamForm.get('keeperStatus')?.valueChanges.subscribe(() => {
+      this.onSelectKeeperStatus();
+    });
+  }
+
+  onSelectKeeperStatus() {
+    const keeperStatus = parseInt(this.teamForm.get('keeperStatus')!.value, 10);
+    if (keeperStatus === 1) {
+      this.extraKeeperFields = true;
+    } else {
+      this.extraKeeperFields = false;
+    }
   }
 
   onPlayerAdd() {
@@ -46,12 +61,16 @@ export class EditTeamFormComponent implements OnInit {
         purchasePrice: this.teamForm.get('purchasePrice')!.value,
         keeperStatus: parseInt(this.teamForm.get('keeperStatus')!.value, 10),
         YOS: this.teamForm.get('yearsOfService')!.value,
+        nextSeasonSalary: this.teamForm.get('nextSeasonSalary')!.value || "0",
+        contractLength: this.teamForm.get('contractLength')!.value || "0",
       };
       this.team.currentRoster.push(newPlayer);
       this.teamForm.get('playerName')!.reset();
       this.teamForm.get('purchasePrice')!.reset();
       this.teamForm.get('keeperStatus')!.reset('0');
       this.teamForm.get('yearsOfService')!.reset();
+      this.teamForm.get('nextSeasonSalary')!.reset();
+      this.teamForm.get('contractLength')!.reset();
     }
   }
 
@@ -82,24 +101,30 @@ export class EditTeamFormComponent implements OnInit {
       purchasePrice: player.purchasePrice,
       keeperStatus: player.keeperStatus,
       YOS: player.YOS,
+      nextSeasonSalary: player.nextSeasonSalary,
+      contractLength: player.contractLength,
     }));
+
+    console.log(formattedRoster)
 
     const updatedFields: { [key: string]: any } = Object.keys(
       this.teamForm.value
     ).reduce((acc: { [key: string]: any }, key) => {
       if (this.teamForm.value[key] !== this.team[key]) {
         if (
-          key !== 'playerName' && 
-          key !== 'purchasePrice' && 
+          key !== 'playerName' &&
+          key !== 'purchasePrice' &&
           key !== 'keeperStatus' &&
-          key !== 'yearsOfService'
-          ) {
+          key !== 'yearsOfService' &&
+          key !== 'nextSeasonSalary' &&
+          key !== 'contractLength'
+        ) {
           acc[key] = this.teamForm.value[key];
         }
       }
       return acc;
     }, {});
-    
+
     updatedFields['name'] = this.team.name;
     updatedFields['currentRoster'] = formattedRoster;
 

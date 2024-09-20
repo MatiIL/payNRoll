@@ -40,14 +40,14 @@
         </div>
       </div>
 
-      <div class="d-flex justify-content-evenly mt-3">
+      <div class="d-flex mt-3">
         <div class="form-group">
           <label for="playerName">Player Name</label>
           <input type="text" formControlName="playerName" class="form-control" />
         </div>
-        <div class="form-group">
+        <div class="form-group me-3">
           <label for="purchasePrice">Purchase Price</label>
-          <input type="number" formControlName="purchasePrice" class="form-control" />
+          <input type="number" formControlName="purchasePrice" class="form-control w-50" />
         </div>
         <div class="form-group">
           <label for="keeperStatus">Keeper</label>
@@ -56,15 +56,15 @@
             <option value="0">No</option>
         </select>
         </div>
-        <div class="form-group">
+        <div class="form-group me-3">
           <label for="yearsOfService">YOS</label>
-          <input type="number" formControlName="yearsOfService" class="form-control" />
+          <input type="number" formControlName="yearsOfService" class="form-control w-25" />
         </div>
         <div class="add-player mt-2 text-light bg-dark p-2 rounded" (click)="onPlayerAdd()">Add</div>
       </div>
       
       <div class="d-flex">
-        <div class="form-group w-25">
+        <div class="form-group w-25 mt-3">
             <label for="keeperStatus">Potential Keepers</label>
             <select 
             formControlName="currentRoster" 
@@ -83,6 +83,14 @@
           (click)="onPlayerRemove()"
           >
             Remove
+        </div>
+        <div *ngIf="extraKeeperFields" class="form-group m-3">
+          <label for="nextSeasonSalary">Next Season Salary</label>
+          <input type="text" formControlName="nextSeasonSalary" class="form-control w-50" />
+        </div>
+        <div *ngIf="extraKeeperFields" class="form-group m-3">
+          <label for="contractLength">Contract Length</label>
+          <input type="text" formControlName="contractLength" class="form-control w-50" />
         </div>
       </div>
       

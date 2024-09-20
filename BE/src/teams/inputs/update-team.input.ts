@@ -46,6 +46,12 @@ class PlayerUpdatedInput {
 
   @Field(() => Int, { nullable: true })
   YOS: number;
+
+  @Field({ nullable: true })
+  nextSeasonSalary: string;
+
+  @Field({ nullable: true })
+  contractLength: string;
 }
 
 @InputType()

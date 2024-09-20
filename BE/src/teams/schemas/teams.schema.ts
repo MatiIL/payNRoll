@@ -64,6 +64,8 @@ export class Team extends Document {
         purchasePrice: Number,
         keeperStatus: Number,
         YOS: Number,
+        nextSeasonSalary: String,
+        contractLength: String,
       },
     ],
   })
@@ -101,6 +103,12 @@ export class PlayerInfo {
 
   @Field()
   YOS: number;
+
+  @Field()
+  nextSeasonSalary: string;
+
+  @Field()
+  contractLength: string;
 }
 
 @ObjectType()

@@ -3,4 +3,6 @@ export interface Player {
   purchasePrice: number;
   keeperStatus: number;
   YOS: number;
+  nextSeasonSalary?: string;
+  contractLength?: string;
 }

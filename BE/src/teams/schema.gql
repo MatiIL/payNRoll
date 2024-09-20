@@ -21,6 +21,8 @@ input PlayerInput {
   purchasePrice: Int!
   keeperStatus: Int!
   YOS: Int!
+  nextSeasonSalary: String
+  contractLength: String
 }
 
 input DraftRecordInput {
@@ -71,6 +73,8 @@ type Player {
   purchasePrice: Float!
   keeperStatus: Float!
   YOS: Float!
+  nextSeasonSalary: String
+  contractLength: String
 }
 
 type DraftEntry {
