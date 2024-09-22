@@ -1,36 +1,66 @@
 <div>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="player">
-        <th mat-header-cell *matHeaderCellDef>
-            קיפרים פוטנציאליים ונכסים
-          </th>
+    <ng-container matColumnDef="currentSalary">
+      <th 
+        mat-header-cell 
+        *matHeaderCellDef 
+        class="fw-bold"
+      >קיפרים בפועל ובפוטנציה לעונת {{ currentYear }}/{{ currentYear + 1 }}
+      </th>
       <td mat-cell *matCellDef="let data">
-        {{ data.player }} 
-        <ng-container *ngIf="data.purchasePrice">{{ data.purchasePrice }}$</ng-container>
-    </td>
+        <ng-container *ngFor="let player of data.currentSalary">
+          <ng-container *ngIf="player.keeperStatus === 1; else regularPlayer">
+            <span class="border border-2 border-secondary me-2">k</span>
+            <strong>{{ player.player }} {{ player.purchasePrice }}$</strong>
+          </ng-container>
+          <ng-template #regularPlayer>
+            {{ player.player }} {{ player.purchasePrice }}$
+          </ng-template>
+          <br />
+        </ng-container>
+      </td>
     </ng-container>
+    
 
     <ng-container matColumnDef="nextSeasonSalary">
-        <th mat-header-cell *matHeaderCellDef>
-            פיי רול לעונת 2024/25
-          </th>
-        
-        <td mat-cell *matCellDef="let data">{{ data.nextSeasonSalary }}</td>
-      </ng-container>
-      
+      <th 
+      mat-header-cell 
+      *matHeaderCellDef
+      class="fw-bold"
+      >פיירול לעונת {{ currentYear + 1 }}/{{ currentYear + 2 }}
+    </th>
+      <td mat-cell *matCellDef="let data" class="top-aligned">
+        <ng-container *ngFor="let player of data.nextSeasonSalary">
+          <span *ngIf="player.keeperStatus === 1" class="border border-2 border-secondary">K</span>
+          {{ player.player }} {{ player.nextSeasonSalary }}$
+          <br />
+        </ng-container>
+        <p class="mt-2">דראפט רוקיז: {{ draftPickStatus }}</p>
+        <p>העברות תקציב אוקשן:</p>
+        <ng-container *ngFor="let transfer of budgetTransfers">
 
-    <th mat-header-cell *matHeaderCellDef>פיי רול 25/26</th>
-    <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
+      </td>
+    </ng-container>
 
-    <th mat-header-cell *matHeaderCellDef>פיי רול 26/27</th>
-    <td mat-cell *matCellDef="let element"></td>
+    <ng-container matColumnDef="inTwoYears">
+      <th 
+      mat-header-cell 
+      *matHeaderCellDef
+      class="fw-bold"
+      >פיירול לעונת {{ currentYear + 2 }}/{{ currentYear + 3 }}
+    </th>
+      <td mat-cell *matCellDef="let data" class="top-aligned">
+        <ng-container *ngFor="let player of data.salaryInTwoYears">
+          <span *ngIf="player.keeperStatus === 1" class="border border-2 border-secondary">K</span>
+          {{ player.player }} {{ player.nextSeasonSalary }}$
+          <br />
+        </ng-container>
+      </td>
+    </ng-container>
 
-    <th mat-header-cell *matHeaderCellDef>פיי רול 27/28</th>
-    <td mat-cell *matCellDef="let element"></td>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="mb-3"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 </div>
-

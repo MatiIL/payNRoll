@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Player } from '../schemas/player';
 import { SelectPayrollService } from '../services/select-payroll-service';
 import { processRookieDraftPick } from '../utils';
+import { BudgetTransfer } from '../schemas/budgetTransfer';
 
 @Component({
   selector: 'app-teams-table',
@@ -19,12 +20,16 @@ export class TeamsTableComponent implements OnInit {
   teamName: string | undefined = '';
   selectedPayroll: string = '';
   allTeamsData: any[] = [];
-  dataSource: Player[] = [];
-  displayedColumns: string[] = ['player', 'nextSeasonSalary'];
+  dataSource: any[] = [];
+  displayedColumns: string[] = ['currentSalary', 'nextSeasonSalary', 'inTwoYears'];
   selectedIndex: number = 0;
+  currentYear: number = new Date().getFullYear();
+  draftPickStatus: string = '';
+  budgetTransfers: BudgetTransfer[] = [];
+  isPriceyVeteran: boolean = false;
   private componentDestroyed = new Subject<void>();
 
-  constructor( private selectPayrollService: SelectPayrollService) {}
+  constructor(private selectPayrollService: SelectPayrollService) {}
 
   ngOnInit(): void {
     this.selectPayrollService.selectedValue$
@@ -45,36 +50,34 @@ export class TeamsTableComponent implements OnInit {
       const rookiePickStatus = teamDataArray.rookiesDraftDetails;
       delete rookiePickStatus.__typename;
       const rookieDraftValue = processRookieDraftPick(rookiePickStatus);
+      this.draftPickStatus = rookieDraftValue !== '' ? rookieDraftValue : 'מחזיק בבחירה'
+
       const currentRoster = teamDataArray.currentRoster;
+      const currentSeasonPlayers = currentRoster;
+      const nextSeasonSalary = [...currentRoster].filter(
+        (player: any) => player.contractLength >= '2'
+      ).sort((a: any, b: any) => b.nextSeasonSalary - a.nextSeasonSalary);
+      const inTwoYears = [...currentRoster].filter(
+        (player: any) => player.contractLength >= '3'
+      ).sort((a: any, b: any) => b.salary - a.salary);
+
+      this.dataSource = [
+        {
+          currentSalary: currentSeasonPlayers,
+          nextSeasonSalary: nextSeasonSalary,
+          salaryInTwoYears: inTwoYears,
+        },
+      ];
+
       currentRoster.map((player: Player) => {
         if (player.keeperStatus === 1) {
           player.nextSeasonSalary = player.purchasePrice;
         }
       });
-      let owedSalaries: number[] = [];
-      teamDataArray.currentRoster.filter((player: Player) => {
-        if (player.nextSeasonSalary) {
-          owedSalaries.push(player.nextSeasonSalary);
-        }
-      });
       teamDataArray.currentRoster.sort(
-        (a: Player, b: Player) => (b.nextSeasonSalary || 0) - (a.nextSeasonSalary || 0)
+        (a: Player, b: Player) =>
+          (b.nextSeasonSalary || 0) - (a.nextSeasonSalary || 0)
       );
-      const salariesSum = owedSalaries.reduce((accumulator, currentValue) => {
-        return accumulator + currentValue
-      },0);
-      this.dataSource = [
-        ...currentRoster,
-        {
-          player: 'תקציב (משוער) לדראפט אוקשן',
-          nextSeasonSalary: teamDataArray.nextYearBudget - salariesSum,
-        },
-        {
-          player: 'סטטוס בחירה בדראפט רוקיז',
-          nextSeasonSalary:
-            rookieDraftValue !== '' ? rookieDraftValue : 'מחזיק בבחירה',
-        },
-      ];
     } else {
       console.log('No data stored in local storage');
     }

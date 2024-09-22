@@ -82,14 +82,21 @@ export function processRookieDraftPick(
   let result = '';
 
   if (pickStatus.incomingPick !== '') {
-    result += `Got an incoming pick from: ${pickStatus.incomingPick}.\n`;
+    result += `מקבל את הבחירה של ${pickStatus.incomingPick}.\n`;
   }
   if (pickStatus.outgoingPick !== '') {
-    result += `Owe a pick to: ${pickStatus.outgoingPick}.\n`;
+    result += `חייב בחירה ל${pickStatus.outgoingPick}.\n`;
   }
   if (pickStatus.swapRightsWith !== '') {
     const [firstElement, ...rest] = pickStatus.swapRightsWith.split(' ');
-    result += `${firstElement} a pick swap with ${rest.join(' ')}`;
+    let pickType = '';
+    if (firstElement === 'Owe') {
+      pickType = "פחות";
+    }
+    if (firstElement === 'Own') {
+      pickType = "יותר"
+    }
+    result += `מחזיק בבחירה ה${pickType} טובה מבין שלו או של ${rest.join(' ')}`;
   }
   return result.trim();
 }

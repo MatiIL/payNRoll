@@ -88,14 +88,14 @@ export class FunDataComponent implements OnInit {
       const filteredAndSortedPlayers = this.allTeamsData
         .flatMap((team) =>
           team.currentRoster
-            .filter((player) => player.contractLength === 1 && player.YOS !== 1)
+            .filter((player) => player.contractLength == 1 && player.YOS !== 1)
             .map((player) => ({
               player: player.player,
               nextSeasonSalary: player.nextSeasonSalary ?? 0, // Default to 0 if nextSeasonSalary is null or undefined
             }))
         )
         .sort((a, b) => (b.nextSeasonSalary || 0) - (a.nextSeasonSalary || 0)); // Sort by nextSeasonSalary descending
-
+       console.log(filteredAndSortedPlayers)
       // Extract just the player names from the sorted array
       this.upcomingFreeAgents = filteredAndSortedPlayers.map(
         (player) => player.player
