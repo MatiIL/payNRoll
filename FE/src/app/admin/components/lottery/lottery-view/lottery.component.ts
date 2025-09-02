@@ -42,7 +42,7 @@ export class LotteryComponent implements OnInit {
 
   modalOptions: NgbModalOptions = {
     animation: true,
-    size: 'xl',
+    size: 'xl'
   };
 
   openLotteryModal() {
@@ -76,8 +76,8 @@ export class LotteryComponent implements OnInit {
       const lotteryResults = lotteryCalculator(namesWithOdds);
 
       lotteryResults.forEach((result) => {
-        if (result.finalRank <= 3) {
-          pickWins[result.name][result.finalRank - 1]++; // Increment the corresponding pick win count
+        if (result.drawnPick <= 3) {
+          pickWins[result.name][result.drawnPick - 1]++; // Increment the corresponding pick win count
         }
       });
     }

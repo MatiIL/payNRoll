@@ -38,6 +38,7 @@ export class LotteryModalComponent implements OnInit {
   didLotteryBegin: boolean = true;
   resultsInterval: string = '';
   seconds = 10;
+  resultsTimerSeconds = 10;
   private destroy$ = new Subject<void>();
   didLotteryEnd: boolean = false;
 
@@ -137,7 +138,7 @@ export class LotteryModalComponent implements OnInit {
   lotteryResultsTimer(): void {
     timer(0, 1000)
       .pipe(
-        map((n) => this.seconds - n),
+        map((n) => this.resultsTimerSeconds - n),
         takeWhile((timeInSeconds) => timeInSeconds >= 0) // Stop emitting values when countdown reaches zero
       )
       .subscribe((timeInSeconds) => {
@@ -149,46 +150,157 @@ export class LotteryModalComponent implements OnInit {
       });
   }
 
-  handlePickSwap(picks: any[]): void {
-    let teamThatOwes: any;
-    let teamThatOwns: any;
-    const lotteryDetails = localStorage.getItem('lotteryDetails');
-    if (lotteryDetails) {
-      const lotteryDataCopy = JSON.parse(lotteryDetails);
-      lotteryDataCopy.map((team: any) => {
-        if (
-          team.rookiesDraftDetails.swapRightsWith !== undefined &&
-          team.rookiesDraftDetails.swapRightsWith.includes('Owe')
-        ) {
-          teamThatOwes = team;
-        }
-        if (
-          team.rookiesDraftDetails.swapRightsWith !== undefined &&
-          team.rookiesDraftDetails.swapRightsWith.includes('Own')
-        ) {
-          teamThatOwns = team;
+  // handlePickSwap(picks: any[]): void {
+  //   let teamThatOwes: any;
+  //   let teamThatOwns: any;
+  //   const lotteryDetails = localStorage.getItem('lotteryDetails');
+  //   if (lotteryDetails) {
+  //     const lotteryDataCopy = JSON.parse(lotteryDetails);
+  //     lotteryDataCopy.map((team: any) => {
+  //       if (
+  //         team.rookiesDraftDetails.swapRightsWith !== undefined &&
+  //         team.rookiesDraftDetails.swapRightsWith.includes('Owe')
+  //       ) {
+  //         teamThatOwes = team;
+  //       }
+  //       if (
+  //         team.rookiesDraftDetails.swapRightsWith !== undefined &&
+  //         team.rookiesDraftDetails.swapRightsWith.includes('Own')
+  //       ) {
+  //         teamThatOwns = team;
+  //       }
+  //     });
+
+  //     const owesIndex = picks.findIndex(
+  //       (item) => item.name === teamThatOwes.name
+  //     );
+  //     console.log(owesIndex)
+  //     const ownsIndex = picks.findIndex(
+  //       (item) => item.name === teamThatOwns.name
+  //     );
+  //     console.log(ownsIndex)
+
+  //     if (teamThatOwes && teamThatOwns && ownsIndex > owesIndex) {
+  //       picks.find((item) => {
+  //         if (item.name === teamThatOwes.name) {
+  //           item.name = `${item.name} ---> ${teamThatOwns.name}`;
+  //         }
+  //         if (item.name === teamThatOwns.name) {
+  //           item.name = `${item.name} ---> ${teamThatOwes.name}`;
+  //         }
+  //       });
+  //     }
+  //     console.log(`team that owes a pick is ${teamThatOwes}, team that owns a pick is ${teamThatOwns}`)
+  //   }
+  // }
+
+handlePickSwap(picks: any[]): void {
+  let teamThatOwes: any;
+  let teamThatOwns: any;
+  const lotteryDetails = localStorage.getItem('lotteryDetails');
+  
+  if (lotteryDetails) {
+    const lotteryDataCopy = JSON.parse(lotteryDetails);
+    
+    const getBaseTeamName = (name: string): string => {
+      return name.includes(' --->') ? name.split(' --->')[0].trim() : name;
+    };
+    
+    // Find teams with swap rights
+    lotteryDataCopy.forEach((team: any) => {
+      if (
+        team.rookiesDraftDetails.swapRightsWith !== undefined &&
+        team.rookiesDraftDetails.swapRightsWith.includes('Owe')
+      ) {
+        teamThatOwes = team;
+      }
+      if (
+        team.rookiesDraftDetails.swapRightsWith !== undefined &&
+        team.rookiesDraftDetails.swapRightsWith.includes('Own')
+      ) {
+        teamThatOwns = team;
+      }
+    });
+
+    if (!teamThatOwes || !teamThatOwns) {
+      console.log('No swap rights found');
+      return;
+    }
+
+    // Check if teams are in the lottery picks
+    const owesIndex = picks.findIndex(
+      (item) => getBaseTeamName(item.name) === teamThatOwes.name
+    );
+    
+    const ownsIndex = picks.findIndex(
+      (item) => getBaseTeamName(item.name) === teamThatOwns.name
+    );
+
+    // In inverse draft order: LOWER finalRank = WORSE draft position
+    // Swap occurs when team that owns would have a worse draft position
+    
+    // CASE 1: Only team that owes is in lottery
+    if (owesIndex !== -1 && ownsIndex === -1) {
+      // Team that owns finished top 3, gets the lottery pick
+      picks.forEach((item) => {
+        const baseItemName = getBaseTeamName(item.name);
+        if (baseItemName === teamThatOwes.name) {
+          item.name = `${teamThatOwes.name} ---> ${teamThatOwns.name}`;
         }
       });
-
-      const owesIndex = picks.findIndex(
-        (item) => item.name === teamThatOwes.name
-      );
-      const ownsIndex = picks.findIndex(
-        (item) => item.name === teamThatOwns.name
-      );
-
-      if (teamThatOwes && teamThatOwns && ownsIndex > owesIndex) {
-        picks.find((item) => {
-          if (item.name === teamThatOwes.name) {
-            item.name = `${item.name} ---> ${teamThatOwns.name}`;
+      console.log(`Swap: ${teamThatOwes.name} lottery pick goes to ${teamThatOwns.name}`);
+    }
+    
+    // CASE 2: Both teams are in the lottery
+    else if (owesIndex !== -1 && ownsIndex !== -1) {
+      // Swap if team that owns has worse lottery position (higher index)
+      if (ownsIndex > owesIndex) {
+        picks.forEach((item) => {
+          const baseItemName = getBaseTeamName(item.name);
+          
+          if (baseItemName === teamThatOwes.name) {
+            item.name = `${teamThatOwes.name} ---> ${teamThatOwns.name}`;
           }
-          if (item.name === teamThatOwns.name) {
-            item.name = `${item.name} ---> ${teamThatOwes.name}`;
+          if (baseItemName === teamThatOwns.name) {
+            item.name = `${teamThatOwns.name} ---> ${teamThatOwes.name}`;
           }
         });
+        console.log(`Swap: Both in lottery, swapping picks between ${teamThatOwes.name} and ${teamThatOwns.name}`);
+      } else {
+        console.log(`No swap: ${teamThatOwns.name} already has same or better lottery pick`);
+      }
+    }
+    
+        // CASE 3: Only team that owns is in lottery
+    else if (owesIndex === -1 && ownsIndex !== -1) {
+      // Team that owns is in lottery, team that owes finished top 3
+      // No swap - team that owns already has a better pick (lottery picks are better than picks 9-11)
+      console.log(`No swap: ${teamThatOwns.name} is in lottery, already has better pick than ${teamThatOwes.name} who finished ${teamThatOwes.finalRank}`);
+    }
+    
+    // CASE 4: Neither team is in lottery (both finished 1-3)
+    else if (owesIndex === -1 && ownsIndex === -1) {
+      // In inverse draft: lower finalRank (better finish) = worse draft pick
+      // kubista (rank 1) gets pick 11, R U MINE? (rank 3) gets pick 9
+      // Since kubista owns rights and would pick worse (11 vs 9), swap occurs
+      if (teamThatOwns.finalRank < teamThatOwes.finalRank) {
+         this.lotteryData.forEach((item) => {
+          const baseItemName = getBaseTeamName(item.name);
+          
+          if (baseItemName === teamThatOwes.name) {
+            item.name = `${teamThatOwes.name} ---> ${teamThatOwns.name}`;
+          }
+          if (baseItemName === teamThatOwns.name) {
+            item.name = `${teamThatOwns.name} ---> ${teamThatOwes.name}`;
+          }
+        });
+      } else {
+        console.log(`No future swap: ${teamThatOwns.name} (rank ${teamThatOwns.finalRank}) already has same or better draft position than ${teamThatOwes.name} (rank ${teamThatOwes.finalRank})`);
       }
     }
   }
+}
+
 
   ngOnDestroy() {
     this.destroy$.next();

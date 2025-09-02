@@ -45,16 +45,16 @@ type TeamData = {
 
 type LotteryResult = {
   name: string;
-  finalRank: number; 
+  drawnPick: number; 
 };
 
 export const lotteryCalculator = (teams: TeamData[]): LotteryResult[] => {
   const odds = teams.map(team => team.odds);
   const results: LotteryResult[] = [];
 
-  for (let finalRank = 1; finalRank <= 3; finalRank++) {
+  for (let drawnPick = 1; drawnPick <= 3; drawnPick++) {
     const pickIndex = drawPick(odds);
-    results.push({ name: teams[pickIndex].name, finalRank });
+    results.push({ name: teams[pickIndex].name, drawnPick });
     teams.splice(pickIndex, 1);
     odds.splice(pickIndex, 1);
   }
