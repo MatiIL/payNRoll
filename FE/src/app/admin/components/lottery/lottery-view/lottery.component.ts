@@ -90,9 +90,9 @@ export class LotteryComponent implements OnInit {
       const secondPickProbability = 100 * (secondPickWins / 10000);
       const thirdPickProbability = 100 * (thirdPickWins / 10000);
       console.log(`${team.name}: 
-       ${firstPickWins} first picks wins with probability of ${firstPickProbability}.
-       ${secondPickWins} first picks wins with probability of ${secondPickProbability}.
-       ${thirdPickWins} first picks wins with probability of ${thirdPickProbability}.
+       ${firstPickWins} first pick wins with probability of ${firstPickProbability}.
+       ${secondPickWins} second pick wins with probability of ${secondPickProbability}.
+       ${thirdPickWins} third pick wins with probability of ${thirdPickProbability}.
        `);
     });
   }

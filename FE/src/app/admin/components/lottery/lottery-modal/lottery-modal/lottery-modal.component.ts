@@ -32,13 +32,13 @@ export class LotteryModalComponent implements OnInit {
   postLotteryOrder: any[] = [];
   finalDraftOrder: any[] = [];
   draftPicks: string[] = [];
-  intervalDuration = 10000;
+  intervalDuration = 60000;
   currentIndex = 7;
   lotteryCountdown: string = '';
   didLotteryBegin: boolean = true;
   resultsInterval: string = '';
-  seconds = 10;
-  resultsTimerSeconds = 10;
+  seconds = 60;
+  resultsTimerSeconds = 60;
   private destroy$ = new Subject<void>();
   didLotteryEnd: boolean = false;
 
@@ -58,7 +58,6 @@ export class LotteryModalComponent implements OnInit {
           `;
         }
       }
-
       const lotteryDataCopy = this.lotteryData;
       const lotteryTeams = lotteryDataCopy.splice(3, 8);
       const namesWithOdds = lotteryTeams.map((team: any) => ({

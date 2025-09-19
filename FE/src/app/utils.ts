@@ -49,42 +49,42 @@ type LotteryResult = {
 };
 
 export const lotteryCalculator = (teams: TeamData[]): LotteryResult[] => {
-  const odds = teams.map(team => team.odds);
-  const results: LotteryResult[] = [];
+  console.log(teams);
+  let availableTeams = [...teams];
+  let results: LotteryResult[] = [];
 
-  for (let drawnPick = 1; drawnPick <= 3; drawnPick++) {
-    const pickIndex = drawPick(odds);
-    results.push({ name: teams[pickIndex].name, drawnPick });
-    teams.splice(pickIndex, 1);
-    odds.splice(pickIndex, 1);
+  for (let drawnPick = 1; drawnPick <= 3; drawnPick++) { //הקוד בלולאה מורץ 3 פעמים בלבד
+    const odds = availableTeams.map(team => team.odds);
+    const pickIndex = drawPick(odds); 
+    const winner = availableTeams[pickIndex]; //האינדקס של מאד עמוס הוא 7, של ניו הורייזון 0
+    results.push({ name: winner.name, drawnPick });
+    availableTeams.splice(pickIndex, 1); //הסרת הקבוצה הזוכה ממערך הקבוצות 
   }
 
   return results;
 };
 
 function drawPick(odds: number[]) {
-  let totalOdds = odds.reduce((acc, val) => acc + val, 0);
-  if (totalOdds < 100) {
-    const difference = 100 - totalOdds;
-    const remainingTeams = odds.filter(odd => odd !== 0);
-    const additionalOdds = difference / remainingTeams.length;
-    odds = odds.map(odd => odd === 0 ? odd : odd + additionalOdds);
-    totalOdds = odds.reduce((acc, val) => acc + val, 0);
+  let totalOdds = odds.reduce((acc, val) => acc + val, 0); //הערך הצבור של סך סיכויי הזכייה
+  if (totalOdds !== 100) { //תנאי שתקף להגרלות 2 ו-3
+    odds = odds.map(odd => (odd / totalOdds) * 100);
+    totalOdds = odds.reduce((acc, val) => acc + val, 0); //לתת לסך סיכויי הזכייה ערך צבור מחדש שאמור להיות 100
+    console.log(totalOdds);
   }
-  const normalizedOdds = odds.map(odd => odd / totalOdds);
-  const randomNumber = Math.random();
-  let cumulativeProbability = 0;
-  const shuffledIndices = shuffle([...Array(normalizedOdds.length).keys()]); 
+  const normalizedOdds = odds.map(odd => odd / totalOdds); //המרת אחוזי הסכייה להסתברויות שמסתכמות ב 1
+  const randomNumber = Math.random(); //מייצר מספר רנדומלי בין 0 ל 1
+  let cumulativeProbability = 0; //ערך ראשוני להסתברויות הצבורות
+  const shuffledIndices = shuffle([...Array(normalizedOdds.length).keys()]);  //ערבוב מערך ההסתברויות
 
-  for (const index of shuffledIndices) {
-    cumulativeProbability += normalizedOdds[index];
-    if (randomNumber < cumulativeProbability) {
+  for (const index of shuffledIndices) { //הלולאה רצה על כל האינדקסים (המעורבבים) כל עוד התנאי שבה לא מתקיים
+    cumulativeProbability += normalizedOdds[index]; //כל עוד התנאי שמתחת לא מתקיים, הערב הצבור גדל
+    if (cumulativeProbability > randomNumber) {
       return index;
     }
   }
 
   // Fallback: return last index
-  return normalizedOdds.length - 1;
+  return normalizedOdds.length - 1; //לא אמור לקרות, אלא אם חלה שגיאת עיגול קריטית
 }
 
 function shuffle(array: number[]) {
